@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>PageRuler</title>
+    <link rel="stylesheet" href="common/ruler/css/ruler.css">
+    <script src="common/jquery/jquery-1.11.0.js"></script>
+    <script src="common/ruler/js/jquery.zxxPageRuler.1.1.js"></script>
+
+
+
+</head>
+<style type="text/css">
+    .demo_box{width:800px; height:2160px; line-height:1.5; margin:50px auto; color:white; font-size:84%;}
+    .demo_area{width:350px;}
+    body{background-color: black}
+</style>
+<body>
+
+<div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-intro="场景图形展示区，配置好的图形会在这里展示">
+    <div class="demo_box">
+        <p><button id="visRuler">显示/隐藏标尺</button></p>
+        <p><button id="visRefLine">显示指定的参考线</button></p>
+        <div class="demo_area">
+            <ul>
+                <li>显示/隐藏标尺快捷键：<code>R</code></li>
+                <li>显示/隐藏参考线快捷键：<code>;</code></li>
+                <li>新建参考线快捷键：<code>\</code></li>
+                <li>隐藏标尺参考线快捷键：<code>Esc</code></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(function () {
+
+        var i = $("#content");
+
+        // $.pageRuler();
+
+        // $.pageRuler({
+        //     v: ["300", "500px", 700]
+        // });
+
+        $("#visRuler").click(function(){
+            $.pageRulerToggle();
+        });
+        $("#visRefLine").click(function(){
+            $.pageRuler({
+                v: ["300", "500px", 700]
+            });
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

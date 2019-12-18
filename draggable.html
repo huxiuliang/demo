@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>draggable</title>
+    <link rel="stylesheet" href="design/design.css">
+    <link rel="stylesheet" href="design/box.css">
+    <link rel="stylesheet" href="design/prop.css">
+    <link rel="stylesheet" href="design/bg.css">
+
+    <script src="common/jquery/jquery-1.11.0.js"></script>
+    <script src="common/jquery-ui/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<div class="layout layout-Content">
+    <div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-intro="场景图形展示区，配置好的图形会在这里展示">
+        <div id="contentHandle" style="background-color: red;display: block"></div>
+        <!--拖动辅助线-->
+
+        <div id="guide-h" class="guide"></div>
+        <div id="guide-v" class="guide"></div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+        var i = $("#content");
+        var a = $("#scene");
+
+        i.draggable({
+            handle: "#contentHandle",
+            scroll: !1,
+            snap: ".layout-Content",
+            snapMode: "inner"
+        })
+    });
+
+</script>
+
+</body>
+</html>
