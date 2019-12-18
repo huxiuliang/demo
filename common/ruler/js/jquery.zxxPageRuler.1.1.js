@@ -9,12 +9,46 @@
 		params = params || {};
 		var flag = $("#zxxScaleBox").size() === 0 ? true : false;
 		if(flag){
-			$('<div class="zxxScaleBox" id="zxxScaleBox" onselectstart="return false;"><div id="zxxScaleRulerH" class="zxxScaleRuler_h"></div><div id="zxxScaleRulerV" class="zxxScaleRuler_v"></div><div id="zxxRefDotH" class="zxxRefDot_h"></div><div id="zxxRefDotV" class="zxxRefDot_v"></div><div class="zxxRefCrtBg" id="zxxRefCrtBg" style="display:none;"><div class="zxxRefCrtTit"><a href="javascript:void(0);" id="zxxRefCrtClose" class="zxxRefCrtClose"></a></div><div class="zxxRefCrtX"><div class="zxxRefCrtLeft"><div class="zxxRefCrtDir"><input type="radio" id="zxxCrtV" class="zxxRefCrtRadio" name="zxxRefCrt" checked="checked" /><label for="zxxCrtV">垂直</label></div><div class="zxxRefCrtDir"><input type="radio" id="zxxCrtH" class="zxxRefCrtRadio" name="zxxRefCrt" /><label for="zxxCrtH">水平</label></div>  <div class="zxxRefCrtPlace">位置：<input id="zxxRefCrtInput" class="zxxRefCrtInput" type="text" />px</div></div><div class="zxxRefCrtRight"><button type="button" id="zxxRefCrtSure" class="zxxRefCrtBtn">确定</button><button type="button" id="zxxRefCrtCancel" class="zxxRefCrtBtn">取消</button></div></div></div></div>').appendTo($("body"));
+			$('<div class="zxxScaleBox" id="zxxScaleBox" onselectstart="return false;">' +
+				'  <div id="zxxScaleRulerH" class="zxxScaleRuler_h"></div>' +
+				'  <div id="zxxScaleRulerV" class="zxxScaleRuler_v"></div>' +
+				'  <div id="zxxRefDotH" class="zxxRefDot_h"></div>' +
+				'  <div id="zxxRefDotV" class="zxxRefDot_v"></div>' +
+				'  <div class="zxxRefCrtBg" id="zxxRefCrtBg" style="display:none;">' +
+				'       <div class="zxxRefCrtTit">' +
+				'         <a href="javascript:void(0);" id="zxxRefCrtClose" class="zxxRefCrtClose"></a>' +
+				'       </div>' +
+				'    <div class="zxxRefCrtX">' +
+				'    <div class="zxxRefCrtLeft">' +
+				'        <div class="zxxRefCrtDir"><input type="radio" id="zxxCrtV" class="zxxRefCrtRadio" name="zxxRefCrt" checked="checked" /><label for="zxxCrtV">垂直</label></div>' +
+				'        <div class="zxxRefCrtDir"><input type="radio" id="zxxCrtH" class="zxxRefCrtRadio" name="zxxRefCrt" /><label for="zxxCrtH">水平</label></div>  ' +
+				'        <div class="zxxRefCrtPlace">位置：<input id="zxxRefCrtInput" class="zxxRefCrtInput" type="text" />px</div>' +
+				'    </div>' +
+				'    <div class="zxxRefCrtRight">' +
+				'       <button type="button" id="zxxRefCrtSure" class="zxxRefCrtBtn">确定</button>' +
+				'       <button type="button" id="zxxRefCrtCancel" class="zxxRefCrtBtn">取消</button>' +
+				'     </div>' +
+				'  </div>' +
+				' </div>' +
+				'</div>').appendTo($("#content"));
 		}else{
 			$("#zxxScaleBox").show();
 		}
 		//整个标尺盒子对象，垂直标尺与水平标尺对象，虚线对象，弹出框对象，单选对象，文本对象，按钮对象
-		var x= $("#zxxScaleBox"), rh = $("#zxxScaleRulerH"), rv = $("#zxxScaleRulerV"), doth = $("#zxxRefDotH"), dotv = $("#zxxRefDotV"), bg = $("#zxxRefCrtBg"), clo = $("#zxxRefCrtClose"), rdov = $("#zxxCrtV"), rdoh = $("#zxxCrtH"), ipt = $("#zxxRefCrtInput"), sur = $("#zxxRefCrtSure"), cancel = $("#zxxRefCrtCancel"), dragFlag = false, oDrag = null;
+		var x= $("#zxxScaleBox"),
+			rh = $("#zxxScaleRulerH"),
+			rv = $("#zxxScaleRulerV"),
+			doth = $("#zxxRefDotH"),
+			dotv = $("#zxxRefDotV"),
+			bg = $("#zxxRefCrtBg"),
+			clo = $("#zxxRefCrtClose"),
+			rdov = $("#zxxCrtV"),
+			rdoh = $("#zxxCrtH"),
+			ipt = $("#zxxRefCrtInput"),
+			sur = $("#zxxRefCrtSure"),
+			cancel = $("#zxxRefCrtCancel"),
+			dragFlag = false,
+			oDrag = null;
 		//浏览器宽高
 		var w, h, bgw = bg.width(), bgh = bg.height();
 		var f = {
