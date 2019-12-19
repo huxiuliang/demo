@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>大屏设计器</title>
+
+    <link rel="stylesheet" href="common/reset.css">
+    <link rel="stylesheet" href="common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="common/jquery-ui/jquery-ui.min.css">
+<!--    <link rel="stylesheet" href="common/bootstrap4/bootstrap.css">-->
+<!--    <link rel="stylesheet" href="common/contextjs/context.standalone.css">-->
+<!--    <link rel="stylesheet" href="common/LayX/layx.min.css">-->
+<!--    <link rel="stylesheet" href="common/spectrum/spectrum.css">-->
+<!--    <link rel="stylesheet" href="common/json-viewer/jquery.jsonview.css">-->
+    <link rel="stylesheet" href="common/ruler/css/ruler.css">
+<!--    <link rel="stylesheet" href="common/loading.css">-->
+<!--    <link rel="stylesheet" href="common/ledtime/digital-clock.css">-->
+<!--    <link rel="stylesheet" href="common/intro/introjs.css">-->
+<!--    <link rel="stylesheet" href="common/select2/css/select2.min.css">-->
+<!--    <link rel="stylesheet" href="common/swiper/swiper.min.css">-->
+<!--    <link rel="stylesheet" href="common/autoscroll/autoscroll.css">-->
+    <link rel="stylesheet" href="design/design.css">
+    <link rel="stylesheet" href="design/box.css">
+<!--    <link rel="stylesheet" href="design/prop.css">-->
+<!--    <link rel="stylesheet" href="design/bg.css">-->
+
+    <script src="common/jquery/jquery-1.11.0.js"></script>
+    <script src="common/jquery-ui/jquery-ui.min.js"></script>
+    <script src="common/ruler/js/jquery.zxxPageRuler.1.1.js"></script>
+
+    <script src="design/box.js"></script>
+
+
+</head>
+<style type="text/css">
+    /*body{background-color: black}*/
+</style>
+<body>
+<div class="layout layout-Header">
+    <div class="logo">大屏幕设计器</div>
+    <ul class="tools tools-left" data-step="1" data-intro="在这里新建、打开、保存当前模版">
+        <li class="tools-item" id="tools-new"><i title="新建" class="fa fa-file-o"></i></li>
+        <li class="tools-item" id="tools-open"><i title="资源库" class="fa fa-folder-open-o"></i></li>
+        <li class="tools-item" style="display:none;" id="tools-open-old"><i title="资源库(旧)" class="fa fa-folder-open-o"></i></li>
+        <li class="tools-item" id="tools-save"><i title="保存" class="fa fa-save"></i></li>
+    </ul>
+
+    <ul class="tools" data-step="5" data-intro="整个场景的配置属性都在这里了">
+        <li class="tools-item" id="tools-scene"><i title="页面配置" class="fa fa-television"></i></li>
+        <li class="tools-item" id="tags-props"><i title="组件属性配置" class="fa fa-sliders"></i></li>
+        <li class="tools-item" id="tools-database"><i title="数据配置" class="fa fa-database"></i></li>
+        <li class="tools-item" id="tools-dataSetsConfig"><i title="数据集配置" class="fa fa-cubes"></i></li>
+        <li class="tools-item" id="tools-sitemap"><i title="资源树" class="fa fa-sitemap"></i></li>
+        <li class="tools-item" id="tools-view"><i title="预览" class="fa fa-eye"></i></li>
+        <li style="display: none;" class="tools-item" id="design-config"><i title="设置" class="fa fa-cog"></i></li>
+        <li class="tools-item" id="tools-shortcutkey" data-step="7" data-intro="快捷键说明在这里，熟悉快捷键，事半功倍哦"><i title="快捷键" class="fa fa-keyboard-o"></i></li>
+        <li class="tools-item" id="tools-clearCache" title="清理本地缓存"><i title="清理本地缓存" class="fa fa-recycle"></i></li>
+    </ul>
+</div>
+<div class="layout layout-Sider" data-step="2" data-intro="拖拽控件到场景中，创建图形">
+    <div id="tabs">
+        <ul>
+            <li><a href="component/charts.html">图表</a></li>
+            <li><a href="component/tags.html">组件</a></li>
+            <li><a href="component/icons.html">图标</a></li>
+            <li><a href="component/diyTags.html">自定义组件</a></li>
+        </ul>
+    </div>
+</div>
+<div class="layout layout-Content">
+    <div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-intro="场景图形展示区，配置好的图形会在这里展示">
+        <div id="contentHandle"></div>
+        <!--拖动辅助线-->
+        <div id="guide-h" class="guide"></div>
+        <div id="guide-v" class="guide"></div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+        var i = $("#content");
+
+        $("#tabs").tabs({
+            beforeLoad: function (event, ui) {
+                ui.jqXHR.error(function () {
+                    ui.panel.html("<div style='color: white;font-size: 12px;padding: 10px;margin: 10px'>不能正确加载该标签页</div>");
+                });
+            }
+        }).addClass("ui-tabs-vertical ui-helper-clearfix");
+
+        $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+
+        // $.pageRuler();
+
+    });
+
+</script>
+
+</body>
+</html>

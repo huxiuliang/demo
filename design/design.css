@@ -565,39 +565,39 @@ html, body {
 }
 
 .tags-navs .tags-subnavs .tags-subnav.line11 {
-    background-image: url('../../static/img/charts/line/line11.png');
+    background-image: url('../img/charts/line/line11.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.line3 {
-    background-image: url('../../static/img/charts/line/line3.png');
+    background-image: url('../img/charts/line/line3.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.line4 {
-    background-image: url('../../static/img/charts/line/line4.png');
+    background-image: url('../img/charts/line/line4.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.bar1 {
-    background-image: url('../../static/img/charts/bar/bar1.png');
+    background-image: url('../img/charts/bar/bar1.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.bar3 {
-    background-image: url('../../static/img/charts/bar/bar3.png');
+    background-image: url('../img/charts/bar/bar3.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.bar21 {
-    background-image: url('../../static/img/charts/bar/bar21.png');
+    background-image: url('../img/charts/bar/bar21.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.pie1 {
-    background-image: url('../../static/img/charts/pie/pie1.png');
+    background-image: url('../img/charts/pie/pie1.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.pie2 {
-    background-image: url('../../static/img/charts/pie/pie2.png');
+    background-image: url('../img/charts/pie/pie2.png');
 }
 
 .tags-navs .tags-subnavs .tags-subnav.pie10 {
-    background-image: url('../../static/img/charts/pie/pie10.png');
+    background-image: url('../img/charts/pie/pie10.png');
 }
 
 .ui-tabs.ui-tabs-vertical {

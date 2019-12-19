@@ -96,43 +96,43 @@
 			Map
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="boxplot" data-subtype="1">
+	<li class="tags-nav" tag-type="boxplot" data-subtype="1">
 		<i class="chart-icon chart-boxplot"></i>
 		<span>
 			Boxplot
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="heatmap" data-subtype="1">
+	<li class="tags-nav" tag-type="heatmap" data-subtype="1">
 		<i class="chart-icon chart-heatmap"></i>
 		<span>
 			Heatmap
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="graph" data-subtype="1">
+	<li class="tags-nav" tag-type="graph" data-subtype="1">
 		<i class="chart-icon chart-graph"></i>
 		<span>
 			Graph
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="parallel" data-subtype="1">
+	<li class="tags-nav" tag-type="parallel" data-subtype="1">
 		<i class="chart-icon chart-parallel"></i>
 		<span>
 			Parallel
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="sankey" data-subtype="1">
+	<li class="tags-nav" tag-type="sankey" data-subtype="1">
 		<i class="chart-icon chart-sankey"></i>
 		<span>
 			Sankey
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="scatter" data-subtype="1">
+	<li class="tags-nav" tag-type="scatter" data-subtype="1">
 		<i class="chart-icon chart-scatter"></i>
 		<span>
 			Scatter
 		</span>
 	</li>
-	<li class="tags-nav off" tag-type="candlestick" data-subtype="1">
+	<li class="tags-nav" tag-type="candlestick" data-subtype="1">
 		<i class="chart-icon chart-candlestick"></i>
 		<span>
 			Candlestick
@@ -156,7 +156,7 @@
 				let type = $(event.currentTarget).attr("tag-type");
 				let html = $("#charts-tag").html();
 				return $(html).css({
-					"background-image": "url('../../statics/bddp/static/img/charts/" + type + ".png')",
+					"background-image": "url('./img/charts/" + type + ".png')",
 					"transform": "scale(" + zoom + ")",
 					"transform-origin": "left top 0px"
 				});
@@ -181,30 +181,30 @@
 					tagType: type
 				});
 				if (type == "map") {
-					layx.iframe('localsiteformap', '选择地图文件', './component/BddpMapPage.html', {
-						event: {
-							ondestroy: {
-								before: function (layxWindow, winform, params, inside, escKey) {
-									let mappath = params.path;
-									if (mappath.indexOf('geographic') > -1) {
-										mappath = mappath.substring(mappath.indexOf('geographic') + 'geographic'.length, mappath.length);
-									}
-									getAjaxMapData({
-										mappath: mappath
-									}, function (result) {
-										if (result.code == 0) {
-											data = result.res;
-											var md5Value = hex_md5(data);
-											var mapjson = data;
-											echarts.registerMap(md5Value, mapjson);
-											//html.width(window.innerWidth/2).height(window.innerHeight/2);
-											creatMapChart(html, md5Value, mappath);
-										}
-									});
-								}
-							}
-						}
-					});
+					// layx.iframe('localsiteformap', '选择地图文件', './component/BddpMapPage.html', {
+					// 	event: {
+					// 		ondestroy: {
+					// 			before: function (layxWindow, winform, params, inside, escKey) {
+					// 				let mappath = params.path;
+					// 				if (mappath.indexOf('geographic') > -1) {
+					// 					mappath = mappath.substring(mappath.indexOf('geographic') + 'geographic'.length, mappath.length);
+					// 				}
+					// 				getAjaxMapData({
+					// 					mappath: mappath
+					// 				}, function (result) {
+					// 					if (result.code == 0) {
+					// 						data = result.res;
+					// 						var md5Value = hex_md5(data);
+					// 						var mapjson = data;
+					// 						echarts.registerMap(md5Value, mapjson);
+					// 						//html.width(window.innerWidth/2).height(window.innerHeight/2);
+					// 						creatMapChart(html, md5Value, mappath);
+					// 					}
+					// 				});
+					// 			}
+					// 		}
+					// 	}
+					// });
 				} else {
 					createCharts(type, html);
 				}
@@ -338,8 +338,6 @@
 		}
 	}
 
-
-
 	$("#charts li").hover(function () {
 		let l = $(this).offset().left + $(this).width();
 		let t = $(this).position().top;
@@ -354,7 +352,8 @@
 	});
 
 	$(".tags-nav.off").each(function () {
-		layx.tip('当前图表未开放！', this, 'top');
+		//layx.tip('当前图表未开放！', this, 'top');
+		console.log('当前组件未开放！');
 	});
 </script>
 <script id="charts-line" type="text/template">
