@@ -769,7 +769,7 @@ var stack, EditCommand, undoData;
 	})
 })(jQuery)
 $(function () {
-	undoData = getBddpData(true);
+	undoData = {};//getBddpData(true);
 	stack = new Undo.Stack();
 	EditCommand = Undo.Command.extend({
 		constructor: function (oldValue, newValue) {

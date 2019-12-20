@@ -218,8 +218,8 @@
 		if (!globalChartTheme) {
 			globalChartTheme = 'default';
 		}
-		var file = "../../statics/bddp/static/charts-config/" + type + ".json";
-		var themeFile = "../../statics/bddp/static/charts-theme/" + globalChartTheme + ".json";
+		var file = "charts-config/" + type + ".json";
+		var themeFile = "charts-theme/" + globalChartTheme + ".json";
 		getJSONFileData(themeFile, function (themedata) {
 			var theme = themedata;
 			echarts.registerTheme(globalChartTheme, theme);
