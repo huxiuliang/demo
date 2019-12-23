@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "mappings": "AAAA,uEAAuE",
+  "sources": [
+    "../../../sass/layouts/layout2/custom.scss"
+  ],
+  "names": [],
+  "file": "custom.css"
+}

@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="dp_design/common/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" href="dp_design/common/bootstrap4/bootstrap.css">
     <link rel="stylesheet" href="dp_design/common/contextjs/context.standalone.css">
-<!--    <link rel="stylesheet" href="common/LayX/layx.min.css">-->
+    <!--    <link rel="stylesheet" href="common/LayX/layx.min.css">-->
     <link rel="stylesheet" href="dp_design/common/spectrum/spectrum.css">
     <link rel="stylesheet" href="dp_design/common/json-viewer/jquery.jsonview.css">
     <link rel="stylesheet" href="dp_design/common/ruler/css/ruler.css">
-<!--    <link rel="stylesheet" href="common/loading.css">-->
+    <!--    <link rel="stylesheet" href="common/loading.css">-->
     <link rel="stylesheet" href="dp_design/common/ledtime/digital-clock.css">
     <link rel="stylesheet" href="dp_design/common/intro/introjs.css">
     <link rel="stylesheet" href="dp_design/common/select2/css/select2.min.css">
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="dp_design/core/box.css">
     <link rel="stylesheet" href="dp_design/core/prop.css">
     <link rel="stylesheet" href="dp_design/core/bg.css">
+
+    <link rel="stylesheet" href="frame/assets/iview/styles/iview.css">
 
     <script src="dp_design/common/jquery/jquery-1.11.0.js"></script>
     <script src="dp_design/common/jquery-ui/jquery-ui.min.js"></script>
@@ -47,7 +49,9 @@
     <script src="dp_design/core/groupboxs.js"></script>
 
     <script src="dp_design/export/export.js"></script>
+
     <script src="dp_design/web/dataTools.js"></script>
+    <script src="dp_design/web/requestTools.js"></script>
 
     <!--代码在线编辑器-->
     <script src="dp_design/common/ace/ace.js"></script>
@@ -56,33 +60,31 @@
     <script src="dp_design/common/ace/ext-options.js"></script>
     <script src="dp_design/common/ace/mode-javascript.js"></script>
 
+    <script src="frame/assets/vue/vue.js"></script>
+    <script src="frame/assets/iview/iview.min.js"></script>
 
 </head>
-<style type="text/css">
-    /*body{background-color: black}*/
-</style>
 <body>
 <div class="layout layout-Header">
     <div class="logo">大屏幕设计器</div>
     <ul class="tools tools-left" data-step="1" data-intro="在这里新建、打开、保存当前模版">
         <li class="tools-item" id="tools-new"><i title="新建" class="fa fa-file-o"></i></li>
-        <li class="tools-item" id="tools-open"><i title="资源库" class="fa fa-folder-open-o"></i></li>
-        <li class="tools-item" style="display:none;" id="tools-open-old"><i title="资源库(旧)" class="fa fa-folder-open-o"></i></li>
         <li class="tools-item" id="tools-save"><i title="保存" class="fa fa-save"></i></li>
     </ul>
-
     <ul class="tools" data-step="5" data-intro="整个场景的配置属性都在这里了">
         <li class="tools-item" id="tools-scene"><i title="页面配置" class="fa fa-television"></i></li>
         <li class="tools-item" id="tags-props"><i title="组件属性配置" class="fa fa-sliders"></i></li>
         <li class="tools-item" id="tools-database"><i title="数据配置" class="fa fa-database"></i></li>
         <li class="tools-item" id="tools-dataSetsConfig"><i title="数据集配置" class="fa fa-cubes"></i></li>
-        <li class="tools-item" id="tools-sitemap"><i title="资源树" class="fa fa-sitemap"></i></li>
         <li class="tools-item" id="tools-view"><i title="预览" class="fa fa-eye"></i></li>
         <li style="display: none;" class="tools-item" id="design-config"><i title="设置" class="fa fa-cog"></i></li>
-        <li class="tools-item" id="tools-shortcutkey" data-step="7" data-intro="快捷键说明在这里，熟悉快捷键，事半功倍哦"><i title="快捷键" class="fa fa-keyboard-o"></i></li>
+        <li class="tools-item" id="tools-shortcutkey" data-step="7" data-intro="快捷键说明在这里，熟悉快捷键，事半功倍哦"><i title="快捷键"
+                                                                                                         class="fa fa-keyboard-o"></i>
+        </li>
         <li class="tools-item" id="tools-clearCache" title="清理本地缓存"><i title="清理本地缓存" class="fa fa-recycle"></i></li>
     </ul>
 </div>
+
 <div class="layout layout-Sider" data-step="2" data-intro="拖拽控件到场景中，创建图形">
     <div id="tabs">
         <ul>
@@ -93,8 +95,9 @@
         </ul>
     </div>
 </div>
+
 <div class="layout layout-Content">
-    <div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-intro="场景图形展示区，配置好的图形会在这里展示">
+    <div id="content" style="width: 1024px; height: 768px;" data-step="3" data-zoom="1" data-intro="场景图形展示区，配置好的图形会在这里展示">
         <div id="contentHandle"></div>
         <!--拖动辅助线-->
         <div id="guide-h" class="guide"></div>
@@ -126,7 +129,8 @@
             <div class="row" id="datalinkRow">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="datalink">链接地址</label> <input type="text" class="form-control" id="datalink" value="" />
+                        <label for="datalink">链接地址</label> <input type="text" class="form-control" id="datalink"
+                                                                  value=""/>
                         <button type="button" id="selectJSONFile" class="btn btn-primary btn-block">选择JSON文件</button>
                     </div>
                     <button type="submit" id="datalinkBtn" class="btn btn-primary btn-sm">获取数据格式</button>
@@ -135,7 +139,8 @@
             <div class="row" id="dataSetsRow" style="display: none;">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="datalink">可用数据集</label> <select name="" id="dataSetsSelect" style="width: 340px;"></select>
+                        <label for="datalink">可用数据集</label> <select name="" id="dataSetsSelect"
+                                                                    style="width: 340px;"></select>
                         <button type="button" id="refreshDataSetsListBtn" class="btn btn-secondary">
                             <i class="fa fa-refresh"></i>
                         </button>
@@ -189,24 +194,37 @@
     </div>
 </div>
 
+<div id="app">
+
+    <modal title="快捷键说明" v-model="shortcutkey.status">
+        <iframe src="dp_design/component/shortcutKey.html" width="100%" height="400">
+            IE：你们都看我干吗，我现在也是支持的
+        </iframe>
+    </modal>
+
+</div>
+
 <script>
 
-    $(function () {
-
-        var i = $("#content");
-
-        $("#tabs").tabs({
-            beforeLoad: function (event, ui) {
-                ui.jqXHR.error(function () {
-                    ui.panel.html("<div style='color: white;font-size: 12px;padding: 10px;margin: 10px'>不能正确加载该标签页</div>");
-                });
+    var app = new Vue({
+        el: "#app",
+        data: {
+            shortcutkey: {
+                status: false
             }
-        }).addClass("ui-tabs-vertical ui-helper-clearfix");
 
-        $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        },
+        methods: {
 
-        // $.pageRuler();
+            showShortcutkey: function () {
+                this.shortcutkey.status = true;
+            }
 
+        },
+        //挂载开始之前 获取相关数据
+        beforeMount: function () {
+
+        }
     });
 
 </script>

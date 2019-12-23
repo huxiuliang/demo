@@ -1,0 +1,62 @@
+.h850 {
+    min-height: 845px;
+}
+
+.table-content,
+.chart-box {
+    border: 1px #a5b5c4 solid !important;
+}
+
+
+
+.table-content h5,
+.chart-box h5 {
+    margin: 0;
+    padding: 10px;
+    background-color: #d0e2f0;
+    border-bottom: 1px #a5b5c4 solid;
+}
+
+.fa.fa-list {
+    margin-right: 4px;
+    color: #237cea;
+}
+
+.fa.fa-sort {
+    color: #a9a9a9;
+}
+
+.data-exchange-chart {
+    height: 580px;
+}
+
+.red {
+    color: red;
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+    background-color: #2ca1e5;
+}
+
+.follow-btn-add {
+    margin-right: 10px;
+}
+
+.modal .modal-header {
+    background-color: #e1e5ee;
+}
+
+.modal .modal-dialog {
+    border-radius: 10px !important;
+    border: 2px #6b6b6b solid;
+}
+
+.modal .modal-dialog .modal-content {
+    border-radius: 10px !important;
+}
+
+.modal .modal-dialog .modal-content .modal-header {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}

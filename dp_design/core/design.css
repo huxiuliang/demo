@@ -38,13 +38,12 @@ html, body {
     width: 160px;
     height: 40px;
     float: left;
-    background-image: url('../img/icon.png');
     background-repeat: no-repeat;
     background-position: -166px -8px;
     /* background-size: 40px 40px; */
     line-height: 40px;
     font-size: 14px;
-    padding-left: 46px;
+    padding-left: 20px;
 }
 
 .layout-Header .dragHandle {
