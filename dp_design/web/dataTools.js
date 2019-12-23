@@ -24,7 +24,7 @@ function executeSQLAsObject(sqlStr) {
 	$.ajax({
 		type : "POST",
 		async:false,
-		url : "../../bddp/executeSQLAsObject", 
+		url : "dp_design/test_data/executeSQLAsObject.json", 
 		data : {
 			"sqlStr" : sqlStr
 		},

@@ -90,49 +90,49 @@
 			Gauge
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="map" data-subtype="1">
+	<li class="tags-nav off" tag-type="map" data-subtype="1">
 		<i class="chart-icon chart-map"></i>
 		<span>
 			Map
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="boxplot" data-subtype="1">
+	<li class="tags-nav off" tag-type="boxplot" data-subtype="1">
 		<i class="chart-icon chart-boxplot"></i>
 		<span>
 			Boxplot
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="heatmap" data-subtype="1">
+	<li class="tags-nav off" tag-type="heatmap" data-subtype="1">
 		<i class="chart-icon chart-heatmap"></i>
 		<span>
 			Heatmap
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="graph" data-subtype="1">
+	<li class="tags-nav off" tag-type="graph" data-subtype="1">
 		<i class="chart-icon chart-graph"></i>
 		<span>
 			Graph
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="parallel" data-subtype="1">
+	<li class="tags-nav off" tag-type="parallel" data-subtype="1">
 		<i class="chart-icon chart-parallel"></i>
 		<span>
 			Parallel
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="sankey" data-subtype="1">
+	<li class="tags-nav off" tag-type="sankey" data-subtype="1">
 		<i class="chart-icon chart-sankey"></i>
 		<span>
 			Sankey
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="scatter" data-subtype="1">
+	<li class="tags-nav off" tag-type="scatter" data-subtype="1">
 		<i class="chart-icon chart-scatter"></i>
 		<span>
 			Scatter
 		</span>
 	</li>
-	<li class="tags-nav" tag-type="candlestick" data-subtype="1">
+	<li class="tags-nav off" tag-type="candlestick" data-subtype="1">
 		<i class="chart-icon chart-candlestick"></i>
 		<span>
 			Candlestick
@@ -156,7 +156,7 @@
 				let type = $(event.currentTarget).attr("tag-type");
 				let html = $("#charts-tag").html();
 				return $(html).css({
-					"background-image": "url('./img/charts/" + type + ".png')",
+					"background-image": "url('dp_design/img/charts/" + type + ".png')",
 					"transform": "scale(" + zoom + ")",
 					"transform-origin": "left top 0px"
 				});
@@ -218,8 +218,8 @@
 		if (!globalChartTheme) {
 			globalChartTheme = 'default';
 		}
-		var file = "charts-config/" + type + ".json";
-		var themeFile = "charts-theme/" + globalChartTheme + ".json";
+		var file = "dp_design/charts-config/" + type + ".json";
+		var themeFile = "dp_design/charts-theme/" + globalChartTheme + ".json";
 		getJSONFileData(themeFile, function (themedata) {
 			var theme = themedata;
 			echarts.registerTheme(globalChartTheme, theme);

@@ -5,48 +5,56 @@
     <meta charset="UTF-8">
     <title>大屏设计器</title>
 
-    <link rel="stylesheet" href="common/reset.css">
-    <link rel="stylesheet" href="common/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="common/jquery-ui/jquery-ui.min.css">
-<!--    <link rel="stylesheet" href="common/bootstrap4/bootstrap.css">-->
-    <link rel="stylesheet" href="common/contextjs/context.standalone.css">
+    <link rel="stylesheet" href="dp_design/common/reset.css">
+    <link rel="stylesheet" href="dp_design/common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dp_design/common/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="dp_design/common/bootstrap4/bootstrap.css">
+    <link rel="stylesheet" href="dp_design/common/contextjs/context.standalone.css">
 <!--    <link rel="stylesheet" href="common/LayX/layx.min.css">-->
-    <link rel="stylesheet" href="common/spectrum/spectrum.css">
-<!--    <link rel="stylesheet" href="common/json-viewer/jquery.jsonview.css">-->
-    <link rel="stylesheet" href="common/ruler/css/ruler.css">
+    <link rel="stylesheet" href="dp_design/common/spectrum/spectrum.css">
+    <link rel="stylesheet" href="dp_design/common/json-viewer/jquery.jsonview.css">
+    <link rel="stylesheet" href="dp_design/common/ruler/css/ruler.css">
 <!--    <link rel="stylesheet" href="common/loading.css">-->
-<!--    <link rel="stylesheet" href="common/ledtime/digital-clock.css">-->
-<!--    <link rel="stylesheet" href="common/intro/introjs.css">-->
-<!--    <link rel="stylesheet" href="common/select2/css/select2.min.css">-->
-<!--    <link rel="stylesheet" href="common/swiper/swiper.min.css">-->
-<!--    <link rel="stylesheet" href="common/autoscroll/autoscroll.css">-->
-    <link rel="stylesheet" href="design/design.css">
-    <link rel="stylesheet" href="design/box.css">
-<!--    <link rel="stylesheet" href="design/prop.css">-->
-<!--    <link rel="stylesheet" href="design/bg.css">-->
+    <link rel="stylesheet" href="dp_design/common/ledtime/digital-clock.css">
+    <link rel="stylesheet" href="dp_design/common/intro/introjs.css">
+    <link rel="stylesheet" href="dp_design/common/select2/css/select2.min.css">
+    <link rel="stylesheet" href="dp_design/common/swiper/swiper.min.css">
+    <link rel="stylesheet" href="dp_design/common/autoscroll/autoscroll.css">
+    <link rel="stylesheet" href="dp_design/core/design.css">
+    <link rel="stylesheet" href="dp_design/core/box.css">
+    <link rel="stylesheet" href="dp_design/core/prop.css">
+    <link rel="stylesheet" href="dp_design/core/bg.css">
 
-    <script src="common/jquery/jquery-1.11.0.js"></script>
-    <script src="common/jquery-ui/jquery-ui.min.js"></script>
-    <script src="common/spectrum/spectrum.js"></script>
-    <script src="common/mousetrap/mousetrap.min.js"></script><!--键盘快捷键的类库-->
-    <script src="common/ruler/js/jquery.zxxPageRuler.1.1.js"></script>
-    <script src="common/undo/undo.js"></script>
-    <script src="common/contextjs/context.js"></script><!--右键菜单-->
-    <script src="common/echarts/echarts.min.js"></script>
-    <script src="common/cache/jquery.cache.js"></script>
-    <script src="common/json-viewer/jquery.jsonview.js"></script>
-    <script src="common/scale.js"></script>
-    <script src="common/transform.js"></script>
+    <script src="dp_design/common/jquery/jquery-1.11.0.js"></script>
+    <script src="dp_design/common/jquery-ui/jquery-ui.min.js"></script>
+    <script src="dp_design/common/spectrum/spectrum.js"></script>
+    <script src="dp_design/common/mousetrap/mousetrap.min.js"></script><!--键盘快捷键的类库-->
+    <script src="dp_design/common/ruler/js/jquery.zxxPageRuler.1.1-custom.js"></script>
+    <script src="dp_design/common/undo/undo.js"></script>
+    <script src="dp_design/common/contextjs/context.js"></script><!--右键菜单-->
+    <script src="dp_design/common/echarts/echarts.min.js"></script>
+    <script src="dp_design/common/cache/jquery.cache.js"></script>
+    <script src="dp_design/common/json-viewer/jquery.jsonview.js"></script>
+    <script src="dp_design/common/scale.js"></script>
+    <script src="dp_design/common/transform.js"></script>
+    <script src="dp_design/common/boxSelect/boxSelect.js"></script>
+    <script src="dp_design/common/select2/js/select2.full.js"></script>
 
-    <script src="design/design.js"></script>
-    <script src="design/box.js"></script>
-    <script src="design/bulidTags.js"></script>
-    <script src="design/tagEdit.js"></script>
-    <script src="design/groupboxs.js"></script>
+    <script src="dp_design/core/design.js"></script>
+    <script src="dp_design/core/box.js"></script>
+    <script src="dp_design/core/bulidTags.js"></script>
+    <script src="dp_design/core/tagEdit.js"></script>
+    <script src="dp_design/core/groupboxs.js"></script>
 
-    <script src="export/export.js"></script>
-    <script src="web/dataTools.js"></script>
+    <script src="dp_design/export/export.js"></script>
+    <script src="dp_design/web/dataTools.js"></script>
 
+    <!--代码在线编辑器-->
+    <script src="dp_design/common/ace/ace.js"></script>
+    <script src="dp_design/common/ace/ext-error_marker.js"></script>
+    <script src="dp_design/common/ace/ext-spellcheck.js"></script>
+    <script src="dp_design/common/ace/ext-options.js"></script>
+    <script src="dp_design/common/ace/mode-javascript.js"></script>
 
 
 </head>
@@ -78,10 +86,10 @@
 <div class="layout layout-Sider" data-step="2" data-intro="拖拽控件到场景中，创建图形">
     <div id="tabs">
         <ul>
-            <li><a href="component/charts.html">图表</a></li>
-            <li><a href="component/tags.html">组件</a></li>
-            <li><a href="component/icons.html">图标</a></li>
-            <li><a href="component/diyTags.html">自定义组件</a></li>
+            <li><a href="dp_design/component/charts.html">图表</a></li>
+            <li><a href="dp_design/component/tags.html">组件</a></li>
+            <li><a href="dp_design/component/icons.html">图标</a></li>
+            <li><a href="dp_design/component/diyTags.html">自定义组件</a></li>
         </ul>
     </div>
 </div>
@@ -91,6 +99,93 @@
         <!--拖动辅助线-->
         <div id="guide-h" class="guide"></div>
         <div id="guide-v" class="guide"></div>
+    </div>
+</div>
+
+<div id="rightnav" data-step="4" data-intro="控件属性数据配置区，在这里首先配置好控件的数据，然后修改控件的属性。">
+    <i class="rightnav-close fa fa-angle-double-right"></i>
+    <ul class="rightnav-tabs-ul">
+        <li class="rightnav-tab"><a href="#data-box">数据</a></li>
+        <li class="rightnav-tab"><a href="#config-box">属性</a></li>
+        <li class="rightnav-tab"><a href="#senior-box">扩展</a></li>
+    </ul>
+    <div id="data-box" class="layout layout-Rightnav">
+        <div class="container" style="padding: 10px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="" class="input-title">数据来源</label> <label for="dataFromRadio-1">全局数据源</label>
+                    <input type="radio" value="1" name="dataFromRadio" id="dataFromRadio-1">
+                    <label for="dataFromRadio-2">请求链接</label>
+                    <input type="radio" value="2" name="dataFromRadio" id="dataFromRadio-2">
+                    <label for="dataFromRadio-3">JSON文件</label>
+                    <input type="radio" value="3" name="dataFromRadio" id="dataFromRadio-3">
+                    <label for="dataFromRadio-4">数据集</label>
+                    <input type="radio" value="4" name="dataFromRadio" id="dataFromRadio-4">
+                </div>
+            </div>
+            <div class="row" id="datalinkRow">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="datalink">链接地址</label> <input type="text" class="form-control" id="datalink" value="" />
+                        <button type="button" id="selectJSONFile" class="btn btn-primary btn-block">选择JSON文件</button>
+                    </div>
+                    <button type="submit" id="datalinkBtn" class="btn btn-primary btn-sm">获取数据格式</button>
+                </div>
+            </div>
+            <div class="row" id="dataSetsRow" style="display: none;">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="datalink">可用数据集</label> <select name="" id="dataSetsSelect" style="width: 340px;"></select>
+                        <button type="button" id="refreshDataSetsListBtn" class="btn btn-secondary">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <!-- <input type="text" class="form-control" id="datalink" value="" /> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="row" id="server-dimension">
+                            <div class="col-md-12">
+                                <p class="lead">X轴</p>
+                                <div class="data-dimension data-dimension-sets"></div>
+                            </div>
+                        </div>
+                        <div class="row" id="server-series">
+                            <div class="col-md-12">
+                                <p class="lead">Y轴</p>
+                                <div class="data-series data-series-sets"></div>
+                            </div>
+                        </div>
+                        <div class="row" id="server-classify" style="display: none">
+                            <div class="col-md-12">
+                                <p class="lead">分类</p>
+                                <div class="data-classify data-classify-sets"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="data-show"></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" id="datalinkSaveBtn" class="btn btn-primary btn-sm">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="config-box" class="layout layout-Rightnav">
+        <div id="config-panel"></div>
+    </div>
+    <div id="senior-box" class="layout layout-Rightnav">
+        <div id="senior-panel"></div>
+        <button id="jsoneditorSaveBtn" type="button">确认</button>
     </div>
 </div>
 

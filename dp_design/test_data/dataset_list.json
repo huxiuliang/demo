@@ -1,0 +1,76 @@
+{
+  "msg": "success",
+  "code": 0,
+  "list": [
+    {
+      "dtId": 4,
+      "dtName": "测试SQL",
+      "dsId": 107,
+      "type": "mysql",
+      "sql": "select * from db_type",
+      "dataType": "sql",
+      "sts": "1",
+      "upTime": "2019-01-10 12:02:50",
+      "txOp": null,
+      "upOp": "admin",
+      "orderByStr": null,
+      "txDate": null
+    },
+    {
+      "dtId": 7,
+      "dtName": "系统日志",
+      "dsId": 107,
+      "type": "rsdb",
+      "sql": "select * from sys_log",
+      "dataType": "sql",
+      "sts": "1",
+      "upTime": "2018-09-05 14:52:51",
+      "txOp": null,
+      "upOp": null,
+      "orderByStr": null,
+      "txDate": null
+    },
+    {
+      "dtId": 11,
+      "dtName": "测试数据",
+      "dsId": 107,
+      "type": "mysql",
+      "sql": "select * from (select * from chart_test order by id asc) a ",
+      "dataType": "sql",
+      "sts": "1",
+      "upTime": "2019-04-19 09:53:10",
+      "txOp": null,
+      "upOp": null,
+      "orderByStr": "id desc",
+      "txDate": null
+    },
+    {
+      "dtId": 12,
+      "dtName": "dept_year",
+      "dsId": 121,
+      "type": "rsdb",
+      "sql": "select * from dept_year",
+      "dataType": "sql",
+      "sts": "1",
+      "upTime": "2018-12-07 17:16:04",
+      "txOp": "admin",
+      "upOp": "admin",
+      "orderByStr": null,
+      "txDate": "2018-12-07 17:16:04"
+    },
+    {
+      "dtId": 15,
+      "dtName": "列表",
+      "dsId": 121,
+      "type": "mysql",
+      "sql": "select * from demo_user",
+      "dataType": "sql",
+      "sts": "1",
+      "upTime": "2019-03-05 09:50:05",
+      "txOp": "admin",
+      "upOp": "admin",
+      "orderByStr": null,
+      "txDate": "2019-03-05 09:50:05"
+    }
+  ]
+}

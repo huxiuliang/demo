@@ -1,0 +1,100 @@
+{
+  "msg": "success",
+  "code": 0,
+  "data": {
+    "rows": [
+      [
+        "1",
+        "申志强",
+        "100101",
+        "综合部",
+        "15000",
+        "人力资源",
+        "20141024",
+        "13403555190",
+        "辽宁",
+        "047300",
+        "1"
+      ]
+    ],
+    "columns": [
+      {
+        "columnType": "INT",
+        "columnName": "user_id",
+        "tableName": "demo_user",
+        "columnComments": "用户编号",
+        "allowNull": false
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_name",
+        "tableName": "demo_user",
+        "columnComments": "用户名称",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_org",
+        "tableName": "demo_user",
+        "columnComments": "用户机构",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_org_name",
+        "tableName": "demo_user",
+        "columnComments": "机构名称",
+        "allowNull": true
+      },
+      {
+        "columnType": "DOUBLE",
+        "columnName": "wages",
+        "tableName": "demo_user",
+        "columnComments": "薪资",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "position",
+        "tableName": "demo_user",
+        "columnComments": "职位",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "reg_date",
+        "tableName": "demo_user",
+        "columnComments": "登记日期",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_tel",
+        "tableName": "demo_user",
+        "columnComments": "电话",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_addr",
+        "tableName": "demo_user",
+        "columnComments": "地址",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_post",
+        "tableName": "demo_user",
+        "columnComments": "邮编",
+        "allowNull": true
+      },
+      {
+        "columnType": "VARCHAR",
+        "columnName": "user_sts",
+        "tableName": "demo_user",
+        "columnComments": "用户状态",
+        "allowNull": true
+      }
+    ]
+  }
+}

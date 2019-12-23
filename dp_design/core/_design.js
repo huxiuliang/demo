@@ -381,7 +381,7 @@ function initDataBaseConfig() {
 }
 
 function initGlobalConfig() {
-    $("#design-config").bind("click", function () {
+    $("#core-config").bind("click", function () {
         var a = $(".global-config");
         a.hasClass("on") ? a.removeClass("on") : a.addClass("on")
     }), $("#globalConfigBtn").bind("click", function () {
@@ -556,8 +556,8 @@ $(function () {
         console.log($("#content").data("id"))
     }), $("#tools-shortcutkey").bind("click", function () {
         layx.iframe("localsite", "快捷键说明", "./component/shortcutKey.html")
-    }), $("#tools-dataSetsConfig").bind("click", function () {
-        layx.iframe("datasets", "数据集配置", "./dataSetsConfig/dataConfig.html", {
+    }), $("#tools-data-source").bind("click", function () {
+        layx.iframe("datasets", "数据集配置", "./data-source/dataConfig.html", {
             minMenu: !1,
             maxMenu: !1,
             movable: !1,

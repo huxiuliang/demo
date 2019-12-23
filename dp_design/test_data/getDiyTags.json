@@ -1,0 +1,42 @@
+{
+  "msg": "success",
+  "res": [
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"backgroundColor\":\"rgba(240, 192, 10, 0)\",\"backgroundImage\":\"../../bddpConfig/4286e3f913e364025ddc91d74ab7a5ad/images/32bg.png\"},\"rectP\":{\"rotate\":0,\"x\":1532,\"width\":235,\"y\":330,\"height\":216,\"zIndex\":50},\"id\":\"a896c036e79af6b2fb54eed1bc670516\",\"type\":\"rect\"},{\"options\":{},\"parts\":{\"color\":\"rgb(39, 52, 65)\",\"fontSize\":72,\"text\":\"12\",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1660,\"width\":100,\"y\":412,\"height\":87,\"zIndex\":50},\"id\":\"3a22bfcb5de7de8a69648dc99c3bae8a\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(145, 125, 55)\",\"textAlign\":\"right\",\"fontSize\":15,\"text\":\"风险客户 制药\"},\"rectP\":{\"rotate\":0,\"x\":1577,\"width\":74,\"y\":451,\"height\":60,\"zIndex\":50},\"id\":\"d2e57f319bb9c37584bf0d2f08189c9b\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(39, 52, 65)\",\"fontSize\":16,\"text\":\"  风险额度1,000万元\",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1608,\"width\":141,\"y\":358,\"height\":40,\"zIndex\":50},\"id\":\"8f4e0afb5824501b95f210a95240484b\",\"type\":\"text\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "数据展示-黄",
+      "id": "45b66fba2a7ae8ad38969b2881087137"
+    },
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"imgUrl\":\"../diy/597f7a1eca9f11798355d260c43fc1c7/images/nv1.png\"},\"rectP\":{\"rotate\":0,\"x\":110,\"width\":52,\"y\":288,\"height\":100,\"zIndex\":50},\"id\":\"5e382f02455db72b1626e0e6630f30da\",\"type\":\"image\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "人物-女",
+      "id": "597f7a1eca9f11798355d260c43fc1c7"
+    },
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"imgUrl\":\"dp_design/diy/img/005.png\"},\"rectP\":{\"rotate\":0,\"x\":110,\"width\":52,\"y\":288,\"height\":100,\"zIndex\":50},\"id\":\"5e382f02455db72b1626e0e6630f30da\",\"type\":\"image\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "背景图",
+      "id": "597f7a1eca9f11798355d260c43fc1c7"
+    },
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"imgUrl\":\"../diy/c28d84996ae9f7a712201ca3b9939896/images/midfk.png\"},\"rectP\":{\"rotate\":0,\"x\":894,\"width\":221,\"y\":265,\"height\":116,\"zIndex\":50},\"id\":\"ddd4119a6cdd69ddf1342caa6b013f4d\",\"type\":\"image\"},{\"options\":{},\"parts\":{\"color\":\"rgb(14, 245, 245)\",\"fontSize\":45,\"text\":\"0\"},\"rectP\":{\"rotate\":0,\"x\":916,\"width\":30,\"y\":300,\"height\":52,\"zIndex\":50},\"id\":\"3ab55e187d2fa5b2782668b868c8ced1\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(14, 245, 245)\",\"fontSize\":45,\"text\":\"2\"},\"rectP\":{\"rotate\":0,\"x\":954,\"width\":30,\"y\":301,\"height\":52,\"zIndex\":50},\"id\":\"3ab55e187d2fa5b2782668b868c8ced1\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(14, 245, 245)\",\"fontSize\":45,\"text\":\"5\"},\"rectP\":{\"rotate\":0,\"x\":991,\"width\":30,\"y\":300,\"height\":52,\"zIndex\":50},\"id\":\"3ab55e187d2fa5b2782668b868c8ced1\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(14, 245, 245)\",\"fontSize\":45,\"text\":\"1\"},\"rectP\":{\"rotate\":0,\"x\":1027,\"width\":30,\"y\":300,\"height\":52,\"zIndex\":50},\"id\":\"3ab55e187d2fa5b2782668b868c8ced1\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(14, 245, 245)\",\"fontSize\":45,\"text\":\"7\"},\"rectP\":{\"rotate\":0,\"x\":1063,\"width\":30,\"y\":300,\"height\":52,\"zIndex\":50},\"id\":\"3ab55e187d2fa5b2782668b868c8ced1\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(13, 232, 233)\",\"fontSize\":14,\"text\":\"职工总人数\"},\"rectP\":{\"rotate\":0,\"x\":1023.7222242454607,\"width\":80.89881013693461,\"y\":288.23809523809524,\"height\":40,\"zIndex\":50},\"id\":\"8b45c71875c1a64cc266c3a7885e2019\",\"type\":\"text\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "数值展示",
+      "id": "c28d84996ae9f7a712201ca3b9939896"
+    },
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"backgroundColor\":\"rgba(2, 123, 127, 0)\",\"backgroundImage\":\"../../bddpConfig/4286e3f913e364025ddc91d74ab7a5ad/images/33bg.png\"},\"rectP\":{\"rotate\":0,\"x\":1532,\"width\":235,\"y\":560,\"height\":216,\"zIndex\":50},\"id\":\"a896c036e79af6b2fb54eed1bc670516\",\"type\":\"rect\"},{\"options\":{},\"parts\":{\"color\":\"rgb(255, 255, 255)\",\"fontSize\":72,\"text\":\"115\",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1641,\"width\":100,\"y\":652,\"height\":87,\"zIndex\":50},\"id\":\"3a22bfcb5de7de8a69648dc99c3bae8a\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(137, 181, 208)\",\"textAlign\":\"right\",\"fontSize\":15,\"text\":\"风险客户 制药\"},\"rectP\":{\"rotate\":0,\"x\":1562,\"width\":74,\"y\":693,\"height\":60,\"zIndex\":50},\"id\":\"d2e57f319bb9c37584bf0d2f08189c9b\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(255, 255, 255)\",\"fontSize\":16,\"text\":\"  风险额度1,000万元\",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1606,\"width\":141,\"y\":590,\"height\":40,\"zIndex\":50},\"id\":\"8f4e0afb5824501b95f210a95240484b\",\"type\":\"text\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "数据展示-青",
+      "id": "15d9dea668eca241e89875874b7ef548"
+    },
+    {
+      "boxs": "[{\"options\":{},\"parts\":{\"backgroundColor\":\"rgba(215, 26, 60, 0)\",\"backgroundImage\":\"../../bddpConfig/4286e3f913e364025ddc91d74ab7a5ad/images/31bg.png\"},\"rectP\":{\"rotate\":0,\"x\":1532,\"width\":235,\"y\":100,\"height\":216,\"zIndex\":50},\"id\":\"a896c036e79af6b2fb54eed1bc670516\",\"type\":\"rect\"},{\"options\":{},\"parts\":{\"color\":\"rgb(255, 255, 255)\",\"fontSize\":72,\"text\":\"68 \",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1660,\"width\":100,\"y\":197,\"height\":87,\"zIndex\":50},\"id\":\"3a22bfcb5de7de8a69648dc99c3bae8a\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(214, 118, 118)\",\"textAlign\":\"right\",\"fontSize\":15,\"text\":\"风险客户 制药\"},\"rectP\":{\"rotate\":0,\"x\":1577,\"width\":74,\"y\":235,\"height\":60,\"zIndex\":50},\"id\":\"d2e57f319bb9c37584bf0d2f08189c9b\",\"type\":\"text\"},{\"options\":{},\"parts\":{\"color\":\"rgb(255, 255, 255)\",\"fontSize\":16,\"text\":\"  风险额度1,000万元\",\"fontWeight\":\"500\"},\"rectP\":{\"rotate\":0,\"x\":1623,\"width\":141,\"y\":137,\"height\":40,\"zIndex\":50},\"id\":\"8f4e0afb5824501b95f210a95240484b\",\"type\":\"text\"}]",
+      "icon": "fa fa-file-code-o",
+      "name": "数据展示-红",
+      "id": "7a399823fb51d9849514d2c8d646b7da"
+    }
+  ],
+  "code": 0
+}

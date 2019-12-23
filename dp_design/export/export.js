@@ -144,7 +144,7 @@ function addCssFiles(exportPath) {
 }
 
 function addJsFiles(exportPath) {
-    var jsFiles = ["./static/design/effect.js", "./static/common/autoscroll/autoscroll.js", "./static/common/jquery/jquery-1.11.0.js", "./static/common/echarts/echarts.min.js", "./static/common/ledtime/digital-clock.js", "./static/export/bulidCharts.min.js", "./static/common/swiper/swiper.min.js"];
+    var jsFiles = ["./static/core/effect.js", "./static/common/autoscroll/autoscroll.js", "./static/common/jquery/jquery-1.11.0.js", "./static/common/echarts/echarts.min.js", "./static/common/ledtime/digital-clock.js", "./static/export/bulidCharts.min.js", "./static/common/swiper/swiper.min.js"];
     if (!fs.existsSync(exportPath + "/js")) {
         fs.mkdirSync(exportPath + "/js");
     }
