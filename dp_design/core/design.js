@@ -403,23 +403,68 @@ function getDataSetsData(a) {
 function getProp(a, t) {
     if (currBox && currBox.is(a) && !t) ; else {
         if (!a) return !1;
-        var e = (currBox = a).data("prop"), n = e.type, i = e.data, o = e.other || {};
+        var e = (currBox = a).data("prop");
+        var n = e.type;
+        var i = e.data;
+        var o = e.other || {};
+
         changeDataInput(n, o.dataFrom);
+
         var s = $.getCache("tag-" + n);
-        s || (s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'"), $.setCache("tag-" + n, s));
+        s || (
+            s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'"),
+                $.setCache("tag-" + n, s)
+        );
+
         var l = $.getCache(s.id);
         l || (l = executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id), $.setCache(s.id, l));
+
         var d = tableValsToNode(l);
-        if (d = transformTozTreeFormat(d), bulidTabs($("#config-panel"), d, 1, e), $(".data-dimension").empty(), $(".data-series").empty(), $(".data-classify").empty(), $("#datalink").val(""), $("#data-show").JSONView({}, {collapsed: !0}), $("#data-show").find(".prop").draggable({
-            scroll: !1,
-            helper: "clone"
-        }), $("#data-box [name='dataFromRadio']").removeProp("checked"), $("#data-box #dataFromRadio-" + o.dataFrom).prop("checked", !0), o.dataFrom ? ($("#dataSetsRow").hide(), 1 == o.dataFrom ? ($("#datalinkRow").hide(), globalDataBase && ($("#data-show").JSONView(globalDataBase, {collapsed: !0}), $("#data-show").find(".prop").draggable({
-            scroll: !1,
-            helper: "clone"
-        }))) : 2 == o.dataFrom ? ($("#datalinkRow").show(), $("#selectJSONFile").hide()) : 3 == o.dataFrom ? ($("#datalinkRow").show(), $("#selectJSONFile").show()) : 4 == o.dataFrom && ($("#datalinkRow").hide(), $("#selectJSONFile").hide(), $("#dataSetsRow").show())) : ($("#datalinkRow").hide(), globalDataBase && ($("#data-show").JSONView(globalDataBase, {collapsed: !0}), $("#data-show").find(".prop").draggable({
-            scroll: !1,
-            helper: "clone"
-        })), o.dataFrom = 1), $("#data-box").find("input[type=radio]").checkboxradio({icon: !1}), i) {
+        if (d = transformTozTreeFormat(d),
+            bulidTabs($("#config-panel"), d, 1, e),
+            $(".data-dimension").empty(),
+            $(".data-series").empty(),
+            $(".data-classify").empty(),
+            $("#datalink").val(""),
+            $("#data-show").JSONView({}, {collapsed: !0}),
+            $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"}),
+            $("#data-box [name='dataFromRadio']").removeProp("checked"),
+            $("#data-box #dataFromRadio-" + o.dataFrom).prop("checked", !0),
+
+            o.dataFrom ? (
+                $("#dataSetsRow").hide(),
+                    1 == o.dataFrom ? (
+                        $("#datalinkRow").hide(),
+                        globalDataBase && (
+                            $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
+                                $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
+                        )
+                    ) :
+                    2 == o.dataFrom ? (
+                         $("#datalinkRow").show(),
+                         $("#selectJSONFile").hide()
+                        ) :
+                    3 == o.dataFrom ? (
+                          $("#datalinkRow").show(),
+                          $("#selectJSONFile").show()
+                                ) :
+                   4 == o.dataFrom && (
+                          $("#datalinkRow").hide(),
+                          $("#selectJSONFile").hide(),
+                          $("#dataSetsRow").show()
+                   )
+            ) : (
+
+                $("#datalinkRow").hide(),
+                globalDataBase && (
+                    $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
+                        $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
+                ),
+                    o.dataFrom = 1
+            ),
+            $("#data-box").find("input[type=radio]").checkboxradio({icon: !1}),
+            i) {
+
             var c = i.link || "";
             $("#datalink").val(c);
             var r = i.dimension;
@@ -434,6 +479,7 @@ function getProp(a, t) {
                     $(this).unbind().parent().remove()
                 }), $(".data-dimension").append(e)
             });
+
             var p = i.series;
             $.each(p, function (a, t) {
                 var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
@@ -446,6 +492,7 @@ function getProp(a, t) {
                     $(this).unbind().parent().remove()
                 }), $(".data-series").append(e)
             });
+
             var f = i.classify || {};
             $.each(f, function (a, t) {
                 var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
@@ -457,7 +504,9 @@ function getProp(a, t) {
                 }), e.find("i.fa-close").bind("click", function () {
                     $(this).unbind().parent().remove()
                 }), $(".data-classify").append(e)
-            }), i.dtId && ($("#dataSetsSelect").select2().val([i.dtId]).trigger("change"), getDataSetsData(i))
+            });
+
+            i.dtId && ($("#dataSetsSelect").select2().val([i.dtId]).trigger("change"), getDataSetsData(i))
         }
         e.optionsText ? jsonExtentEditor.setValue(e.optionsText) : e.options && jsonExtentEditor.setValue(JSON.stringify(e.options, null, 4))
     }
