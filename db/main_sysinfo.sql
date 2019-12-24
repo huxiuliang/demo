@@ -1,0 +1,1 @@
+INSERT INTO sysinfo (initSts) VALUES (1);

@@ -285,8 +285,10 @@ function initDataConfig() {
             }
         }
 
-        t.other = t.other || {};
-        t.other.dataFrom = $(a.target).val()
+        // if (!t.other) {
+        //     t.other = {};
+        // }
+        // t.other.dataFrom = $(a.target).val()
     });
 
     a.bind("click", function () {
@@ -745,5 +747,7 @@ $(function () {
     editBddpByParams();
 
     initSelectBox(".layout-Content");
+
+    executeSQLAsObject("SELECT * FROM tags WHERE tagName='line'")
 
 });
