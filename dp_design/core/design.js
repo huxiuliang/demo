@@ -410,104 +410,123 @@ function getProp(a, t) {
 
         changeDataInput(n, o.dataFrom);
 
-        var s = $.getCache("tag-" + n);
-        s || (
-            s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'"),
-                $.setCache("tag-" + n, s)
-        );
+        var s;//= $.getCache("tag-" + n);
+        // s || (s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'"), $.setCache("tag-" + n, s));
+        // s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'");
 
-        var l = $.getCache(s.id);
-        l || (l = executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id), $.setCache(s.id, l));
+        var l;//= $.getCache(s.id);
+        //l || (l = executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id), $.setCache(s.id, l));
 
-        var d = tableValsToNode(l);
-        if (d = transformTozTreeFormat(d),
-            bulidTabs($("#config-panel"), d, 1, e),
-            $(".data-dimension").empty(),
-            $(".data-series").empty(),
-            $(".data-classify").empty(),
-            $("#datalink").val(""),
-            $("#data-show").JSONView({}, {collapsed: !0}),
-            $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"}),
-            $("#data-box [name='dataFromRadio']").removeProp("checked"),
-            $("#data-box #dataFromRadio-" + o.dataFrom).prop("checked", !0),
-
-            o.dataFrom ? (
-                $("#dataSetsRow").hide(),
-                    1 == o.dataFrom ? (
-                        $("#datalinkRow").hide(),
-                        globalDataBase && (
-                            $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
-                                $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
-                        )
-                    ) :
-                    2 == o.dataFrom ? (
-                         $("#datalinkRow").show(),
-                         $("#selectJSONFile").hide()
-                        ) :
-                    3 == o.dataFrom ? (
-                          $("#datalinkRow").show(),
-                          $("#selectJSONFile").show()
-                                ) :
-                   4 == o.dataFrom && (
-                          $("#datalinkRow").hide(),
-                          $("#selectJSONFile").hide(),
-                          $("#dataSetsRow").show()
-                   )
-            ) : (
-
-                $("#datalinkRow").hide(),
-                globalDataBase && (
-                    $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
-                        $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
-                ),
-                    o.dataFrom = 1
-            ),
-            $("#data-box").find("input[type=radio]").checkboxradio({icon: !1}),
-            i) {
-
-            var c = i.link || "";
-            $("#datalink").val(c);
-            var r = i.dimension;
-            $.each(r, function (a, t) {
-                var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
-                e.find("i.fa-edit").bind("click", function () {
-                    var a = $('<input type="text" class="data-item-input" />');
-                    $(this).parent().append(a), a.bind("blur", function () {
-                        $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
-                    })
-                }), e.find("i.fa-close").bind("click", function () {
-                    $(this).unbind().parent().remove()
-                }), $(".data-dimension").append(e)
-            });
-
-            var p = i.series;
-            $.each(p, function (a, t) {
-                var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
-                e.find("i.fa-edit").bind("click", function () {
-                    var a = $('<input type="text" class="data-item-input" />');
-                    $(this).parent().append(a), a.bind("blur", function () {
-                        $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
-                    })
-                }), e.find("i.fa-close").bind("click", function () {
-                    $(this).unbind().parent().remove()
-                }), $(".data-series").append(e)
-            });
-
-            var f = i.classify || {};
-            $.each(f, function (a, t) {
-                var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
-                e.find("i.fa-edit").bind("click", function () {
-                    var a = $('<input type="text" class="data-item-input" />');
-                    $(this).parent().append(a), a.bind("blur", function () {
-                        $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
-                    })
-                }), e.find("i.fa-close").bind("click", function () {
-                    $(this).unbind().parent().remove()
-                }), $(".data-classify").append(e)
-            });
-
-            i.dtId && ($("#dataSetsSelect").select2().val([i.dtId]).trigger("change"), getDataSetsData(i))
+        if (!s || s == undefined) {
+            executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'", function (obj) {
+                s = obj;
+                if (s.id) {
+                    //l = $.getCache(s.id);
+                    if (!l || l == undefined) {
+                        executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id, function (obj) {
+                            l = obj;
+                            //$.setCache(s.id, l);
+                            _getProp();
+                        });
+                    }
+                }
+            })
         }
+        _getProp();
+
+        function _getProp() {
+
+            var d = l;//tableValsToNode(l);
+            if (d = transformTozTreeFormat(d),
+                bulidTabs($("#config-panel"), d, 1, e),
+                $(".data-dimension").empty(),
+                $(".data-series").empty(),
+                $(".data-classify").empty(),
+                $("#datalink").val(""),
+                $("#data-show").JSONView({}, {collapsed: !0}),
+                $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"}),
+                $("#data-box [name='dataFromRadio']").removeProp("checked"),
+                $("#data-box #dataFromRadio-" + o.dataFrom).prop("checked", !0),
+
+                o.dataFrom ? (
+                    $("#dataSetsRow").hide(),
+                        1 == o.dataFrom ? (
+                                $("#datalinkRow").hide(),
+                                globalDataBase && (
+                                    $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
+                                        $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
+                                )
+                            ) :
+                            2 == o.dataFrom ? (
+                                    $("#datalinkRow").show(),
+                                        $("#selectJSONFile").hide()
+                                ) :
+                                3 == o.dataFrom ? (
+                                        $("#datalinkRow").show(),
+                                            $("#selectJSONFile").show()
+                                    ) :
+                                    4 == o.dataFrom && (
+                                        $("#datalinkRow").hide(),
+                                            $("#selectJSONFile").hide(),
+                                            $("#dataSetsRow").show()
+                                    )
+                ) : (
+
+                    $("#datalinkRow").hide(),
+                    globalDataBase && (
+                        $("#data-show").JSONView(globalDataBase, {collapsed: !0}),
+                            $("#data-show").find(".prop").draggable({scroll: !1, helper: "clone"})
+                    ),
+                        o.dataFrom = 1
+                ),
+                $("#data-box").find("input[type=radio]").checkboxradio({icon: !1}),
+                i) {
+
+                var c = i.link || "";
+                $("#datalink").val(c);
+                var r = i.dimension;
+                $.each(r, function (a, t) {
+                    var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
+                    e.find("i.fa-edit").bind("click", function () {
+                        var a = $('<input type="text" class="data-item-input" />');
+                        $(this).parent().append(a), a.bind("blur", function () {
+                            $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
+                        })
+                    }), e.find("i.fa-close").bind("click", function () {
+                        $(this).unbind().parent().remove()
+                    }), $(".data-dimension").append(e)
+                });
+
+                var p = i.series;
+                $.each(p, function (a, t) {
+                    var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
+                    e.find("i.fa-edit").bind("click", function () {
+                        var a = $('<input type="text" class="data-item-input" />');
+                        $(this).parent().append(a), a.bind("blur", function () {
+                            $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
+                        })
+                    }), e.find("i.fa-close").bind("click", function () {
+                        $(this).unbind().parent().remove()
+                    }), $(".data-series").append(e)
+                });
+
+                var f = i.classify || {};
+                $.each(f, function (a, t) {
+                    var e = $('<div class="data-item" title="' + t.keyname + '" data-keyname="' + t.keyname + '" data-displayname="' + t.displayname + '"><span class="desc">' + t.displayname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
+                    e.find("i.fa-edit").bind("click", function () {
+                        var a = $('<input type="text" class="data-item-input" />');
+                        $(this).parent().append(a), a.bind("blur", function () {
+                            $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
+                        })
+                    }), e.find("i.fa-close").bind("click", function () {
+                        $(this).unbind().parent().remove()
+                    }), $(".data-classify").append(e)
+                });
+
+                i.dtId && ($("#dataSetsSelect").select2().val([i.dtId]).trigger("change"), getDataSetsData(i))
+            }
+        }
+
         e.optionsText ? jsonExtentEditor.setValue(e.optionsText) : e.options && jsonExtentEditor.setValue(JSON.stringify(e.options, null, 4))
     }
 }
@@ -578,47 +597,67 @@ function savebd(a) {
         globalChartTheme: globalChartTheme,
         dataFrom: $("#content").data("dataFrom"),
         id: $("#content").data("id")
-    }, !$("#content").data("sceneName") || "undefined" == $("#content").data("sceneName")) return $("#scene").addClass("on"), getSceneConfig(), layx.msg("场景名称不能为空！", {dialogIcon: "warn"}), !1;
-    i.content.sceneName = $("#content").data("sceneName"), i.boxs = [], $("#content").children(".box").each(function () {
-        var a = $(this).data("prop"), e = {
-            options: a.options,
-            optionsText: a.optionsText,
-            other: a.other,
-            rectP: a.rectP,
-            data: a.data,
-            event: a.event,
-            type: a.type,
-            parts: a.parts,
-            effect: a.effect,
-            id: a.id,
-            bigType: a.bigType,
-            gmOptions: a.gmOptions,
-            swiper: a.swiper,
-            slides: a.slides
-        };
-        "swiper" == a.type && (e.slides = [], $(this).find(".box").each(function () {
-            var a = $(this).data("prop"), t = {
+    },
+        !app.scene.sceneName)
+
+        return app.msg("场景名称不能为空！"), app.showScene(), !1;
+
+    i.content.sceneName = app.scene.sceneName,
+        i.boxs = [],
+        $("#content").children(".box").each(function () {
+            var a = $(this).data("prop"), e = {
                 options: a.options,
                 optionsText: a.optionsText,
                 other: a.other,
                 rectP: a.rectP,
-                event: a.event,
                 data: a.data,
+                event: a.event,
                 type: a.type,
-                effect: a.effect,
                 parts: a.parts,
+                effect: a.effect,
                 id: a.id,
                 bigType: a.bigType,
                 gmOptions: a.gmOptions,
-                slide: a.slide
+                swiper: a.swiper,
+                slides: a.slides
             };
-            e.slides.push(t)
-        })), i.boxs.push(e)
-    }), i.ruler = {v: [], h: []}, $(".zxxRefLine_v").each(function () {
-        i.ruler.v.push(this.offsetLeft)
-    }), $(".zxxRefLine_h").each(function () {
-        i.ruler.h.push(this.offsetTop)
-    }), console.log(i), layx.confirm("保存提示", "是否生成缩略图？<br>生成缩略图比较耗内存，容易造成浏览器卡死，<br>等待一会儿即可，建议不要频繁生成", null, {
+            "swiper" == a.type && (e.slides = [], $(this).find(".box").each(function () {
+                var a = $(this).data("prop"), t = {
+                    options: a.options,
+                    optionsText: a.optionsText,
+                    other: a.other,
+                    rectP: a.rectP,
+                    event: a.event,
+                    data: a.data,
+                    type: a.type,
+                    effect: a.effect,
+                    parts: a.parts,
+                    id: a.id,
+                    bigType: a.bigType,
+                    gmOptions: a.gmOptions,
+                    slide: a.slide
+                };
+                e.slides.push(t)
+            })), i.boxs.push(e)
+        }),
+        i.ruler = {v: [], h: []},
+        $(".zxxRefLine_v").each(function () {
+            i.ruler.v.push(this.offsetLeft)
+        }),
+        $(".zxxRefLine_h").each(function () {
+            i.ruler.h.push(this.offsetTop)
+        }),
+
+        console.log("打印保存内容");
+        console.log(i),
+
+        saveBddpData(i, function () {
+            app.msg("保存成功");
+        })
+
+    return;
+
+    layx.confirm("保存提示", "是否生成缩略图？<br>生成缩略图比较耗内存，容易造成浏览器卡死，<br>等待一会儿即可，建议不要频繁生成", null, {
         skin: "asphalt",
         height: 170,
         buttons: [{
@@ -652,7 +691,12 @@ function changeDataInput(a, t) {
 
 function tableValsToNode(a) {
     if (a && 0 < a.length) {
-        var i = [], t = a[0], o = t.columns, e = t.values, s = o.length;
+        var i = [],
+            t = a[0],
+            o = t.columns,
+            e = t.values,
+            s = o.length;
+
         return $.each(e, function (a, t) {
             for (var e = {}, n = 0; n < s; n++) e[o[n]] = t[n];
             i.push(e)
@@ -668,8 +712,8 @@ function transformTozTreeFormat(a) {
     var n, i = [], o = {};
     for (t = 0, e = a.length; t < e; t++) o[a[t].id] = a[t];
     for (t = 0, e = a.length; t < e; t++) {
-        var s = o[a[t].pId];
-        if (s && a[t].id != a[t].pId) {
+        var s = o[a[t].pid];
+        if (s && a[t].id != a[t].pid) {
             var l = d(s);
             l || (l = d(s, [])), l.push(a[t])
         } else i.push(a[t])
@@ -687,36 +731,52 @@ function bulidTabs(a, t, s, l) {
     a.find(".colorPicker").spectrum("destroy"), a.empty();
     var d = $('<div class="box-' + s + '"></div>'), c = $("<ul></ul>");
     d.append(c), $.each(t, function (a, i) {
-        if ("series" == i.keyName) {
+        if ("series" == i.keyname) {
             var t = l.data, e = l.options;
             t && e.series && $.each(e.series, function (a, t) {
-                var e = $(' <li><a href="#' + i.keyName + "-" + a + '">' + i.name + a + "</a></li>");
+                var e = $(' <li><a href="#' + i.keyname + "-" + a + '">' + i.name + a + "</a></li>");
                 e.data("node", i), e.data("lv", s), c.append(e);
-                var n = $('<div data-keyname="' + i.keyName + '" data-index="' + a + '" id="' + i.keyName + "-" + a + '"></div>');
+                var n = $('<div data-keyname="' + i.keyname + '" data-index="' + a + '" id="' + i.keyname + "-" + a + '"></div>');
                 i.children && 0 < i.children.length && bulidTabs(n, i.children, s + 1, l), d.append(n)
             })
         } else {
-            var n = $(' <li><a href="#' + i.keyName + '">' + i.name + "</a></li>");
+            var n = $(' <li><a href="#' + i.keyname + '">' + i.name + "</a></li>");
             n.data("node", i), n.data("lv", s), c.append(n);
-            var o = $('<div data-keyname="' + i.keyName + '"  id="' + i.keyName + '"></div>');
+            var o = $('<div data-keyname="' + i.keyname + '"  id="' + i.keyname + '"></div>');
             i.children && 0 < i.children.length && bulidTabs(o, i.children, s + 1, l), d.append(o)
         }
     }), a.append(d), d.tabs({
         activate: function (a, t) {
             if (2 == t.newTab.data("lv")) {
                 var e = t.newTab.data("node");
-                bulidProp(t.newPanel, e.id, e.tagId)
+                bulidProp(t.newPanel, e.id, e.tagid)
             }
         }, beforeActivate: function (a, t) {
         }, beforeLoad: function (a, t) {
         }, create: function (a, t) {
             if (2 == t.tab.data("lv")) {
                 var e = t.tab.data("node");
-                bulidProp(t.panel, e.id, e.tagId)
+                bulidProp(t.panel, e.id, e.tagid)
             }
         }, load: function (a, t) {
         }
     }).addClass("ui-tabs-vertical ui-helper-clearfix ui-tabs-lv" + s), d.removeClass("ui-corner-top").addClass("ui-corner-left")
+}
+
+function bulidProp(a, t, e) {
+    // var n = $.getCache(t + "-" + e);
+    // n || (n = executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen"), $.setCache(t + "-" + e, n));
+    // var i = tableValsToNode(n);
+    // i && a.initProp({data: i})
+
+    //var n = $.getCache(t + "-" + e);
+    executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen", function (obj) {
+
+        //var i = obj;//tableValsToNode(n);
+        a.initProp({data: obj})
+
+    });//, $.setCache(t + "-" + e, n));
+
 }
 
 $(function () {
@@ -731,8 +791,7 @@ $(function () {
 
     //页面配置
     $("#tools-scene").bind("click", function () {
-        var a = $("#scene");//FIXME 没有页面
-        a.hasClass("on") ? a.removeClass("on") : (a.addClass("on"), getSceneConfig())
+        app.showScene();
     });
 
     //组件属性配置
@@ -796,7 +855,4 @@ $(function () {
     editBddpByParams();
 
     initSelectBox(".layout-Content");
-
-    executeSQLAsObject("SELECT * FROM tags WHERE tagName='line'")
-
 });

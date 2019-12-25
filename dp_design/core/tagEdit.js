@@ -53,8 +53,8 @@ function initChartsTag(a, t) {
 
 function swiperCreateCharts(n, s) {
     globalChartTheme || (globalChartTheme = "default");
-    var e = "../../statics/bddp/static/charts-config/" + n + ".json",
-        a = "../../statics/bddp/static/charts-theme/" + globalChartTheme + ".json";
+    var e = "dp_design/charts-config/" + n + ".json",
+        a = "dp_design/charts-theme/" + globalChartTheme + ".json";
     getJSONFileData(a, function (a) {
         var t = a;
         echarts.registerTheme(globalChartTheme, t), getJSONFileData(e, function (a) {
@@ -96,13 +96,16 @@ function swiperCreatMapChart(a, t, e) {
 
 window.editSwiper = function () {
 }, window.getImagePath = function (o) {
-    layx.iframe("localsiteforImage", "图片文件选择", "./component/BddpImagesPage.html", {
-        event: {
-            ondestroy: {
-                before: function (a, t, e, i, r) {
-                    e.name && (o.val("../../bddpConfig/" + e.id + "/images/" + e.name), o.change())
-                }
-            }
-        }
-    })
+
+    app.selectImage.status=true;
+    app.selectImage.propInputObj=o;
+    // layx.iframe("localsiteforImage", "图片文件选择", "./component/BddpImagesPage.html", {
+    //     event: {
+    //         ondestroy: {
+    //             before: function (a, t, e, i, r) {
+    //                 e.name && (o.val("../../bddpConfig/" + e.id + "/images/" + e.name), o.change())
+    //             }
+    //         }
+    //     }
+    // })
 };

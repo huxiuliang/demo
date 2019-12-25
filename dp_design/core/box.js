@@ -235,8 +235,8 @@ var stack, EditCommand, undoData;
                             $(".box").removeClass("box-selected");
                             currBox = null;
                             $("#config-panel").empty();
-                            $("#rightnav").removeClass("on").hide();
-                            $(".sitemap-item").removeClass("on");
+                            //$("#rightnav").removeClass("on").hide();
+                            //$(".sitemap-item").removeClass("on");
                         }
                         $('.box').removeClass('temp-selected selected');
                         selectableItmes = [];
@@ -300,6 +300,8 @@ var stack, EditCommand, undoData;
                             prop.id = guid();
                         }
                         $(box).attr("id", "box" + prop.id);
+                        console.log("setDate('prop') is ")
+                        console.log(prop)
                         $(this).data("prop", prop);
                         $(box).attr("tag-type", settings.tagType);
                         var draggableHandler, rotateHandler, resizeHandlers, draggable;
@@ -1044,7 +1046,7 @@ $(function () {
                 }
             });
         }
-    }, {
+    }/*, {
         text: '组合',
         action: function (e) {
             groupBoxs();
@@ -1059,7 +1061,7 @@ $(function () {
         action: function (e) {
             layxDiyTagsForm();
         }
-    }])
+    }*/])
 });
 
 function undoRecord(data) {

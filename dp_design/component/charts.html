@@ -152,7 +152,7 @@
 			},
 			helper: function (event) {//表示被拖拽的元素的JQuery对象
 
-			    console.log("draggable-helper");
+			    //console.log("draggable-helper");
 
 				dragState = true;
 				var zoom = $("#content").data("zoom");
@@ -166,12 +166,12 @@
 			},
 			stop: function (event, ui) {//当鼠标松开时，触发此事件
 
-                console.log("draggable-stop");
+                //console.log("draggable-stop");
 
 				$(".tags-subnavs").fadeOut();//方法使用淡出效果来隐藏预览li
 				dragState = false;
 
-				console.log(event, ui);
+				//console.log(event, ui);
 
                 var type = $(event.target).attr("tag-type");
                 var subtype = $(event.target).attr("data-subtype");

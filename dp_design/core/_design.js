@@ -519,7 +519,16 @@ function bulidProp(a, t, e) {
     var n = $.getCache(t + "-" + e);
     n || (n = executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen"), $.setCache(t + "-" + e, n));
     var i = tableValsToNode(n);
-    i && a.initProp({data: i})
+    // i && a.initProp({data: i})
+
+    //var n = $.getCache(t + "-" + e);
+    executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen",function (obj) {
+
+        var i = obj;//tableValsToNode(n);
+        i && a.initProp({data: i})
+
+    });//, $.setCache(t + "-" + e, n));
+
 }
 
 function getSceneConfig() {

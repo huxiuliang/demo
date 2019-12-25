@@ -1,23 +1,27 @@
-function executeSQL(sqlStr) {
-    var res = "";
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: "../../bddp/executeSQL",
-        data: {
-            "sqlStr": sqlStr
-        },
-        dataType: "json",
-        success: function (result) {
-            if (result.code == 0) {
-                res = result.res;
+function executeSQL(sqlStr,callback) {
+    axios.get("db/bddp.db", {responseType: 'arraybuffer'})
+        .then(function (response) {
+            let db = new window.SQL.Database(new Uint8Array(response.data));
+            // 执行查询
+            //let s = new Date().getTime();
+            //console.log(sqlStr);
+            let r = db.exec(sqlStr);
+            let e = new Date().getTime();
+            //console.info("查询数据耗时：" + (e - s) + "ms");
+            // 解析数据
+            let obj = dbToObj(r);
+            //console.info(obj);
+
+            db.close();
+
+            if (callback) {
+                callback(obj);
+                return;
             }
-        },
-        error: function (e) {
-            console.log(e);
-        }
-    });
-    return res;
+        })
+        .catch(function (error) {
+            console.info(error);
+        });
 }
 
 var dbToObj = (_data = {}) => {
@@ -64,24 +68,29 @@ var camel = (str, firstUpper = false) => {
     return ret;
 };
 
-function executeSQLAsObject(sqlStr) {
+function executeSQLAsObject(sqlStr, callback) {
 
     axios.get("db/bddp.db", {responseType: 'arraybuffer'})
         .then(function (response) {
             let db = new window.SQL.Database(new Uint8Array(response.data));
             // 执行查询
-            let s = new Date().getTime();
+            //let s = new Date().getTime();
             let r = db.exec(sqlStr);
             let e = new Date().getTime();
-            console.info("查询数据耗时：" + (e - s) + "ms");
+            //console.info("查询数据耗时：" + (e - s) + "ms");
             // 解析数据
             let obj = dbToObj(r);
-            console.info(obj);
+            //console.info(obj);
+
+            db.close();
 
             if (obj.length > 0) {
-                return obj[0];
+                if (callback) {
+                    callback(obj[0]);
+                    return;
+                }
             }
-            return {};
+            callback({});
         })
         .catch(function (error) {
             console.info(error);
@@ -140,7 +149,11 @@ function getAjaxData(path, data, callback) {
 }
 
 function saveBddpData(data, callback) {
-    var bddata = Base64Util.encode64(JSON.stringify(data));
+    var bddata = "";//Base64Util.encode64(JSON.stringify(data));
+    if (callback) {
+        callback.call(this, "");
+    }
+    return
     $.ajax({
         type: "post",
         url: "../../bddp/saveBddpDataForFolder",

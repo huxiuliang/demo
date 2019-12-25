@@ -21,7 +21,7 @@ function reqServerController(path, dataparm, callback) {
 }
 
 function reqServerControllerParms(path, dataparm, callback) {
-    var rdpserver = getConfigProp("rdpserver");
+    var rdpserver = "";//getConfigProp("rdpserver");
     $.ajax({
         url: rdpserver + path,
         type: 'post',

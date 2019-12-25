@@ -98,8 +98,6 @@
 						//alert(e.screenX);
 						//如果可以拖拽
 						//垂直虚线的左坐标
-						console.log(e.pageX - $("#content").offset().left);
-						console.log(("#content").data("zoom"))
 						dotv.css("left", (e.pageX - $("#content").offset().left) / $("#content").data("zoom"));
 					}
 				});

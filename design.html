@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="dp_design/common/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" href="dp_design/common/bootstrap4/bootstrap.css">
     <link rel="stylesheet" href="dp_design/common/contextjs/context.standalone.css">
-    <!--    <link rel="stylesheet" href="common/LayX/layx.min.css">-->
     <link rel="stylesheet" href="dp_design/common/spectrum/spectrum.css">
     <link rel="stylesheet" href="dp_design/common/json-viewer/jquery.jsonview.css">
     <link rel="stylesheet" href="dp_design/common/ruler/css/ruler.css">
@@ -44,9 +43,11 @@
 
     <script src="dp_design/core/design.js"></script>
     <script src="dp_design/core/box.js"></script>
+    <script src="dp_design/core/prop.js"></script>
     <script src="dp_design/core/bulidTags.js"></script>
     <script src="dp_design/core/tagEdit.js"></script>
     <script src="dp_design/core/groupboxs.js"></script>
+    <script src="dp_design/core/editEvent.js"></script>
 
     <script src="dp_design/export/export.js"></script>
 
@@ -66,6 +67,7 @@
     <script src="frame/assets/axios/axios.min.js"></script>
     <script src="frame/assets/sql-optimized.js"></script>
 
+
 </head>
 <body>
 <div class="layout layout-Header">
@@ -77,8 +79,6 @@
     <ul class="tools" data-step="5" data-intro="整个场景的配置属性都在这里了">
         <li class="tools-item" id="tools-scene"><i title="页面配置" class="fa fa-television"></i></li>
         <li class="tools-item" id="tags-props"><i title="组件属性配置" class="fa fa-sliders"></i></li>
-        <li class="tools-item" id="tools-database"><i title="数据配置" class="fa fa-database"></i></li>
-        <li class="tools-item" id="tools-dataSetsConfig"><i title="数据集配置" class="fa fa-cubes"></i></li>
         <li class="tools-item" id="tools-view"><i title="预览" class="fa fa-eye"></i></li>
         <li style="display: none;" class="tools-item" id="design-config"><i title="设置" class="fa fa-cog"></i></li>
         <li class="tools-item" id="tools-shortcutkey" data-step="7" data-intro="快捷键说明在这里，熟悉快捷键，事半功倍哦"><i title="快捷键"
@@ -100,7 +100,8 @@
 </div>
 
 <div class="layout layout-Content">
-    <div id="content" style="width: 1024px; height: 768px;" data-step="3" data-zoom="1" data-intro="场景图形展示区，配置好的图形会在这里展示">
+    <div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-zoom="1"
+         data-intro="场景图形展示区，配置好的图形会在这里展示">
         <div id="contentHandle"></div>
         <!--拖动辅助线-->
         <div id="guide-h" class="guide"></div>
@@ -209,8 +210,84 @@
         <iframe src="dp_design/component/shortcutKey.html" width="100%" height="400">
             IE：你们都看我干吗，我现在也是支持的
         </iframe>
+        <div slot="footer"></div>
     </modal>
 
+    <modal title="图片文件选择" v-model="selectImage.status">
+        <iframe src="dp_design/component/BddpImagesPage.html" width="100%" height="400">
+            IE：你们都看我干吗，我现在也是支持的
+        </iframe>
+        <div slot="footer"></div>
+    </modal>
+
+    <modal title="场景设置" v-model="scene.status">
+
+        <i-form :label-width="120">
+
+            <form-item label="场景名称">
+                <i-col span="12">
+                    <i-input placeholder="场景名称" v-model="scene.sceneName" style="width:90%"/>
+                </i-col>
+            </form-item>
+
+            <form-item label="推荐尺寸">
+                <i-col span="12">
+                    <Radio-group v-model="scene.sceneSize">
+                        <Radio label="1920*1080"></Radio>
+                        <Radio label="2560*1440"></Radio>
+                        <Radio label="3840*1600"></Radio>
+                        <Radio label="4096*2160"></Radio>
+                    </Radio-group>
+                </i-col>
+            </form-item>
+
+            <form-item label="自定义">
+                <i-col span="6">
+                    <i-input v-model="scene.sceneW" placeholder="宽" style="width: 80px"/>
+                    *
+
+                </i-col>
+
+                <i-col span="6">
+                    <i-input v-model="scene.sceneH" placeholder="高" style="width: 80px"/>
+                </i-col>
+            </form-item>
+
+            <form-item label="背景颜色">
+                <i-col span="12">
+                    <input id="scenebgcolor"/>
+                </i-col>
+            </form-item>
+
+            <form-item label="全局主题">
+                <i-col span="12">
+                    <Radio-group v-model="scene.globalTheme">
+                        <Radio label="dark"></Radio>
+                        <Radio label="halloween"></Radio>
+                        <Radio label="walden"></Radio>
+                        <Radio label="westeros"></Radio>
+                        <Radio label="Wonderland"></Radio>
+                    </Radio-group>
+                </i-col>
+            </form-item>
+
+            <form-item label="背景图片">
+                <i-col span="12">
+                    <i-input v-model="scene.bdbgPath" placeholder="" clearable style="width:90%"/>
+                </i-col>
+            </form-item>
+
+            <form-item label="">
+                <Upload action="//jsonplaceholder.typicode.com/posts/">
+                    <i-button icon="ios-cloud-upload-outline">上传图片</i-button>
+                </Upload>
+            </form-item>
+
+        </i-form>
+
+        <div slot="footer"></div>
+
+    </modal>
 </div>
 
 <script>
@@ -220,6 +297,19 @@
         data: {
             shortcutkey: {
                 status: false
+            },
+            selectImage: {
+                status: false,
+                propInputObj: {},
+            },
+            scene: {
+                status: false,
+                sceneName: "场景名称-" + new Date().getTime(),
+                bdbgPath: "",
+                globalTheme: "dark",
+                sceneH: "",
+                sceneW: "",
+                sceneSize: "1920*1080"
             }
 
         },
@@ -227,6 +317,12 @@
 
             showShortcutkey: function () {
                 this.shortcutkey.status = true;
+            },
+            showScene: function () {
+                this.scene.status = true;
+            },
+            msg: function (msg) {
+                this.$Message.info(msg);
             }
 
         },
