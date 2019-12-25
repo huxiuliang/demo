@@ -1,4 +1,4 @@
-function executeSQL(sqlStr,callback) {
+function executeSQL(sqlStr,callback,id) {
     axios.get("db/bddp.db", {responseType: 'arraybuffer'})
         .then(function (response) {
             let db = new window.SQL.Database(new Uint8Array(response.data));
@@ -10,7 +10,7 @@ function executeSQL(sqlStr,callback) {
             //console.info("查询数据耗时：" + (e - s) + "ms");
             // 解析数据
             let obj = dbToObj(r);
-            //console.info(obj);
+            console.info(id+":"+JSON.stringify(obj)+",");
 
             db.close();
 
@@ -68,7 +68,7 @@ var camel = (str, firstUpper = false) => {
     return ret;
 };
 
-function executeSQLAsObject(sqlStr, callback) {
+function executeSQLAsObject(sqlStr, callback,name) {
 
     axios.get("db/bddp.db", {responseType: 'arraybuffer'})
         .then(function (response) {
@@ -76,11 +76,17 @@ function executeSQLAsObject(sqlStr, callback) {
             // 执行查询
             //let s = new Date().getTime();
             let r = db.exec(sqlStr);
-            let e = new Date().getTime();
+           // let e = new Date().getTime();
             //console.info("查询数据耗时：" + (e - s) + "ms");
             // 解析数据
             let obj = dbToObj(r);
-            //console.info(obj);
+
+            var _obj ={};
+
+            _obj.name = name;
+            _obj.tags=obj[0];
+
+            console.info("var $$"+ name +" = "+JSON.stringify(obj[0])+";");
 
             db.close();
 

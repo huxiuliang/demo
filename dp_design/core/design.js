@@ -410,28 +410,27 @@ function getProp(a, t) {
 
         changeDataInput(n, o.dataFrom);
 
-        var s;//= $.getCache("tag-" + n);
+        var s = tagJson[n];//= $.getCache("tag-" + n);
         // s || (s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'"), $.setCache("tag-" + n, s));
         // s = executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'");
-
-        var l;//= $.getCache(s.id);
+        var l = tagPropJson["id"+s.id];//= $.getCache(s.id);
         //l || (l = executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id), $.setCache(s.id, l));
 
-        if (!s || s == undefined) {
-            executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'", function (obj) {
-                s = obj;
-                if (s.id) {
-                    //l = $.getCache(s.id);
-                    if (!l || l == undefined) {
-                        executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id, function (obj) {
-                            l = obj;
-                            //$.setCache(s.id, l);
-                            _getProp();
-                        });
-                    }
-                }
-            })
-        }
+        // if (!s || s == undefined) {
+        //     executeSQLAsObject("SELECT * FROM tags WHERE tagName='" + n + "'", function (obj) {
+        //         s = obj;
+        //         if (s.id) {
+        //             //l = $.getCache(s.id);
+        //             if (!l || l == undefined) {
+        //                 executeSQL("SELECT pId,id,name,keyName,tagprop.tagId FROM\tpropitems,tagprop where propitems.type ISNULL and tagprop.propId = propitems.id AND tagprop.tagId =" + s.id, function (obj) {
+        //                     l = obj;
+        //                     //$.setCache(s.id, l);
+        //                     _getProp();
+        //                 });
+        //             }
+        //         }
+        //     })
+        // }
         _getProp();
 
         function _getProp() {
