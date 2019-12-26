@@ -83,14 +83,14 @@ var stack, EditCommand, undoData;
                     // if (!$("#rightnav").hasClass("off")) {
                     // 	$("#rightnav").show();
                     // }
-                    getProp($(b));
+                    //getProp($(b));
                     hideGuides();
                     undoRecord();
                 },
                 rotateStart: false,
                 rotateMove: false,
                 rotateEnd: function (b, p, o) {
-                    getProp($(b));
+                    //getProp($(b));
                     undoRecord();
                 },
                 resizeStart: false,
@@ -100,7 +100,7 @@ var stack, EditCommand, undoData;
                     if (myChart) {
                         myChart.resize();
                     }
-                    getProp($(b));
+                    //getProp($(b));
                     tagChangeSize($(b));
                     undoRecord()
                 },
@@ -136,7 +136,7 @@ var stack, EditCommand, undoData;
                         selectableItmes.push(box[0]);
                         box.siblings(".box").removeClass("ui-selected").removeClass("selected");
                         box.addClass("box-selected").siblings(".box").removeClass("box-selected");
-                        getProp(box);
+                        //getProp(box);
                         box.css("z-index", 1000);
                         $(".sitemap-item").removeClass("on");
                         $(this).addClass("on");
@@ -215,7 +215,7 @@ var stack, EditCommand, undoData;
                             }
                             clearInterval(time); //如果按下时间不到1000毫秒便弹起
                             //	showGroup(this);
-                            getProp($(this));
+                            //getProp($(this));
                             flag = true;
                             $(this).css("z-index", $(this).data("prop").rectP.zIndex);
                             $(this).unbind("mouseup");
@@ -1042,7 +1042,11 @@ $(function () {
         action: function (e) {
             $(".box").each(function () {
                 if ($(this).hasClass("ui-selected") || $(this).hasClass("box-selected")) {
+
+                    getProp($(this));
                     $("#rightnav").show().removeClass("off");
+
+
                 }
             });
         }

@@ -46,6 +46,7 @@
     <script src="dp_design/core/prop.js"></script>
     <script src="dp_design/core/bulidTags.js"></script>
     <script src="dp_design/core/tagEdit.js"></script>
+    <script src="dp_design/core/tagJson.js"></script>
     <script src="dp_design/core/groupboxs.js"></script>
     <script src="dp_design/core/editEvent.js"></script>
 
@@ -66,6 +67,7 @@
 
     <script src="frame/assets/axios/axios.min.js"></script>
     <script src="frame/assets/sql-optimized.js"></script>
+
 
 
 </head>
@@ -331,90 +333,6 @@
 
         }
     });
-
-    var list =[];
-    list.push('10001');
-    list.push('10002');
-    list.push('10003');
-    list.push('10004');
-    list.push('10005');
-    list.push('10006');
-    list.push('10007');
-    list.push('10008');
-    list.push('10009');
-    list.push('10010');
-    list.push('10011');
-    list.push('10012');
-    list.push('10013');
-    list.push('10014');
-    list.push('10015');
-    list.push('10016');
-    list.push('10017');
-    list.push('10018');
-    list.push('10019');
-    list.push('10020');
-    list.push('10021');
-    list.push('10022');
-    list.push('10023');
-    list.push('10025');
-    list.push('10026');
-
-    var list2 =[];
-
-    list2.push('0');
-    list2.push('1');
-    list2.push('2');
-    list2.push('3');
-    list2.push('4');
-    list2.push('4');
-    list2.push('5');
-    list2.push('6');
-    list2.push('7');
-    list2.push('8');
-    list2.push('9');
-    list2.push('10');
-    list2.push('201');
-    list2.push('202');
-    list2.push('301');
-    list2.push('302');
-    list2.push('401');
-    list2.push('402');
-    list2.push('403');
-    list2.push('404');
-    list2.push('405');
-    list2.push('406');
-    list2.push('501');
-    list2.push('502');
-    list2.push('503');
-    list2.push('504');
-    list2.push('505');
-    list2.push('506');
-    list2.push('601');
-    list2.push('101');
-    list2.push('103');
-    list2.push('901');
-    list2.push('104');
-    list2.push('105');
-    list2.push('701');
-    list2.push('902');
-    list2.push('106');
-
-    list2.push('107');
-    list2.push('903');
-    list2.push('1001');
-
-    for(var i=0;i<list.length;i++) {
-
-        for(var j=0;j<list2.length;j++) {
-            executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + list[i] + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + list2[j] + "' ORDER BY sqen", function (obj) {
-
-                //var i = obj;//tableValsToNode(n);
-                //a.initProp({data: obj})
-
-            }, "item"+list[i]+"_" +list2[j]);
-        }
-
-    }
 
 </script>
 
