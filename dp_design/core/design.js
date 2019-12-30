@@ -131,6 +131,11 @@ function initSceneConfig() {
 
     //通过鼠标滚轮与页面交互
     $(".layout-Content").on("mousewheel", function (a) {
+
+        // deltaX：值为负的（-1），则表示滚轮向左滚动。值为正的（1），则表示滚轮向右滚动。
+        // deltaY：值为负的（-1），则表示滚轮向下滚动。值为正的（1），则表示滚轮向上滚动。
+        // deltaFactor：增量因子。通过 deltaFactor * deltaX 或者 deltaFactor * deltaY 可以得到浏览器实际的滚动距离。
+
         var t;
         var e = Math.abs(a.deltaFactor * a.deltaY) / 1e3;
         var n = content.data("zoom") || 1;
@@ -146,6 +151,37 @@ function initSceneConfig() {
         }
     });
 
+    $(document).keydown(function (event) {
+        //187 +
+        //189 -
+        //利用event.ctrlKey，event.shiftKey，event .altKey判断是否按下了ctrl键、shift键以及alt键
+
+        if (event.keyCode == 187 && event.ctrlKey) {
+            var t;
+            var n = content.data("zoom") || 1;
+            t = (t = 5 < (t = Number(n) + 0.1) ? 5 : t).toFixed(1);
+            content.css("transform", "scale(" + t + ")");
+            content.data("zoom", t);
+        }
+
+        if (event.keyCode == 189 && event.ctrlKey) {
+            var t;
+            var n = content.data("zoom") || 1;
+            t = (t = 5 < (t = Number(n) - 0.1) ? 5 : t).toFixed(1);
+            content.css("transform", "scale(" + t + ")");
+            content.data("zoom", t);
+        }
+
+        if (event.keyCode == 13 && event.ctrlKey) {
+            $(".box").each(function () {
+                if ($(this).hasClass("ui-selected") || $(this).hasClass("box-selected")) {
+
+                    getProp($(this));
+                    $("#rightnav").show().removeClass("off");
+                }
+            });
+        }
+    });
     // $("#sceneBtn").bind("click", function () {
     //     $("#scene").removeClass("on")
     // });
@@ -389,9 +425,16 @@ function initDataConfig() {
 }
 
 function resizeContent(a, t) {
-    var e = document.getElementById("content"), n = $(e).parent()[0].offsetWidth, i = $(e).parent()[0].clientHeight,
-        o = a || e.offsetWidth, s = t || e.offsetHeight, l = n / o, d = i / s, c = 1;
-    l < d ? (c = l, e.style.setProperty("margin-left", -(o - o * c) / 2 + "px"), e.style.setProperty("margin-top", (i - s * c) / 2 - (s - s * c) / 2 + "px")) : (c = d, e.style.setProperty("margin-top", -(s - s * c) / 2 + "px"), e.style.setProperty("margin-left", (n - o * c) / 2 - (o - o * c) / 2 + "px")), e.style.setProperty("top", "0px"), e.style.setProperty("left", "0px"), e.style.setProperty("transform", "scale(" + c + ")"), $(e).data("zoom", c)
+    // var e = document.getElementById("content"),
+    //     n = $(e).parent()[0].offsetWidth,
+    //     i = $(e).parent()[0].clientHeight,
+    //     o = a || e.offsetWidth, s = t || e.offsetHeight, l = n / o, d = i / s, c = 1;
+    //     l < d ? (c = l, e.style.setProperty("margin-left", -(o - o * c) / 2 + "px"),
+    //     e.style.setProperty("margin-top", (i - s * c) / 2 - (s - s * c) / 2 + "px")) : (c = d, e.style.setProperty("margin-top", -(s - s * c) / 2 + "px"),
+    //     e.style.setProperty("margin-left", (n - o * c) / 2 - (o - o * c) / 2 + "px")),
+    //     e.style.setProperty("top", "0px"),
+    //     e.style.setProperty("left", "0px")
+       // e.style.setProperty("transform", "scale(" + c + ")"), $(e).data("zoom", c)
 }
 
 function getDataSetsData(a) {
@@ -504,12 +547,12 @@ function getProp(a, t) {
         }
     }
 
-    if (e.optionsText) {
-        jsonExtentEditor.setValue(e.optionsText)
-
-    } else {
+    // if (e.optionsText) {
+    //     jsonExtentEditor.setValue(e.optionsText)
+    //
+    // } else {
         jsonExtentEditor.setValue(JSON.stringify(e.options, null, 4));
-    }
+    // }
 }
 
 function getSceneConfig() {
@@ -666,8 +709,16 @@ function savebd(a) {
 }
 
 function changeDataInput(a, t) {
-    var e = $("#server-dimension").hide(), n = $("#server-series").hide(), i = $("#server-classify").hide();
-    "line" == a || "bar" == a ? (e.find(".lead").html("X轴"), n.find(".lead").html("Y轴"), e.show(), n.show()) : "map" == a ? (e.find(".lead").html("数据点"), n.find(".lead").html("波纹数据点"), e.show(), n.show()) : "pie" == a || "radar" == a ? (e.find(".lead").html("标签名称"), n.find(".lead").html("值"), e.show(), n.show()) : "gauge" == a ? (n.find(".lead").html("值"), n.show()) : "table" == a ? (e.find(".lead").html("表头数据"), n.find(".lead").html("列表数据"), e.show(), n.show()) : "text" == a ? (e.find(".lead").html("值"), e.show()) : (e.find(".lead").html("维度"), n.find(".lead").html("系列"), e.show(), n.show()), 4 == t && i.show()
+    var e = $("#server-dimension").hide(),
+        n = $("#server-series").hide(),
+        i = $("#server-classify").hide();
+    "line" == a || "bar" == a ?
+        (e.find(".lead").html("X轴"), n.find(".lead").html("Y轴"), e.show(), n.show()) : "map" == a ?
+        (e.find(".lead").html("数据点"), n.find(".lead").html("波纹数据点"), e.show(), n.show()) : "pie" == a || "radar" == a ?
+            (e.find(".lead").html("标签名称"), n.find(".lead").html("值"), e.show(), n.show()) : "gauge" == a ?
+                (n.find(".lead").html("值"), n.show()) : "table" == a ?
+                    (e.find(".lead").html("表头数据"), n.find(".lead").html("列表数据"), e.show(), n.show()) : "text" == a ?
+                        (e.find(".lead").html("值"), e.show()) : (e.find(".lead").html("维度"), n.find(".lead").html("系列"), e.show(), n.show()), 4 == t && i.show()
 }
 
 function tableValsToNode(a) {

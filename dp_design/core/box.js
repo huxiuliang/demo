@@ -1,10 +1,7 @@
 var selectableItmes = [];
 var currBox;
 var copyTempItems = [];
-var zIndexProp = {
-    max: 50,
-    min: 50
-};
+var zIndexProp = {max: 50, min: 50};
 var MIN_DISTANCE = 8; //捕获的最小距离
 var guides = []; // 没有可用的引导 
 var innerOffsetX, innerOffsetY;
@@ -207,7 +204,7 @@ var stack, EditCommand, undoData;
                                 //$("#sm-" + this.id).addClass("on");
                                 //var goTop = $("#sm-" + this.id).position().top;
                                 //$(".stiemap").animate({
-                                    //scrollTop: goTop + $(".stiemap")[0].scrollTop - 10
+                                //scrollTop: goTop + $(".stiemap")[0].scrollTop - 10
                                 //}, 750);
                             }
                             if (selectableItmes.indexOf(this) == -1) {
@@ -226,7 +223,7 @@ var stack, EditCommand, undoData;
                     }
 
                 });
-                $(document.body).on("mousedown", function (e) {
+                $("#content").on("mousedown", function (e) {
                     if (e.button == 2) {
                         return false;
                     }
