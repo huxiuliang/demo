@@ -109,49 +109,6 @@ var stack, EditCommand, undoData;
         },
 
         /**
-         * 资源树管理
-         * @param type
-         * @returns {*|jQuery|void}
-         */
-        sitemap: function (type) {
-            return this.each(function () {
-                var prop = $(this).data("prop");
-                var name = prop.name || prop.type || type;
-
-                //资源树添加
-                var ul = $("#sitemap");
-                var li = $('<li id="sm-' + $(this).attr("id") + '" class="sitemap-item" title="' + $(this).attr("id") + '"><span>' + name + '-' + $(this).attr("id") + '</span></li>');
-                ul.append(li);
-                li.bind("click", function (e) {
-                    var box = $("#" + $(this).attr("title"));
-                    if (e.ctrlKey) {
-                        selectableItmes.push(box[0]);
-                        box.addClass("selected");
-                        $(this).addClass("on");
-                    } else {
-                        selectableItmes = [];
-                        selectableItmes.push(box[0]);
-                        box.siblings(".box").removeClass("ui-selected").removeClass("selected");
-                        box.addClass("box-selected").siblings(".box").removeClass("box-selected");
-                        //getProp(box);
-                        box.css("z-index", 1000);
-                        $(".sitemap-item").removeClass("on");
-                        $(this).addClass("on");
-                    }
-                })
-                li.hover(function () {
-                    // 鼠标移入时添加hover类
-                    var box = $("#" + $(this).attr("title"));
-                    box.addClass("temp-sm-selected");
-                }, function () {
-                    // 鼠标移出时移出hover类
-                    var box = $("#" + $(this).attr("title"));
-                    box.removeClass("temp-sm-selected");
-                });
-            });
-        },
-
-        /**
          * 初始化数据
          * @returns {*|jQuery|void}
          */
