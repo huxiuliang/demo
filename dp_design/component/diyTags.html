@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     $(function () {
-        getJSONFileData("dp_design/test_data/getDiyTags.json", function (res) {
+        getJSONFileData("dp_design/diy/getDiyTags.json", function (res) {
             console.log(res);
             if (res.code == 0) {
                 createDiytags(res.res);

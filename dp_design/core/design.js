@@ -155,8 +155,7 @@ function initSceneConfig() {
         //187 +
         //189 -
         //利用event.ctrlKey，event.shiftKey，event .altKey判断是否按下了ctrl键、shift键以及alt键
-
-        if (event.keyCode == 187 && event.ctrlKey) {
+        if (event.keyCode == 187 && event.altKey) {
             var t;
             var n = content.data("zoom") || 1;
             t = (t = 5 < (t = Number(n) + 0.1) ? 5 : t).toFixed(1);
@@ -164,7 +163,7 @@ function initSceneConfig() {
             content.data("zoom", t);
         }
 
-        if (event.keyCode == 189 && event.ctrlKey) {
+        if (event.keyCode == 189 && event.altKey) {
             var t;
             var n = content.data("zoom") || 1;
             t = (t = 5 < (t = Number(n) - 0.1) ? 5 : t).toFixed(1);
@@ -172,7 +171,7 @@ function initSceneConfig() {
             content.data("zoom", t);
         }
 
-        if (event.keyCode == 13 && event.ctrlKey) {
+        if (event.keyCode == 13 && event.altKey) {
             $(".box").each(function () {
                 if ($(this).hasClass("ui-selected") || $(this).hasClass("box-selected")) {
 
@@ -444,7 +443,10 @@ function getDataSetsData(a) {
 }
 
 function getProp(a, t) {
-    if (currBox && currBox.is(a) && !t) ; else {
+    if (currBox && currBox.is(a) && !t) {
+
+
+    } else {
         if (!a) return !1;
         var e = (currBox = a).data("prop");
         var n = e.type;
@@ -545,14 +547,14 @@ function getProp(a, t) {
 
             i.dtId && ($("#dataSetsSelect").select2().val([i.dtId]).trigger("change"), getDataSetsData(i))
         }
-    }
 
-    // if (e.optionsText) {
-    //     jsonExtentEditor.setValue(e.optionsText)
-    //
-    // } else {
+        // if (e.optionsText) {
+        //     jsonExtentEditor.setValue(e.optionsText)
+        //
+        // } else {
         jsonExtentEditor.setValue(JSON.stringify(e.options, null, 4));
-    // }
+        // }
+    }
 }
 
 function getSceneConfig() {
@@ -862,7 +864,11 @@ $(function () {
 
     //预览
     $("#tools-view").bind("click", function () {
-        $(".layout-Header").addClass("view"), $(".layout-Sider").addClass("view"), $(".layout-Content").addClass("view"), $("#rightnav").addClass("view"), requestFullScreen()
+        $(".layout-Header").addClass("view");
+        $(".layout-Sider").addClass("view");
+        $(".layout-Content").addClass("view");
+        $("#rightnav").addClass("view");
+        requestFullScreen();
     });
 
     //选择JSON文件
