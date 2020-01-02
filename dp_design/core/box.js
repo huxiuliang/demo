@@ -3,23 +3,24 @@ var currBox;
 var copyTempItems = [];
 var zIndexProp = {max: 50, min: 50};
 var MIN_DISTANCE = 8; //捕获的最小距离
-// var guides = []; // 没有可用的引导
-var innerOffsetX, innerOffsetY;
-var stack, EditCommand, undoData;
+var innerOffsetX;
+var innerOffsetY;
+var stack;
+var EditCommand;
+var undoData;
+
 (function ($) {
     $.fn.extend({
-
         /**
          * 初始化盒子
          * @param options
          * @returns {*|jQuery|void}
          */
         initBox: function (options) {
-            console.log("initBox");
+
             var rOptions = {
                 parent: $(".layout-Content")[0],
                 dragStart: function (b, p, o, event) {
-
                     $.each(selectableItmes, function (i, node) {
                         if (!$(node).data("prop").rectP) {
                             console.log($(node).data());
@@ -33,22 +34,12 @@ var stack, EditCommand, undoData;
                             x: $(node).data("prop").rectP.x,
                             y: $(node).data("prop").rectP.y
                         });
-                        // if ($(node).data("groupbox")) {
-                        //     $(node).data("groupbox").data("originalPosition", {
-                        //         x: $(node).data("groupbox").data("prop").rectP.x,
-                        //         y: $(node).data("groupbox").data("prop").rectP.y
-                        //     });
-                        // }
                     });
 
-                    // guides = getGuides(b);
-                    //offsetX、offsetY：源元素（srcElement）的X,Y坐标
                     innerOffsetX = event.pageX;
                     innerOffsetY = event.pageY;
-
                 },
                 dragMove: function (b, p, o, event, pos) {
-                    //$("#rightnav").hide();
 
                     $.each(selectableItmes, function (i, node) {
                         if (b != node) {
@@ -59,35 +50,15 @@ var stack, EditCommand, undoData;
                                 x: newX,
                                 y: newY
                             });
-                            // if ($(node).data("groupbox")) {
-                            //     var gnodeOriginalPosition = $(node).data("groupbox").data("originalPosition");
-                            //     var gnewX = pos.devX / pos.zoom + gnodeOriginalPosition.x;
-                            //     var gnewY = pos.devY / pos.zoom + gnodeOriginalPosition.y;
-                            //     $(node).data("groupbox").dragBox("setBoxProp", {
-                            //         x: gnewX,
-                            //         y: gnewY
-                            //     });
-                            // }
                         }
-
                     });
-                    // if (event.altKey) {
-                    //     searchGuides(b, event);
-                    // }
                 },
                 dragEnd: function (b, p, o, event) {
-                    // 显示属性面板
-                    // if (!$("#rightnav").hasClass("off")) {
-                    // 	$("#rightnav").show();
-                    // }
-                    //getProp($(b));
-                    // hideGuides();
                     undoRecord();
                 },
                 rotateStart: false,
                 rotateMove: false,
                 rotateEnd: function (b, p, o) {
-                    //getProp($(b));
                     undoRecord();
                 },
                 resizeStart: false,
@@ -726,7 +697,7 @@ var stack, EditCommand, undoData;
 
             /**
              * 根据缩放基点和缩放比例取得新的rect
-             * @param  {[type]} oPoint               [description]
+             * @param  {[type]} oPoint           [description]
              * @param  {[type]} scale            [description]
              * @param  {[type]} oTransformedRect [description]
              * @param  {[type]} baseIndex        [description]
@@ -764,9 +735,13 @@ var stack, EditCommand, undoData;
     })
 })(jQuery)
 
+/**
+ * 右键&&回退
+ */
 $(function () {
     undoData = {};//getBddpData(true);
     stack = new Undo.Stack();
+
     EditCommand = Undo.Command.extend({
         constructor: function (oldValue, newValue) {
             this.oldValue = oldValue;
@@ -781,11 +756,17 @@ $(function () {
             importDataForUndo(this.newValue);
         }
     });
-    $(document).bind("contextmenu",
-        function () {
+
+    /**
+     * 系统右键菜单屏蔽
+     */
+    $(document).bind("contextmenu", function () {
             return false;
         }
     );
+    /**
+     * Mousetrap_一个简单、轻量可用于捕获和处理键盘事件的js 库
+     */
     Mousetrap.bind('up', function (e) {
         $.each(selectableItmes, function (i, node) {
             var nodeOriginalPosition = $(node).data("prop").rectP;
@@ -888,13 +869,13 @@ $(function () {
         //         copyTempItems.push(prop);
         //     });
         // } else {
-            $(".box").each(function () {
-                if ($(this).hasClass("selected") || $(this).hasClass("box-selected")) {
-                    var prop = $.extend(true, {}, $(this).data("prop"));
-                    prop.myChart = false;
-                    copyTempItems.push(prop);
-                }
-            });
+        $(".box").each(function () {
+            if ($(this).hasClass("selected") || $(this).hasClass("box-selected")) {
+                var prop = $.extend(true, {}, $(this).data("prop"));
+                prop.myChart = false;
+                copyTempItems.push(prop);
+            }
+        });
         // }
         var copynode = {
             props: copyTempItems
@@ -915,8 +896,9 @@ $(function () {
         $("#rightnav").removeClass("view");
         exitFull();
     });
-
     Mousetrap.bind('ctrl+v', function (e) {
+        alert("建设中...");
+        return;
         selectableItmes = [];
         $(".box").removeClass("selected box-selected");
         var copynode = JSON.parse(localStorage.getItem("copyTempItems"));
@@ -936,6 +918,9 @@ $(function () {
         // }
     });
 
+    /**
+     * 右键菜单
+     */
     context.init();
     context.attach('.box', [{
         text: '删除',
@@ -994,34 +979,46 @@ $(function () {
     }, {
         text: '组件属性',
         action: function (e) {
-            $(".box").each(function () {
-                if ($(this).hasClass("ui-selected") || $(this).hasClass("box-selected")) {
-
-                    getProp($(this));
-                    $("#rightnav").show().removeClass("off");
-
-
-                }
-            });
+            propSelectedBoxs()
         }
-    }/*, {
-        text: '组合',
-        action: function (e) {
-            groupBoxs();
-        }
-    }, {
-        text: '取消组合',
-        action: function (e) {
-            dissolveBoxs();
-        }
-    }, {
-        text: '生成自定义组件',
-        action: function (e) {
-            layxDiyTagsForm();
-        }
-    }*/])
+    }])
 });
 
+/**
+ * 显示组件属性动作
+ */
+function propSelectedBoxs() {
+    var selectSize = 0;
+    $(".box").each(function () {
+        if ($(this).hasClass("box-selected")) {
+            if (selectSize > 0) {
+                return;
+            }
+            selectSize++;
+            getProp($(this));
+            $("#rightnav").show().removeClass("off");
+        }
+    });
+    if (selectSize == 0) {
+        try {
+            app.msg("请选择一个组件或图表");
+        } catch (e) {
+            console.log("app.msg无法运行", e)
+        }
+    }
+}
+
+/**
+ * 删除组件动作
+ */
+function delSelectedBoxs() {
+    $(".selected,.box-selected").remove();
+}
+
+/**
+ * 撤销记录
+ * @param data
+ */
 function undoRecord(data) {
     var newValue;
     if (data) {
@@ -1039,246 +1036,7 @@ function contentMouseDown() {
 
 function boxMouseDown() {
     $(".dropdown-menu").hide();
-    // if (!$("#rightnav").hasClass("off")) {
-    //     $("#rightnav").addClass("on").show();
-    // }
 }
-
-function delSelectedBoxs() {
-    // if ($(".groupbox.selected").length > 0) {
-    //     var groupbox = $(".groupbox.selected");
-    //     $.each(groupbox.data("boxs"), function (i, box) {
-    //         $(box).remove();
-    //     });
-    //     groupbox.remove();
-    // } else {
-
-        $(".selected,.box-selected").each(function () {
-            $("#sm-" + $(this).attr("id")).remove();
-        })
-        $(".selected,.box-selected").remove();
-    // }
-
-}
-
-// function getGuides(b) {
-//     return $.map($(".box,.groupbox,.zxxRefLine_v,.zxxRefLine_h").not($(b)), function (box) {
-//         if ($(box).data("groupbox")) {
-//         } else {
-//             return computeGuidesForElement(box);
-//         }
-//     });
-// }
-
-// function hideGuides() {
-//     $("#guide-v, #guide-h").hide();
-// }
-//
-// function searchGuides(b, event) {
-//
-//     //迭代所有的guids，记住最近的h和v guids
-//
-//     var guideV, guideH, distV = MIN_DISTANCE + 1,
-//         distH = MIN_DISTANCE + 1,
-//         offsetV, offsetH;
-//
-//     var chosenGuides = {
-//         top: {
-//             dist: MIN_DISTANCE + 1
-//         },
-//         left: {
-//             dist: MIN_DISTANCE + 1
-//         }
-//     };
-//
-//     var $t = $("#content");
-//     //pageX、pageY：文档坐标x、y ;
-//
-//     var pos = {
-//         top: (event.pageY - innerOffsetY) / $t.data("zoom"),
-//         left: (event.pageX - innerOffsetX) / $t.data("zoom")
-//     };
-//
-//     //outerHeight、outerWidth：整个浏览器的高度、宽度
-//
-//     var w = $t.outerWidth() - 1;
-//
-//     var h = $t.outerHeight() - 1;
-//
-//     var elemGuides = computeGuidesForElement(b);
-//
-//     $.each(guides, function (i, guide) {
-//
-//         $.each(elemGuides, function (i, elemGuide) {
-//
-//             if (guide.type == elemGuide.type) {
-//
-//                 var prop = guide.type == "h" ? "top" : "left";
-//
-//                 var d = Math.abs(elemGuide[prop] - guide[prop]);
-//
-//                 if (d < chosenGuides[prop].dist) {
-//
-//                     chosenGuides[prop].dist = d;
-//
-//                     chosenGuides[prop].eguide = elemGuide;
-//
-//                     chosenGuides[prop].guide = guide;
-//
-//                 }
-//
-//             }
-//
-//         });
-//
-//     });
-//
-//     if (chosenGuides.top.dist <= MIN_DISTANCE) {
-//
-//         $("#guide-h").css("top", chosenGuides.top.guide.top).show();
-//         if (chosenGuides.top.eguide.position == "t") {
-//             if ($(b).hasClass("groupbox")) {
-//                 $(b).dragBox("setBoxProp", {
-//                     y: chosenGuides.top.guide.top
-//                 });
-//             } else {
-//                 $(b).rotateResize("setBoxProp", {
-//                     y: chosenGuides.top.guide.top
-//                 });
-//
-//             }
-//
-//         } else if (chosenGuides.top.eguide.position == "b") {
-//             if ($(b).hasClass("groupbox")) {
-//                 $(b).dragBox("setBoxProp", {
-//                     y: chosenGuides.top.guide.top - chosenGuides.top.eguide.h
-//                 });
-//             } else {
-//                 $(b).rotateResize("setBoxProp", {
-//                     y: chosenGuides.top.guide.top - chosenGuides.top.eguide.h
-//                 });
-//
-//             }
-//
-//
-//         }
-//
-//     } else {
-//
-//         $("#guide-h").hide();
-//         //$(b).rotateResize("setBoxProp",{y:pos.top});
-//     }
-//
-//     if (chosenGuides.left.dist <= MIN_DISTANCE) {
-//
-//         $("#guide-v").css("left", chosenGuides.left.guide.left).show();
-//         if (chosenGuides.left.eguide.position == "l") {
-//             if ($(b).hasClass("groupbox")) {
-//                 $(b).dragBox("setBoxProp", {
-//                     x: chosenGuides.left.guide.left
-//                 });
-//             } else {
-//                 $(b).rotateResize("setBoxProp", {
-//                     x: chosenGuides.left.guide.left
-//                 });
-//             }
-//
-//
-//         } else if (chosenGuides.left.eguide.position == "r") {
-//             if ($(b).hasClass("groupbox")) {
-//                 $(b).dragBox("setBoxProp", {
-//                     x: chosenGuides.left.guide.left - chosenGuides.left.eguide.w
-//                 });
-//             } else {
-//                 $(b).rotateResize("setBoxProp", {
-//                     x: chosenGuides.left.guide.left - chosenGuides.left.eguide.w
-//                 });
-//             }
-//
-//
-//         }
-//     } else {
-//
-//         $("#guide-v").hide();
-//         //$(b).rotateResize("setBoxProp",{x:pos.left});
-//     }
-//
-// }
-//
-// function computeGuidesForElement(elem, pos, w, h) {
-//
-//     if (elem != null) {
-//
-//         var $t = $(elem);
-//
-//         //offset:返回当前元素 的偏移量
-//
-//         pos = {
-//             left: $t.prop("offsetLeft"),
-//             top: $t.prop("offsetTop")
-//         };
-//         w = $t.outerWidth() - 1;
-//         h = $t.outerHeight() - 1;
-//     }
-//     return [{
-//         type: "h",
-//         position: "t",
-//         left: pos.left,
-//         top: pos.top,
-//         w: w,
-//         h: h
-//     },
-//
-//         {
-//             type: "h",
-//             position: "b",
-//             left: pos.left,
-//             top: pos.top + h,
-//             w: w,
-//             h: h
-//         },
-//
-//         {
-//             type: "v",
-//             position: "l",
-//             left: pos.left,
-//             top: pos.top,
-//             w: w,
-//             h: h
-//         },
-//
-//         {
-//             type: "v",
-//             position: "r",
-//             left: pos.left + w,
-//             top: pos.top,
-//             w: w,
-//             h: h
-//         },
-//
-//         //您可以添加_any_其他指南在这里就好了（如指南10像素单元的左）
-//
-//         // {
-//         // 	type: "h",
-//         // 	left: pos.left,
-//         // 	position:"ct",
-//         // 	top: pos.top + h / 2,
-//         // 	w:w,
-//         // 	h:h
-//         // },
-//
-//         // {
-//         // 	type: "v",
-//         // 	position:"cl",
-//         // 	left: pos.left + w / 2,
-//         // 	top: pos.top,
-//         // 	w:w,
-//         // 	h:h
-//         // }
-//
-//     ];
-//
-// }
 
 function Compare(objA, objB) {
     if (!isObj(objA) || !isObj(objB)) return false; //判断类型是否正确

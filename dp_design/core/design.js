@@ -65,7 +65,6 @@ function initDataBaseConfig() {
 
 function initAceEditer() {
     jsonExtentEditor = ace.edit("senior-panel");
-
     //在线编辑器保存 更新图像
     $("#jsoneditorSaveBtn").bind("click", function () {
         var prop = currBox.data("prop");
@@ -97,9 +96,6 @@ function initSceneConfig() {
         snapMode: "inner"
     });
 
-    // var scene = $("#scene");
-    // scene.find("input[type=radio]").checkboxradio({icon: !1});
-
     $("#scenebgcolor").spectrum({
         showPalette: !0,
         showInput: !0,
@@ -124,10 +120,6 @@ function initSceneConfig() {
             content.data("backgroundColor", a.toRgbString())
         }
     });
-
-    // $(".bgimglist li").bind("click", function () {
-    //     $(this).hasClass("on") ? (content.css("background-image", ""), content.data("backgroundImage", ""), $(this).removeClass("on")) : ($(".bgimglist li").removeClass("on"), $(this).addClass("on"), content.css("background-image", this.style.backgroundImage), content.data("backgroundImage", this.style.backgroundImage), $("#bdbgPath").val(this.style.backgroundImage))
-    // });
 
     //通过鼠标滚轮与页面交互
     $(".layout-Content").on("mousewheel", function (a) {
@@ -181,46 +173,6 @@ function initSceneConfig() {
             });
         }
     });
-    // $("#sceneBtn").bind("click", function () {
-    //     $("#scene").removeClass("on")
-    // });
-
-    // $("#sceneW").bind("change", function () {
-    //     content.css("width", $(this).val() + "px"), content.data("width", $(this).val())
-    // });
-
-    // $("#sceneH").bind("change", function () {
-    //     content.css("height", $(this).val() + "px"), content.data("height", $(this).val())
-    // });
-
-    // $("#sceneName").bind("change blur", function () {
-    //     content.data("sceneName", $(this).val())
-    // });
-
-    // $(".scene-addBgBtn").bind("click", function () {
-    //     getImagePath($("#bdbgPath"))
-    // });
-
-    // $("#bdbgPath").bind("change blur", function () {
-    //     var a = this.value;
-    //     a = a.replace(/\\/g, "/");
-    //     content.css("background-image", "url('" + a + "')");
-    //     content.data("backgroundImage", a);
-    //     this.value = a
-    // });
-
-    // $("input[name=sceneSizeRadio]").bind("click", function () {
-    //     var a = $(this).val().split("*");
-    //     content.css("width", a[0] + "px"), content.data("width", a[0]);
-    //     content.css("height", a[1] + "px"), content.data("height", a[1]);
-    //     $("#sceneW").val(a[0]);
-    //     $("#sceneH").val(a[1]);
-    //     resizeContent(a[0], a[1]);
-    // });
-
-    // $("input[name=globalTheme]").bind("click", function () {
-    //     globalChartTheme = $(this).val()
-    // });
 
     $(document).bind("keydown", function (a) {
         //按住空格 可以拖拽场景图形展示区
@@ -421,19 +373,6 @@ function initDataConfig() {
             })
         })
     })
-}
-
-function resizeContent(a, t) {
-    // var e = document.getElementById("content"),
-    //     n = $(e).parent()[0].offsetWidth,
-    //     i = $(e).parent()[0].clientHeight,
-    //     o = a || e.offsetWidth, s = t || e.offsetHeight, l = n / o, d = i / s, c = 1;
-    //     l < d ? (c = l, e.style.setProperty("margin-left", -(o - o * c) / 2 + "px"),
-    //     e.style.setProperty("margin-top", (i - s * c) / 2 - (s - s * c) / 2 + "px")) : (c = d, e.style.setProperty("margin-top", -(s - s * c) / 2 + "px"),
-    //     e.style.setProperty("margin-left", (n - o * c) / 2 - (o - o * c) / 2 + "px")),
-    //     e.style.setProperty("top", "0px"),
-    //     e.style.setProperty("left", "0px")
-       // e.style.setProperty("transform", "scale(" + c + ")"), $(e).data("zoom", c)
 }
 
 function getDataSetsData(a) {
@@ -807,29 +746,13 @@ function bulidProp(a, t, e) {
 
     a.initProp({data: item});
 
-    // var n = $.getCache(t + "-" + e);
-    // n || (n = executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen"), $.setCache(t + "-" + e, n));
-    // var i = tableValsToNode(n);
-    // i && a.initProp({data: i})
-
-    //var n = $.getCache(t + "-" + e);
-    // executeSQL("select propitems.*,a.tagId FROM propitems LEFT JOIN (SELECT * FROM tagprop WHERE tagId=" + e + ") a ON a.propId =propitems.id WHERE a.tagId NOTNULL and propitems.pId = '" + t + "' ORDER BY sqen", function (obj) {
-
-    //var i = obj;//tableValsToNode(n);
-    // a.initProp({data: obj})
-
-    // });//, $.setCache(t + "-" + e, n));
-
 }
 
 $(function () {
-    $(window).resize(function () {
-        resizeContent()
-    });
 
     //清理本地缓存
     $("#tools-clearCache").bind("click", function () {
-        localStorage.clear(), 0 == localStorage.length && app.$Message.info("本地缓存清理成功")
+        delSelectedBoxs();
     });
 
     //页面配置
@@ -839,7 +762,7 @@ $(function () {
 
     //组件属性配置
     $("#tags-props").bind("click", function () {
-        return $("#rightnav").show().removeClass("off"), !1
+        propSelectedBoxs();
     });
 
     //组件属性配置Close
@@ -901,5 +824,5 @@ $(function () {
 
     editBddpByParams();
 
-    initSelectBox(".layout-Content");
+    //initSelectBox(".layout-Content");
 });
