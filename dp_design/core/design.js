@@ -414,12 +414,13 @@ function getProp(box, t) {
 
         changeDataInput(type, other.dataFrom);
 
-        var componentJson = componentsJson[type];
-        var componentPropJson = componentsPropJson["id" + componentJson.id];
+        var _componentInfo = new componentInfo();
+        var componentTypeJson = _componentInfo.componentsTypeJson[type];
+        var componentPropJson = _componentInfo.componentsPropJson["id" + componentTypeJson.id];
 
         var zTreeData = transformTozTreeFormat(componentPropJson);
 
-        bulidTabs($("#config-panel"), zTreeData, 1, prop);
+        bulidPropPanel($("#config-panel"), zTreeData, 1, prop);
 
         $(".data-dimension").empty();
         $(".data-series").empty();
@@ -737,27 +738,33 @@ function tableValsToNode(a) {
     return null
 }
 
+/**
+ * 根据里面的id以及parentId 把这种扁平化的数据变成嵌套的树形结构
+ * @param sNodes
+ * @returns {[]|*[]}
+ */
+function transformTozTreeFormat(sNodes) {
+    var i, l, key = "id", parentKey = "pid", childKey = "children";
+    if (!key || key == "" || !sNodes) return [];
 
-function transformTozTreeFormat(data) {
-    var dataIndex, dataSize;
-    if (!data) return [];
-
-    if (n = data, "[object Array]" !== Object.prototype.toString.apply(n)) return [data];
-    var n, zTreeData = [], tempObj = {};
-    for (dataIndex = 0, dataSize = data.length; dataIndex < dataSize; dataIndex++) tempObj[data[dataIndex].id] = data[dataIndex];
-    for (dataIndex = 0, dataSize = data.length; dataIndex < dataSize; dataIndex++) {
-        var pid = tempObj[data[dataIndex].pid];
-        if (pid && data[dataIndex].id != data[dataIndex].pid) {
-            var tempArray = d(pid);
-            tempArray || (tempArray = d(pid, [])), tempArray.push(data[dataIndex])
-        } else zTreeData.push(data[dataIndex])
-    }
-    return zTreeData;
-
-    function d(pid, t) {
-        if (!pid) return null;
-        var e = "children";
-        return void 0 !== t && (pid[e] = t), pid[e]
+    if (Object.prototype.toString.apply(sNodes) === "[object Array]") {
+        var r = [];
+        var tmpMap = [];
+        for (i = 0, l = sNodes.length; i < l; i++) {
+            tmpMap[sNodes[i][key]] = sNodes[i];
+        }
+        for (i = 0, l = sNodes.length; i < l; i++) {
+            if (tmpMap[sNodes[i][parentKey]] && sNodes[i][key] != sNodes[i][parentKey]) {
+                if (!tmpMap[sNodes[i][parentKey]][childKey])
+                    tmpMap[sNodes[i][parentKey]][childKey] = [];
+                tmpMap[sNodes[i][parentKey]][childKey].push(sNodes[i]);
+            } else {
+                r.push(sNodes[i]);
+            }
+        }
+        return r;
+    } else {
+        return [sNodes];
     }
 }
 
@@ -768,11 +775,10 @@ function transformTozTreeFormat(data) {
  * @param classSuffix
  * @param prop
  */
-function bulidTabs(elem, zTreeData, classSuffix, prop) {
+function bulidPropPanel(elem, zTreeData, classSuffix, prop) {
 
     elem.find(".colorPicker").spectrum("destroy");
     elem.empty();
-    console.log("empty" + elem.attr("id"))
 
     var box_1 = $('<div class="box-' + classSuffix + '"></div>');
     var box_1_ul = $("<ul></ul>");
@@ -780,8 +786,8 @@ function bulidTabs(elem, zTreeData, classSuffix, prop) {
     box_1.append(box_1_ul);
 
     $.each(zTreeData, function (a, val) {
-        if ("series" == val.keyname) { //定义图表
-            //console.log("处理 series")
+        if ("series" == val.keyname) { //分类
+
             var propData = prop.data;
             var propOptions = prop.options;
 
@@ -797,13 +803,12 @@ function bulidTabs(elem, zTreeData, classSuffix, prop) {
                     box_1_ul.append(box_1_li);
 
                     var nextElem = $('<div data-keyname="' + val.keyname + '" data-index="' + index + '" id="' + val.keyname + "-" + index + '"></div>');
-                    val.children && 0 < val.children.length && bulidTabs(nextElem, val.children, classSuffix + 1, prop), box_1.append(nextElem)
+                    val.children && 0 < val.children.length && bulidPropPanel(nextElem, val.children, classSuffix + 1, prop), box_1.append(nextElem)
 
                 })
             }
 
         } else {
-            console.log("处理 " + val.keyname);
 
             var box_1_li = $(' <li><a href="#' + val.keyname + '">' + val.name + "</a></li>");
 
@@ -814,7 +819,7 @@ function bulidTabs(elem, zTreeData, classSuffix, prop) {
 
             var nextElem = $('<div data-keyname="' + val.keyname + '"  id="' + val.keyname + '"></div>');
 
-            val.children && 0 < val.children.length && bulidTabs(nextElem, val.children, classSuffix + 1, prop), box_1.append(nextElem)
+            val.children && 0 < val.children.length && bulidPropPanel(nextElem, val.children, classSuffix + 1, prop), box_1.append(nextElem)
         }
     });
 
@@ -852,7 +857,8 @@ function bulidTabs(elem, zTreeData, classSuffix, prop) {
 
 function bulidProp(elem, id, tagid) {
 
-    var item = tagPropItemJson["item" + tagid + "_" + id];
+    var _componentInfo = new componentInfo();
+    var item = _componentInfo.componentsPropItemJson["item" + tagid + "_" + id];
 
     if (!item) {
         console.log("无法找到Item");
