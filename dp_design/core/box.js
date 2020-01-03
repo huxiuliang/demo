@@ -75,7 +75,7 @@ var undoData;
                 tagType: options.tagType
             };
             return this.each(function () {
-                $(this).selectedBox().rotateResize(rOptions);//.sitemap(options.tagType);
+                $(this).selectedBox().rotateResize(rOptions);
             });
         },
 
@@ -93,40 +93,50 @@ var undoData;
          * @returns {*|jQuery|void}
          */
         selectedBox: function () {
-            function getTimeNow() { //获取此刻时间
+
+            /**
+             * 获取此刻时间
+             * @returns {number}
+             */
+            function getTimeNow() {
                 var now = new Date();
                 return now.getTime();
             }
 
             return this.each(function () {
+
                 var timeStart, timeEnd, time, flag = true; //申明全局变量
 
                 $(this).bind("mousedown", function (e) {
+
                     if (!e.ctrlKey) {
 
                         if (selectableItmes.indexOf(this) == -1) {
                             selectableItmes = [];
-                            //删除兄弟的class
-                            $(this).siblings(".box").removeClass("ui-selected");
                         }
+
+                        //删除兄弟的class
                         $(this).addClass("box-selected").siblings(".box").removeClass("box-selected");
 
                         $(this).css("z-index", 1000);
 
                         timeStart = getTimeNow(); //获取鼠标按下时的时间
-                        time = setInterval(function () { //setInterval会每100毫秒执行一次
-                            timeEnd = getTimeNow(); //也就是每100毫秒获取一次时间
-                            if (timeEnd - timeStart > 500) { //如果此时检测到的时间与第一次获取的时间差有1000毫秒
-                                clearInterval(time); //便不再继续重复此函数 （clearInterval取消周期性执行）
+                        time = setInterval(function () {
+                            timeEnd = getTimeNow();
+                            if (timeEnd - timeStart > 500) {
+                                clearInterval(time);
                                 flag = false;
-                                //console.log("长按"); //并弹出代码
+                                console.log("长按"); //并弹出代码
                             }
                         }, 100);
+
                         $(this).bind("mouseup", function (e) {
                             if (flag && e.button != 2) {
+
                                 selectableItmes = [];
-                                $(this).siblings(".box").removeClass("ui-selected");
-                                $('.box').removeClass('temp-selected selected');
+
+                                // $(this).siblings(".box").removeClass("ui-selected");
+                                // $('.box').removeClass('temp-selected selected');
 
                                 //$(".sitemap-item").removeClass("on");
                                 //$("#sm-" + this.id).addClass("on");
@@ -135,42 +145,27 @@ var undoData;
                                 //scrollTop: goTop + $(".stiemap")[0].scrollTop - 10
                                 //}, 750);
                             }
+
                             if (selectableItmes.indexOf(this) == -1) {
                                 selectableItmes.push(this);
                             }
+
                             clearInterval(time); //如果按下时间不到1000毫秒便弹起
                             //	showGroup(this);
-                            //getProp($(this));
+
+                            getProp($(this));
+
                             flag = true;
+
                             $(this).css("z-index", $(this).data("prop").rectP.zIndex);
                             $(this).unbind("mouseup");
+
                             //showGroup(this);
                         });
+
                         boxMouseDown();
-                        //showGroup(this);
                     }
-
                 });
-                $("#content").on("mousedown", function (e) {
-                    if (e.button == 2) {
-                        return false;
-                    }
-                    if (!$(e.target).hasClass("box") && $(e.target).parents(".box").length == 0 && $(e.target).parents(".dropdown-menu").length == 0 && $(e.target).parents(".stiemap").length == 0 && $(e.target).parents(".tools-item").length == 0 && $(e.target).parents("#layx-diyTagsForm").length == 0) {
-                        if ($(e.target).parents("#layx-eventEdit").length == 0 && $(e.target).parents("#rightnav").length == 0 && $(e.target).parents(".sp-container").length == 0 && $(e.target).attr("id") != "contentHandle") {
-                            $(".box").removeClass("box-selected");
-                            currBox = null;
-                            $("#config-panel").empty();
-                            //$("#rightnav").removeClass("on").hide();
-                            //$(".sitemap-item").removeClass("on");
-                        }
-                        $('.box').removeClass('temp-selected selected');
-                        selectableItmes = [];
-                    }
-                    // if (!$(e.target).hasClass("groupbox") && $(e.target).parents(".dropdown-menu").length == 0 && $(e.target).parents(".box").length == 0) {
-                    //     $(".groupbox").removeClass("selected").hide();
-                    // }
-                });
-
             });
         },
 

@@ -166,23 +166,23 @@
 			},
 			stop: function (event, ui) {//当鼠标松开时，触发此事件
 
-                //console.log("draggable-stop");
-
 				$(".tags-subnavs").fadeOut();//方法使用淡出效果来隐藏预览li
-				dragState = false;
 
-				//console.log(event, ui);
+				dragState = false;
 
                 var type = $(event.target).attr("tag-type");
                 var subtype = $(event.target).attr("data-subtype");
                 var zoom = $("#content").data("zoom");
                 var html = $($("#charts-tag-template").html());
-				var pLeft = $("#content").offset().left;
+
+                var pLeft = $("#content").offset().left;
 				var pTop = $("#content").offset().top;
+
 				html.css({
 					left: (ui.offset.left - pLeft) / zoom,
 					top: (ui.offset.top - pTop) / zoom
 				});
+
 				html.appendTo("#content");
 				html.attr("data-subtype", subtype);
 				html.initBox({
@@ -226,14 +226,19 @@
 		if (!globalChartTheme) {
 			globalChartTheme = 'default';
 		}
+
 		var file = "dp_design/charts-config/" + type + ".json";
 		var themeFile = "dp_design/charts-theme/" + globalChartTheme + ".json";
+
 		getJSONFileData(themeFile, function (themedata) {
-			var theme = themedata;
+
+		    var theme = themedata;
+
 			echarts.registerTheme(globalChartTheme, theme);
 
 			getJSONFileData(file, function (data) {
-				var tempProp = elem.data("prop");
+
+			    var tempProp = elem.data("prop");
 				let subtype = elem.data("subtype");
 				var options = data;
 				setSubTypeChartsOption(type, subtype, options, tempProp);
@@ -250,12 +255,11 @@
 					other: {
 						theme: globalChartTheme
 					}
-				})
+				});
 				elem.data("prop", prop);
 				elem.initdata();
 				$(".box").removeClass("box-selected");
 			});
-
 		});
 	}
 

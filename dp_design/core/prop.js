@@ -2,22 +2,22 @@
     $.fn.extend({
         initProp: function (method) {
             var methods = {
-                init: function (e) {
-                    var a = $.extend({}, e);
+                init: function (data) {
+                    var mergerData = $.extend({}, data);
                     return this.each(function () {
-                        var t = $(this);
-                        t.empty();
-                        var e = a.data;
-                        $.each(e, function (e, a) {
-                            addPropDom(t, a)
+                        var elem = $(this);
+                        console.log(elem.html())
+                        elem.empty();
+                        $.each(mergerData.data, function (index, val) {
+                           addPropDom(elem, val)
                         })
                     })
                 }
             };
 
-            function addPropDom(e, a) {
-                var t = a.type;
-                "driver" == t ? addDriver(e, a) : "title" == t ? addTitle(e, a) : "btn" == t ? addBtn(e, a) : "tag" == t ? addPropTag(e, a) : "tabs" == t && addTabs(e, a)
+            function addPropDom(elem, data) {
+                var type = data.type;
+                "driver" == type ? addDriver(elem, data) : "title" == type ? addTitle(elem, data) : "btn" == type ? addBtn(elem, data) : "tag" == type ? addPropTag(elem, data) : "tabs" == type && addTabs(elem, data)
             }
 
             function addDriver(e, a) {
@@ -405,8 +405,20 @@
                 return "[object Object]" === Object.prototype.toString.apply(e)
             }
 
-            return methods[method] ? methods[method].apply(this, Array.prototype.slice.call(arguments, 1)) : "object" != typeof method && method ? void $.error("Method " + method + " does not exist on jQuery.popupSelection") : methods.init.apply(this, arguments)
-        }, propTabs: function (e) {
+            if (methods[method]) {
+                methods[method].apply(this, Array.prototype.slice.call(arguments, 1))
+            } else {
+
+                if ("object" != typeof method && method) {
+                    void $.error("Method " + method + " does not exist on jQuery.popupSelection")
+                } else {
+                    methods.init.apply(this, arguments)
+                }
+            }
+
+        },
+
+        propTabs: function (e) {
             var t = $.extend({width: 150}, e);
             return this.each(function () {
                 var a = $(this);
