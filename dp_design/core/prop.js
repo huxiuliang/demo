@@ -9,7 +9,7 @@
                         console.log(elem.html())
                         elem.empty();
                         $.each(mergerData.data, function (index, val) {
-                           addPropDom(elem, val)
+                            addPropDom(elem, val)
                         })
                     })
                 }
@@ -17,160 +17,359 @@
 
             function addPropDom(elem, data) {
                 var type = data.type;
-                "driver" == type ? addDriver(elem, data) : "title" == type ? addTitle(elem, data) : "btn" == type ? addBtn(elem, data) : "tag" == type ? addPropTag(elem, data) : "tabs" == type && addTabs(elem, data)
+
+                if ("driver" == type) {
+                    addDriver(elem, data)
+                } else if ("title" == type) {
+                    addTitle(elem, data);
+                } else if ("btn" == type) {
+                    addBtn(elem, data)
+                } else if ("tag" == type) {
+                    addPropTag(elem, data)
+                } else if ("tabs" == type) {
+                    addTabs(elem, data)
+                } else {
+                    throw "类型无法解析";
+                }
             }
 
-            function addDriver(e, a) {
-                e.append('<div class="prop-driver"></div>')
+            function addDriver(elem, data) {
+                elem.append('<div class="prop-driver"></div>')
             }
 
-            function addTitle(e, a) {
-                e.append('<div class="prop-title">' + a.name + "</div>")
+            function addTitle(elem, data) {
+                elem.append('<div class="prop-title">' + data.name + "</div>")
             }
 
-            function addBtn(e, a) {
-                var t = $('<div class="prop-btn"></div>'), o = $('<button type="button">' + a.name + "</button>");
-                o.bind("click", function () {
-                    a.keyname && window[a.keyname]()
-                }), t.append(o), e.append(t)
+            function addBtn(elem, data) {
+                var $div = $('<div class="prop-btn"></div>');
+                var $btn = $('<button type="button">' + data.name + "</button>");
+
+                $btn.bind("click", function () {
+                    data.keyname && window[data.keyname]()
+                });
+                $div.append($btn);
+                elem.append($div);
             }
 
-            function addPropTag(e, a) {
-                var t = $('<div class="prop-tag"></div>'), o = $('<div class="tag-checkbox fa fa-square-o"></div>'),
-                    r = $('<div class="tag-title">' + a.name + "</div>"), s = $('<div class="prop-widget"></div>'),
-                    n = $('<div class="prop-over"></div>');
-                t.append(o).append(r).append(s).append(n), e.append(t), o.bind("click", function () {
-                    $(this).parent().hasClass("on") ? ($(this).removeClass("fa-check-square-o").addClass("fa-square-o"), $(this).parent().removeClass("on"), n.show()) : ($(this).addClass("fa-check-square-o").removeClass("fa-square-o"), $(this).parent().addClass("on"))
-                }), n.bind("click", function () {
-                    $(this).parent().hasClass("on") || (o.addClass("fa-check-square-o").removeClass("fa-square-o"), $(this).parent().addClass("on"), $(this).hide())
-                }), getTag(s, a)
+            function addPropTag(elem, data) {
+                var $tag = $('<div class="prop-tag"></div>');
+                var $check = $('<div class="tag-checkbox fa fa-square-o"></div>');
+                var $title = $('<div class="tag-title">' + data.name + "</div>");
+                var $widget = $('<div class="prop-widget"></div>');
+                var $over = $('<div class="prop-over"></div>');
+                $tag.append($check).append($title).append($widget).append($over);
+                elem.append($tag);
+                $check.bind("click", function () {
+                    $(this).parent().hasClass("on") ? ($(this).removeClass("fa-check-square-o").addClass("fa-square-o"), $(this).parent().removeClass("on"), $over.show()) : ($(this).addClass("fa-check-square-o").removeClass("fa-square-o"), $(this).parent().addClass("on"))
+                });
+                $over.bind("click", function () {
+                    $(this).parent().hasClass("on") || ($check.addClass("fa-check-square-o").removeClass("fa-square-o"), $(this).parent().addClass("on"), $(this).hide())
+                });
+                getTag($widget, data)
             }
 
-            function getTag(e, a) {
-                switch (a.tag) {
+            function getTag(elem, data) {
+                switch (data.tag) {
                     case"input":
-                        createInput(e, a);
+                        createInput(elem, data);
                         break;
                     case"radio":
-                        ctreateRadio(e, a);
+                        ctreateRadio(elem, data);
                         break;
                     case"slider":
-                        createSlider(e, a);
+                        createSlider(elem, data);
                         break;
                     case"doubleSlider":
-                        createDoubleSlider(e, a);
+                        createDoubleSlider(elem, data);
                         break;
                     case"color":
-                        createColorPicker(e, a);
+                        createColorPicker(elem, data);
                         break;
                     case"inputBtn":
-                        createInputBtn(e, a);
+                        createInputBtn(elem, data);
                         break;
                     case"button":
-                        createButton(e, a)
+                        createButton(elem, data)
                 }
             }
 
-            function createInput(e, a) {
-                var t = e.closest(".ui-tabs-panel").data(), o = $('<div class="prop-widget-input"></div>'),
-                    r = $('<input type="text" />');
-                o.append(r), e.append(o), r.bind("change", function () {
-                    "series" == t.keyname ? setBoxPropVal(a.keyname, $(this).val(), t.keyname, t.index) : setBoxPropVal(a.keyname, $(this).val(), !1)
+            function createInput(elem, data) {
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $widget = $('<div class="prop-widget-input"></div>');
+                var $input = $('<input type="text" />');
+
+                $widget.append($input);
+                elem.append($widget);
+
+                $input.bind("change", function () {
+                    "series" == $panel.keyname ? setBoxPropVal(data.keyname, $(this).val(), $panel.keyname, $panel.index) : setBoxPropVal(data.keyname, $(this).val(), !1)
                 });
-                var s = getBoxPropVal(a.keyname, t.keyname, t.index), n = s;
-                isArray(s) && (n = s[0]), n && (n = "function" == typeof n ? n.toString() : n, r.val(n), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
+                var boxPropVal = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+                var n = boxPropVal;
+                isArray(boxPropVal) && (n = boxPropVal[0]), n && (n = "function" == typeof n ? n.toString() : n, $input.val(n), elem.parent().addClass("on"), elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), elem.parent().find(".prop-over").hide())
             }
 
-            function ctreateRadio(e, a) {
-                var t = e.closest(".ui-tabs-panel").data(), o = $('<div class="prop-widget-radio"></div>'),
-                    r = $("<ul></ul>");
-                if ("string" == typeof a.items) {
-                    var s = a.items.split("|");
-                    $.each(s, function (e, a) {
-                        var t = a.split("-");
-                        $('<li data-value="' + t[1] + '">' + t[0] + "</li>").appendTo(r)
+            function ctreateRadio(elem, data) {
+
+                var $tabsPanelData = elem.closest(".ui-tabs-panel").data();//匹配特定选择器且离当前元素最近的祖先元素
+                var $div = $('<div class="prop-widget-radio"></div>');
+                var $ul = $("<ul></ul>");
+
+                if ("string" == typeof data.items) {
+                    var temps = data.items.split("|");
+                    $.each(temps, function (index, val) {
+                        var t = val.split("-");
+                        $('<li data-value="' + t[1] + '">' + t[0] + "</li>").appendTo($ul)
                     })
-                } else $.each(a.items, function (e, a) {
-                    $('<li data-value="' + a.value + '">' + a.text + "</li>").appendTo(r)
-                });
-                r.children("li").bind("click", function () {
-                    if (!$(this).parents(".prop-tag").hasClass("on")) return !1;
+                } else {
+                    $.each(data.items, function (index, val) {
+                        $('<li data-value="' + val.value + '">' + val.text + "</li>").appendTo($ul)
+                    });
+                }
+                $ul.children("li").bind("click", function () {
+
+                    if (!$(this).parents(".prop-tag").hasClass("on")) {
+                        return false;
+                    }
                     $(this).addClass("on").siblings("li").removeClass("on");
-                    var e = $(this).data("value");
-                    "series" == t.keyname ? setBoxPropVal(a.keyname, e, t.keyname, t.index) : setBoxPropVal(a.keyname, e, !1)
-                }), o.append(r), e.append(o);
-                var n = getBoxPropVal(a.keyname, t.keyname, t.index), i = n;
-                isArray(n) && (i = n[0]), i && (r.find("li[data-value=" + i + "]").addClass("on").siblings("li").removeClass("on"), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
+                    var value = $(this).data("value");
+                    if ("series" == $tabsPanelData.keyname) {
+                        setBoxPropVal(data.keyname, value, $tabsPanelData.keyname, $tabsPanelData.index)
+                    } else {
+                        setBoxPropVal(data.keyname, value, !1)
+                    }
+                });
+
+                $div.append($ul);
+                elem.append($div);
+                var boxPropVal = getBoxPropVal(data.keyname, $tabsPanelData.keyname, $tabsPanelData.index);
+
+                if (boxPropVal && isArray(boxPropVal)) {
+
+                    i = boxPropVal[0];
+
+                    $ul.find("li[data-value=" + i + "]").addClass("on").siblings("li").removeClass("on");
+                    elem.parent().addClass("on");
+                    elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                    elem.parent().find(".prop-over").hide();
+                }
             }
 
-            function createSlider(e, o) {
-                var r = e.closest(".ui-tabs-panel").data(), a = $('<div class="prop-widget-slider"></div>'),
-                    t = $("<div><div/>"), s = $('<input class="slider-input" type="number" />');
-                a.append(t), e.append(a).append(s);
+            function createSlider(elem, data) {
+
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $widget = $('<div class="prop-widget-slider"></div>');
+                var $div = $("<div><div/>");
+                var $input = $('<input class="slider-input" type="number" />');
+
+                $widget.append($div);
+                elem.append($widget).append($input);
+
                 var n = $.extend({
                     change: function (e, a) {
-                    }, slide: function (e, a) {
-                        s.val(a.value);
+                        //...
+                    },
+                    slide: function (e, a) {
+                        $input.val(a.value);
                         var t = Number(a.value);
-                        o.items && (t += o.items), "series" == r.keyname ? setBoxPropVal(o.keyname, t, r.keyname, r.index) : setBoxPropVal(o.keyname, t, !1)
+
+                        if (data.items) {
+                            t += data.items
+                        }
+
+                        if ("seriejs" == $panel.keyname) {
+                            setBoxPropVal(data.keyname, t, $panel.keyname, $panel.index)
+                        } else {
+                            setBoxPropVal(data.keyname, t, !1)
+                        }
                     }
                 }, {min: 0, max: 100});
-                t.slider(n), s.bind("change", function () {
-                    var e = Number($(this).val());
-                    o.items && (e += o.items), "series" == r.keyname ? setBoxPropVal(o.keyname, e, r.keyname, r.index) : setBoxPropVal(o.keyname, e, !1);
-                    var a = t.slider("option", "max");
-                    $(this).val() > a && t.slider("option", "max", $(this).val()), t.slider("value", $(this).val())
-                });
-                var i = getBoxPropVal(o.keyname, r.keyname, r.index), p = i;
-                (isArray(i) && (p = i[0]), p) && ("" != o.items && (p = (p + "").split(o.items)[0]), s.val(p), t.slider("option", "max") < p && t.slider("option", "max", p), t.slider("value", p), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
-            }
 
-            function createDoubleSlider(e, o) {
-                var r = e.closest(".ui-tabs-panel").data(), a = $('<div class="prop-widget-slider"></div>'),
-                    s = $("<div><div/>"), n = $('<input class="slider-input" type="number" />'),
-                    t = $('<div class="prop-widget-slider"></div>'), i = $("<div><div/>"),
-                    p = $('<input class="slider-input" type="number" />');
-                a.append(s), t.append(i), e.append(a).append(n).append(t).append(p);
-                $.extend({
-                    change: function (e, a) {
-                    }, slide: function (e, a) {
-                        input.val(a.value), "series" == r.keyname ? setBoxPropVal(o.keyname, Number(a.value) + o.items, r.keyname, r.index) : setBoxPropVal(o.keyname, Number(a.value) + o.items, !1)
+                $div.slider(n);
+                $input.bind("change", function () {
+                    var e = Number($(this).val());
+
+                    if (data.items) {
+                        t += data.items
                     }
-                }, {min: -100, max: 100});
-                s.slider({
-                    slide: function (e, a) {
-                        n.val(a.value);
-                        var t = [];
-                        o.items ? (t.push(a.value + o.items), t.push(i.slider("value") + o.items)) : (t.push(a.value), t.push(i.slider("value"))), "series" == r.keyname ? setBoxPropVal(o.keyname, t, r.keyname, r.index) : setBoxPropVal(o.keyname, t, !1)
+
+                    if ("seriejs" == $panel.keyname) {
+                        setBoxPropVal(data.keyname, e, $panel.keyname, $panel.index)
+                    } else {
+                        setBoxPropVal(data.keyname, e, !1);
                     }
-                }), i.slider({
-                    slide: function (e, a) {
-                        p.val(a.value);
-                        var t = [];
-                        o.items ? (t.push(s.slider("value") + o.items), t.push(a.value + o.items)) : (t.push(s.slider("value")), t.push(a.value)), "series" == r.keyname ? setBoxPropVal(o.keyname, t, r.keyname, r.index) : setBoxPropVal(o.keyname, t, !1)
+
+                    var a = $div.slider("option", "max");
+
+                    if ($(this).val() > a) {
+                        $div.slider("option", "max", $(this).val());
+                        $div.slider("value", $(this).val());
                     }
-                }), n.bind("change", function () {
-                    var e = s.slider("option", "max"), a = $(this).val();
-                    e < a && s.slider("option", "max", a), s.slider("value", a);
-                    var t = [];
-                    o.items ? (t.push(a + o.items), t.push(i.slider("value") + o.items)) : (t.push(a), t.push(i.slider("value"))), "series" == r.keyname ? setBoxPropVal(o.keyname, t, r.keyname, r.index) : setBoxPropVal(o.keyname, t, !1)
-                }), p.bind("change", function () {
-                    var e = i.slider("option", "max"), a = $(this).val();
-                    e < a && i.slider("option", "max", a), i.slider("value", a);
-                    var t = [];
-                    o.items ? (t.push(s.slider("value") + o.items), t.push(a + o.items)) : (t.push(s.slider("value")), t.push(a)), "series" == r.keyname ? setBoxPropVal(o.keyname, t, r.keyname, r.index) : setBoxPropVal(o.keyname, t, !1)
+
                 });
-                var d = getBoxPropVal(o.keyname, r.keyname, r.index);
-                if (isArray(d)) {
-                    var l = d[0], c = d[1];
-                    if (!isNaN(l) && !isNaN(c)) o.items && (l = l.split(o.items)[0], c = c.split(o.items)[0]), n.val(l), s.slider("option", "max") < l && s.slider("option", "max", l), s.slider("value", l), p.val(c), i.slider("option", "max") < c && i.slider("option", "max", c), i.slider("value", c), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide()
+                var i = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+
+                if (i && isArray(i)) {
+
+                    p = i[0];
+
+                    if ("" != data.items) {
+
+                        p = (p + "").split(data.items)[0];
+                    }
+
+                    $input.val(p);
+                    $div.slider("option", "max") < p && $div.slider("option", "max", p);
+                    $div.slider("value", p);
+                    elem.parent().addClass("on");
+                    elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                    elem.parent().find(".prop-over").hide();
                 }
             }
 
-            function createColorPicker(e, a) {
-                var t = e.closest(".ui-tabs-panel").data(), o = $('<div class="prop-widget-color"></div>'),
-                    r = $('<div class="colorPicker"><div/>');
-                o.append(r), e.append(o), r.spectrum({
+            function createDoubleSlider(elem, o) {
+
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $widget = $('<div class="prop-widget-slider"></div>');
+                var $div = $("<div><div/>");
+
+                var $input = $('<input class="slider-input" type="number" />');
+                var $widget2 = $('<div class="prop-widget-slider"></div>');
+                var $div2 = $("<div><div/>");
+                var $input2 = $('<input class="slider-input" type="number" />');
+
+                $div.append($div);
+                $widget2.append($div2);
+                elem.append($div).append($input).append($widget2).append($input2);
+
+                $.extend({
+                    change: function (e, a) {
+                        //...
+                    }, slide: function (e, a) {
+                        input.val(a.value);
+
+                        if ("series" == $panel.keyname) {
+                            setBoxPropVal(o.keyname, Number(a.value) + o.items, $panel.keyname, $panel.index)
+                        } else {
+                            setBoxPropVal(o.keyname, Number(a.value) + o.items, !1)
+                        }
+                    }
+                }, {min: -100, max: 100});
+
+                $div.slider({
+                    slide: function (e, a) {
+                        $input.val(a.value);
+                        var t = [];
+                        o.items ? (t.push(a.value + o.items), t.push($div2.slider("value") + o.items)) : (t.push(a.value), t.push($div2.slider("value"))), "series" == $panel.keyname ? setBoxPropVal(o.keyname, t, $panel.keyname, $panel.index) : setBoxPropVal(o.keyname, t, !1)
+                    }
+                });
+
+                $div2.slider({
+                    slide: function (e, a) {
+                        $input2.val(a.value);
+                        var t = [];
+
+                        if (o.items) {
+                            t.push($div.slider("value") + o.items);
+                            t.push(a.value + o.items)
+                        } else {
+                            t.push($div.slider("value"));
+                            t.push(a.value)
+                        }
+
+                        if ("series" == $panel.keyname) {
+                            setBoxPropVal(o.keyname, t, $panel.keyname, $panel.index)
+                        } else {
+                            setBoxPropVal(o.keyname, t, !1)
+                        }
+                    }
+                });
+
+                $input.bind("change", function () {
+                    var _max = $div.slider("option", "max");
+                    var _val = $(this).val();
+
+                    if (_max < _val) {
+                        $div.slider("option", "max", _val);
+                    }
+
+                    $div.slider("value", _val);
+                    var t = [];
+
+                    if (o.items) {
+                        t.push(_val + o.items), t.push($div2.slider("value") + o.items)
+                    } else {
+                        t.push(_val), t.push($div2.slider("value"))
+                    }
+
+                    if ("series" == $panel.keyname) {
+                        setBoxPropVal(o.keyname, t, $panel.keyname, $panel.index)
+                    } else {
+                        setBoxPropVal(o.keyname, t, !1)
+                    }
+
+                });
+
+                $input2.bind("change", function () {
+                    var _max = $div2.slider("option", "max");
+                    var _val = $(this).val();
+
+                    if (_max < _val) {
+                        $div2.slider("option", "max", _val);
+                    }
+
+                    $div2.slider("value", _val);
+                    var t = [];
+
+                    if (o.items) {
+                        t.push($div.slider("value") + o.items), t.push(_val + o.items)
+                    } else {
+                        t.push($div.slider("value")), t.push(_val)
+                    }
+
+                    if ("series" == $panel.keyname) {
+                        setBoxPropVal(o.keyname, t, $panel.keyname, $panel.index)
+                    } else {
+                        setBoxPropVal(o.keyname, t, !1)
+                    }
+
+                });
+                var boxPropVal = getBoxPropVal(o.keyname, $panel.keyname, $panel.index);
+
+                if (isArray(boxPropVal)) {
+
+                    var _max = boxPropVal[0];
+                    var _mix = boxPropVal[1];
+
+                    if (!isNaN(_max) && !isNaN(_mix)) {
+
+                        if (o.items) {
+                            _max = _max.split(o.items)[0];
+                            _mix = _mix.split(o.items)[0]
+                        }
+
+                        $input.val(_max);
+                        $div.slider("option", "max") < _max && $div.slider("option", "max", _max);
+                        $div.slider("value", _max);
+                        $input2.val(_mix);
+                        $div2.slider("option", "max") < _mix && $div2.slider("option", "max", _mix);
+                        $div2.slider("value", _mix);
+                        elem.parent().addClass("on");
+                        elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                        elem.parent().find(".prop-over").hide()
+                    }
+                }
+            }
+
+            function createColorPicker(elem, data) {
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $widget = $('<div class="prop-widget-color"></div>');
+                var $div = $('<div class="colorPicker"><div/>');
+
+                $widget.append($div);
+                elem.append($widget);
+                $div.spectrum({
                     showPalette: !0,
                     showInput: !0,
                     allowEmpty: !0,
@@ -190,204 +389,358 @@
                     hide: function (e) {
                     },
                     choose: function (e) {
-                        e = e ? e.toRgbString() : "auto", r.css("background-color", e), "series" == t.keyname ? setBoxPropVal(a.keyname, e, t.keyname, t.index) : setBoxPropVal(a.keyname, e, !1)
+                        e = e ? e.toRgbString() : "auto";
+                        $div.css("background-color", e);
+
+                        if ("series" == $panel.keyname) {
+                            setBoxPropVal(data.keyname, e, $panel.keyname, $panel.index)
+                        } else {
+                            setBoxPropVal(data.keyname, e, !1)
+                        }
                     }
                 });
-                var s = getBoxPropVal(a.keyname, t.keyname, t.index), n = s;
-                isArray(s) && (n = s[0]), n && (r.spectrum("set", n), r.css("background-color", n), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
+                var boxPropVal = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+                var n;
+
+                if (isArray(boxPropVal)) {
+                    n = boxPropVal[0];
+                    $div.spectrum("set", n);
+                    $div.css("background-color", n);
+                    elem.parent().addClass("on");
+                    elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                    elem.parent().find(".prop-over").hide()
+                }
             }
 
-            function createInputBtn(e, a) {
-                var t = e.closest(".ui-tabs-panel").data(), o = $('<div class="prop-widget-input"></div>'),
-                    r = $('<input class="input-btn-input" type="text" />'),
-                    s = $('<button class="input-btn-btn" type="button">...</button>');
-                s.bind("click", function () {
-                    a.items && window[a.items](r)
-                }), o.append(r).append(s), e.append(o), r.bind("change blur", function () {
-                    console.log("asdasdas"), "series" == t.keyname ? setBoxPropVal(a.keyname, $(this).val(), t.keyname, t.index) : setBoxPropVal(a.keyname, $(this).val(), !1)
+            function createInputBtn(elem, data) {
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $widget = $('<div class="prop-widget-input"></div>');
+                var $input = $('<input class="input-btn-input" type="text" />');
+                var $button = $('<button class="input-btn-btn" type="button">...</button>');
+
+                $button.bind("click", function () {
+                    data.items && window[data.items]($input)
                 });
-                var n = getBoxPropVal(a.keyname, t.keyname, t.index), i = n;
-                isArray(n) && (i = n[0]), i && (r.val(i), e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
+                $widget.append($input).append($button);
+                elem.append($widget);
+                $input.bind("change blur", function () {
+
+                    if ("series" == $panel.keyname) {
+                        setBoxPropVal(data.keyname, $(this).val(), $panel.keyname, $panel.index)
+                    } else {
+                        setBoxPropVal(data.keyname, $(this).val(), !1)
+                    }
+                });
+                var boxPropVal = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+
+                if (isArray(boxPropVal)) {
+                    var i = boxPropVal[0];
+                    $input.val(i);
+                    elem.parent().addClass("on");
+                    elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                    elem.parent().find(".prop-over").hide()
+                }
             }
 
-            function createButton(e, a) {
-                var t = e.closest(".ui-tabs-panel").data(), o = $('<button class="button-btn" type="button"></button>'),
-                    r = getBoxPropVal(a.keyname, t.keyname, t.index);
-                o.html(a.value), o.bind("click", function () {
-                    if (a.items) {
-                        var e = getBoxPropVal(a.keyname, t.keyname, t.index);
-                        window[a.items](e, function (e) {
-                            setBoxPropVal(a.keyname, e, !1)
+            function createButton(elem, data) {
+                var $panel = elem.closest(".ui-tabs-panel").data();
+                var $button = $('<button class="button-btn" type="button"></button>');
+                var boxPropVal = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+                $button.html(data.value);
+                $button.bind("click", function () {
+                    if (data.items) {
+                        var e = getBoxPropVal(data.keyname, $panel.keyname, $panel.index);
+                        window[data.items](e, function (e) {
+                            setBoxPropVal(data.keyname, e, !1)
                         })
                     }
-                }), e.append(o), r && (e.parent().addClass("on"), e.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o"), e.parent().find(".prop-over").hide())
+                });
+
+                elem.append($button);
+
+                if (boxPropVal) {
+                    elem.parent().addClass("on");
+                    elem.parent().find(".tag-checkbox").addClass("fa-check-square-o").removeClass("fa-square-o");
+                    elem.parent().find(".prop-over").hide()
+                }
             }
 
-            function addTabs(e, a) {
-                var r = $('<div class="prop-tabs"></div>'), t = a.items, s = $("<ul></ul>");
-                r.append(s), $.each(t, function (e, a) {
-                    $('<li class="prop-tabs-item">' + a.text + "</li>").appendTo(s);
-                    var t = $('<div class="prop-tabs-page"></div>');
-                    r.append(t);
-                    var o = a.items;
-                    $.each(o, function (e, a) {
-                        addPropDom(t, a)
+            function addTabs(elem, data) {
+                var $tabs = $('<div class="prop-tabs"></div>');
+                var items = data.items;
+                var $ul = $("<ul></ul>");
+
+                $tabs.append($ul);
+                $.each(items, function (index, val) {
+                    $('<li class="prop-tabs-item">' + val.text + "</li>").appendTo($ul);
+                    var $page = $('<div class="prop-tabs-page"></div>');
+                    $tabs.append($page);
+                    var items2 = val.items;
+                    $.each(items2, function (index2, val2) {
+                        addPropDom($page, val2)
                     })
-                }), e.append(r), r.propTabs()
+                });
+
+                elem.append($tabs);
+                $tabs.propTabs()
             }
 
-            function getBoxPropVal(e, a, t) {
-                return getJsonValue(currBox.data("prop"), e, a, t)
+            function getBoxPropVal(targetNames, keyname, specifyIndex) {
+                return getJsonValue(currBox.data("prop"), targetNames, keyname, specifyIndex)
             }
 
-            function getJsonValue(e, a, t, o) {
-                var r = a.split("."), s = e[r[0]];
-                return "[object Array]" === Object.prototype.toString.apply(s) ? getJsonArray(s, 0, r, t, o) : "[object Object]" === Object.prototype.toString.apply(s) ? getJsonObject(s, 0, r, t, o) : s
-            }
+            function getJsonValue(prop, targetNames, keyname, specifyIndex) {
 
-            function getJsonObject(e, a, t, o, r) {
-                if (a < t.length) {
-                    var s = e[t[a + 1]];
-                    return "[object Array]" === Object.prototype.toString.apply(s) ? getJsonArray(s, a + 1, t, o, r) : "[object Object]" === Object.prototype.toString.apply(s) ? getJsonObject(s, a + 1, t, o, r) : s
+                var _targetNames = targetNames.split(".");
+                var _prop = prop[_targetNames[0]];
+
+                if ("[object Array]" === Object.prototype.toString.apply(_prop)) {
+                    return getJsonArray(_prop, 0, _targetNames, keyname, specifyIndex)
+                } else if ("[object Object]" === Object.prototype.toString.apply(_prop)) {
+                    return getJsonObject(_prop, 0, _targetNames, keyname, specifyIndex)
+                } else {
+                    return _prop;
                 }
             }
 
-            function getJsonArray(e, o, r, s, n) {
-                if (s != r[o]) {
-                    var i = [];
-                    return $.each(e, function (e, a) {
-                        if (o < r.length) {
-                            var t = a[r[o + 1]];
-                            "[object Array]" === Object.prototype.toString.apply(t) ? i.push(getJsonArray(t, o + 1, r, s, n)) : "[object Object]" === Object.prototype.toString.apply(t) ? i.push(getJsonObject(t, o + 1, r, s, n)) : "[string String]" === Object.prototype.toString.apply(a) ? i.push(a) : i.push(t)
+            function getJsonObject(data, firstIndex, targetNames, keyname, specifyIndex) {
+                if (firstIndex < targetNames.length) {
+                    var _data = data[targetNames[firstIndex + 1]];
+
+                    if ("[object Array]" === Object.prototype.toString.apply(_data)) {
+                        return getJsonArray(_data, firstIndex + 1, targetNames, keyname, specifyIndex)
+                    } else if ("[object Object]" === Object.prototype.toString.apply(_data)) {
+                        return getJsonObject(_data, firstIndex + 1, targetNames, keyname, specifyIndex)
+                    } else {
+                        return _data;
+                    }
+                }
+            }
+
+            function getJsonArray(data, firstIndex, targetNameArray, keyname, specifyIndex) {
+
+                debugger
+                if (keyname != targetNameArray[firstIndex]) {
+                    var _array = [];
+
+                    $.each(data, function (index, val) {
+                        if (firstIndex < targetNameArray.length) {
+                            var _data = val[targetNameArray[firstIndex + 1]];
+
+                            if ("[object Array]" === Object.prototype.toString.apply(_data)) {
+                                _array.push(getJsonArray(_data, firstIndex + 1, targetNameArray, keyname, specifyIndex))
+                            } else if ("[object Object]" === Object.prototype.toString.apply(_data)) {
+                                _array.push(getJsonObject(_data, firstIndex + 1, targetNameArray, keyname, specifyIndex))
+                            } else if ("[string String]" === Object.prototype.toString.apply(val)) {
+                                _array.push(val)
+                            } else {
+                                _array.push(_data)
+                            }
                         }
-                    }), i
+                    });
+                    return _array;
                 }
-                var a = e[n];
-                if (o < r.length) {
-                    var t = a[r[o + 1]];
-                    return o + 1 == r.length - 1 ? t : "[object Array]" === Object.prototype.toString.apply(t) ? getJsonArray(t, o + 1, r, s, n) : "[object Object]" === Object.prototype.toString.apply(t) ? getJsonObject(t, o + 1, r, s, n) : t
+                var a = data[specifyIndex];
+                if (firstIndex < targetNameArray.length) {
+                    var t = a[targetNameArray[firstIndex + 1]];
+
+                    if (firstIndex + 1 == targetNameArray.length - 1) {
+                        return t;
+                    } else if ("[object Array]" === Object.prototype.toString.apply(t)) {
+                        return getJsonArray(t, firstIndex + 1, targetNameArray, keyname, specifyIndex);
+                    } else if ("[object Object]" === Object.prototype.toString.apply(t)) {
+                        return getJsonObject(t, firstIndex + 1, targetNameArray, keyname, specifyIndex);
+                    } else {
+                        return t;
+                    }
                 }
             }
 
             function setBoxPropVal(name, val, flag, pindex) {
-                var box = currBox, prop = box.data("prop");
+                var box = currBox;
+                var prop = box.data("prop");
                 setJsonValue(prop, name, val, flag, pindex);
                 var keys = name.split(".");
                 if ("rectP" == keys[0]) {
                     box.rotateResize("setBoxProp", prop.rectP);
                     var myChart = box.data("prop").myChart;
-                    myChart && myChart.resize()
+                    if (myChart) {
+                        myChart.resize()
+                    }
                 } else if ("options" == keys[0]) {
                     var myChart = box.data("prop").myChart;
                     if (myChart) {
                         var tempOptions = $.extend(!0, {}, eval("(" + prop.optionsText + ")"), prop.options);
                         prop.optionsText = JSON.stringify(tempOptions, function (e, a) {
                             return "function" == typeof a ? "&" + a.toString().replace(/\s+/g, " ").replace(/\n/g, "") + "&" : a
-                        }, 4), prop.optionsText = prop.optionsText.replace(/"&/g, "").replace(/&"/g, ""), jsonExtentEditor.setValue(prop.optionsText), myChart.setOption(prop.options)
+                        }, 4);
+                        prop.optionsText = prop.optionsText.replace(/"&/g, "").replace(/&"/g, "");
+                        jsonExtentEditor.setValue(prop.optionsText);
+                        myChart.setOption(prop.options);
                     }
-                } else if ("other" == keys[0]) "theme" != keys[1] && "axis" != keys[1] || bulidChartOther(currBox); else if ("parts" == keys[0]) switch (keys[1]) {
-                    case"fontSize":
-                        box.find(".tag-" + prop.type).css("font-size", val + "px");
-                        break;
-                    case"fontWeight":
-                        box.find(".tag-" + prop.type).css("font-weight", val);
-                        break;
-                    case"textShadow":
-                        box.find(".tag-" + prop.type).css("text-shadow", val);
-                        break;
-                    case"color":
-                        box.find(".tag-" + prop.type).css("color", val);
-                        break;
-                    case"backgroundImage":
-                        var strurl = val;
-                        strurl = strurl.replace(/\\/g, "/"), box.find(".tag-" + prop.type).css({
-                            "background-image": "url('" + strurl + "')",
-                            "background-repeat": "no-repeat",
-                            "background-size": "100% 100%"
-                        });
-                        break;
-                    case"backgroundColor":
-                        box.find(".tag-" + prop.type).css({"background-color": val});
-                        break;
-                    case"backgroundSize":
-                        var sizeVal = "";
-                        val && 2 == val.length && 0 < val[0] && 0 < val[1] && (sizeVal = val[0] + "% " + val[1] + "%"), box.find(".tag-" + prop.type).css({"background-size": sizeVal});
-                        break;
-                    case"backgroundRepeat":
-                        box.find(".tag-" + prop.type).css({"background-repeat": val.replace("_", "-")});
-                        break;
-                    case"imgUrl":
-                        box.find(".tag-" + prop.type).attr("src", val);
-                        break;
-                    case"text":
-                        box.find(".tag-" + prop.type).html(val);
-                        break;
-                    case"borderRadius":
-                        box.find(".tag-" + prop.type).css({"border-radius": val + "px"});
-                        break;
-                    case"iframeUrl":
-                        -1 == val.indexOf("http://") && (val = "http://" + val), box.find(".tag-" + prop.type).attr("src", val);
-                        break;
-                    case"fontFamily":
-                        box.find(".tag-" + prop.type).css("font-family", val);
-                        break;
-                    case"borderWidth":
-                        box.find(".tag-" + prop.type).css("border-width", val);
-                        break;
-                    case"borderStyle":
-                        box.find(".tag-" + prop.type).css("border-style", val);
-                        break;
-                    case"borderColor":
-                        box.find(".tag-" + prop.type).css("border-color", val);
-                        break;
-                    case"textAlign":
-                        box.find(".tag-" + prop.type).css("text-align", val);
-                        break;
-                    case"lineHeight":
-                        box.find(".tag-" + prop.type).css("line-height", val + "px");
-                        break;
-                    case"tableHeight":
-                        box.find(".tag-" + prop.type).find("ul.kgo-scroll-body-ul li").css("height", val + "px")
+                } else if ("other" == keys[0]) {
+
+                    //"theme" != keys[1] &&
+                    //"axis" != keys[1] ||
+                    bulidChartOther(currBox);
+
+                } else if ("parts" == keys[0]) {
+                    switch (keys[1]) {
+                        case"fontSize":
+                            box.find(".tag-" + prop.type).css("font-size", val + "px");
+                            break;
+                        case"fontWeight":
+                            box.find(".tag-" + prop.type).css("font-weight", val);
+                            break;
+                        case"textShadow":
+                            box.find(".tag-" + prop.type).css("text-shadow", val);
+                            break;
+                        case"color":
+                            box.find(".tag-" + prop.type).css("color", val);
+                            break;
+                        case"backgroundImage":
+                            var strurl = val;
+                            strurl = strurl.replace(/\\/g, "/"), box.find(".tag-" + prop.type).css({
+                                "background-image": "url('" + strurl + "')",
+                                "background-repeat": "no-repeat",
+                                "background-size": "100% 100%"
+                            });
+                            break;
+                        case"backgroundColor":
+                            box.find(".tag-" + prop.type).css({"background-color": val});
+                            break;
+                        case"backgroundSize":
+                            var sizeVal = "";
+                            val && 2 == val.length && 0 < val[0] && 0 < val[1] && (sizeVal = val[0] + "% " + val[1] + "%"), box.find(".tag-" + prop.type).css({"background-size": sizeVal});
+                            break;
+                        case"backgroundRepeat":
+                            box.find(".tag-" + prop.type).css({"background-repeat": val.replace("_", "-")});
+                            break;
+                        case"imgUrl":
+                            box.find(".tag-" + prop.type).attr("src", val);
+                            break;
+                        case"text":
+                            box.find(".tag-" + prop.type).html(val);
+                            break;
+                        case"borderRadius":
+                            box.find(".tag-" + prop.type).css({"border-radius": val + "px"});
+                            break;
+                        case"iframeUrl":
+                            -1 == val.indexOf("http://") && (val = "http://" + val), box.find(".tag-" + prop.type).attr("src", val);
+                            break;
+                        case"fontFamily":
+                            box.find(".tag-" + prop.type).css("font-family", val);
+                            break;
+                        case"borderWidth":
+                            box.find(".tag-" + prop.type).css("border-width", val);
+                            break;
+                        case"borderStyle":
+                            box.find(".tag-" + prop.type).css("border-style", val);
+                            break;
+                        case"borderColor":
+                            box.find(".tag-" + prop.type).css("border-color", val);
+                            break;
+                        case"textAlign":
+                            box.find(".tag-" + prop.type).css("text-align", val);
+                            break;
+                        case"lineHeight":
+                            box.find(".tag-" + prop.type).css("line-height", val + "px");
+                            break;
+                        case"tableHeight":
+                            box.find(".tag-" + prop.type).find("ul.kgo-scroll-body-ul li").css("height", val + "px")
+                    }
                 } else if ("swiper" == keys[0]) {
                     box.data("prop").mySwiper.destroy(!0, !0);
-                    var swiper = box.data("prop").swiper, mySwiper = new Swiper(box.find(".tag-swiper"), swiper);
+                    var swiper = box.data("prop").swiper;
+                    var mySwiper = new Swiper(box.find(".tag-swiper"), swiper);
                     box.data("prop").mySwiper = mySwiper
-                } else if ("effect" == keys[0]) switch (keys[1]) {
-                    case"autoscroll":
-                        val ? box.autoScroll() : box.stopScroll()
+
+                } else if ("effect" == keys[0]) {
+                    switch (keys[1]) {
+                        case"autoscroll":
+                            val ? box.autoScroll() : box.stopScroll()
+                    }
                 }
                 undoRecord()
             }
 
-            function setJsonValue(e, a, t, o, r) {
-                var s = a.split(".");
-                e.hasOwnProperty(s[0]) || (e[s[0]] = {});
-                var n = e[s[0]];
-                "[object Array]" === Object.prototype.toString.apply(n) ? setJsonArray(n, 0, s, t, o, r) : "[object Object]" === Object.prototype.toString.apply(n) ? setJsonObject(n, 0, s, t, o, r) : "delObj" == t ? delete e[s[0]] : e[s[0]] = t
-            }
+            /**
+             * prop, name, val, flag, pindex
+             * @param prop
+             * @param name
+             * @param val
+             * @param flag
+             * @param pindex
+             */
+            function setJsonValue(prop, name, val, flag, pindex) {
+                var names = name.split(".");
+                prop.hasOwnProperty(names[0]) || (prop[names[0]] = {});
+                var _prop = prop[names[0]];
 
-            function setJsonObject(e, a, t, o, r, s) {
-                if (a < t.length - 1) {
-                    e.hasOwnProperty(t[a + 1]) || a + 1 == t.length - 1 || (e[t[a + 1]] = {});
-                    var n = e[t[a + 1]];
-                    "[object Array]" === Object.prototype.toString.apply(n) ? setJsonArray(n, a + 1, t, o, r, s) : "[object Object]" === Object.prototype.toString.apply(n) ? setJsonObject(n, a + 1, t, o, r, s) : "delObj" == o ? delete e[t[a + 1]] : e[t[a + 1]] = o
+                if ("[object Array]" === Object.prototype.toString.apply(_prop)) {
+                    setJsonArray(_prop, 0, names, val, flag, pindex)
+                } else if ("[object Object]" === Object.prototype.toString.apply(_prop)) {
+                    setJsonObject(_prop, 0, names, val, flag, pindex)
+
+                } else if ("delObj" == val) {
+                    delete prop[names[0]]
+                } else {
+                    prop[names[0]] = val
                 }
             }
 
-            function setJsonArray(o, r, s, n, i, p) {
-                if (i && r < s.length - 1) {
-                    if (i == s[r]) {
-                        var e = o[p];
-                        e.hasOwnProperty(s[r + 1]) || r + 1 == s.length - 1 ? r + 1 == s.length - 1 && (e[s[r + 1]] = n) : e[s[r + 1]] = {};
-                        var a = e[s[r + 1]];
-                        "[object Array]" === Object.prototype.toString.apply(a) ? setJsonArray(a, r + 1, s, n, i, p) : "[object Object]" === Object.prototype.toString.apply(a) ? setJsonObject(a, r + 1, s, n, i, p) : "delObj" == n ? delete e[s[r + 1]] : e[s[r + 1]] = n
+            function setJsonObject(prop, len, name, val, flag, pindex) {
+                if (len < name.length - 1) {
+                    prop.hasOwnProperty(name[len + 1]) || len + 1 == name.length - 1 || (prop[name[len + 1]] = {});
+                    var _prop = prop[name[len + 1]];
+
+                    if ("[object Array]" === Object.prototype.toString.apply(_prop)) {
+                        setJsonArray(_prop, len + 1, name, val, flag, pindex)
+                    } else if ("[object Object]" === Object.prototype.toString.apply(_prop)) {
+                        setJsonObject(_prop, len + 1, name, val, flag, pindex)
+                    } else if ("delObj" == val) {
+                        delete prop[name[len + 1]]
+                    } else {
+                        prop[name[len + 1]] = val
                     }
-                } else $.each(o, function (e, a) {
-                    if (r < s.length - 1) {
-                        a.hasOwnProperty(s[r + 1]) || r + 1 == s.length - 1 || (a[s[r + 1]] = {});
-                        var t = a[s[r + 1]];
-                        "[object Array]" === Object.prototype.toString.apply(t) ? setJsonArray(t, r + 1, s, n, i, p) : "[object Object]" === Object.prototype.toString.apply(t) ? setJsonObject(t, r + 1, s, n, i, p) : "delObj" == n ? delete a[s[r + 1]] : a[s[r + 1]] = n
-                    } else o[e] = n[e]
+                }
+            }
+
+            function setJsonArray(prop, len, name, val, flag, pindex) {
+                if (flag && len < name.length - 1) {
+                    if (flag == name[len]) {
+                        var e = prop[pindex];
+                        e.hasOwnProperty(name[len + 1]) || len + 1 == name.length - 1 ? len + 1 == name.length - 1 && (e[name[len + 1]] = val) : e[name[len + 1]] = {};
+                        var a = e[name[len + 1]];
+
+                        if ("[object Array]" === Object.prototype.toString.apply(a)) {
+                            setJsonArray(a, len + 1, name, val, flag, pindex)
+                        } else if ("[object Object]" === Object.prototype.toString.apply(a)) {
+                            setJsonObject(a, len + 1, name, val, flag, pindex)
+                        } else if ("delObj" == val) {
+                            delete e[name[len + 1]]
+                        } else {
+                            e[name[len + 1]] = val
+                        }
+                    }
+                } else $.each(prop, function (e, a) {
+                    if (len < name.length - 1) {
+                        a.hasOwnProperty(name[len + 1]) || len + 1 == name.length - 1 || (a[name[len + 1]] = {});
+                        var t = a[name[len + 1]];
+
+                        if ("[object Array]" === Object.prototype.toString.apply(t)) {
+                            setJsonArray(t, len + 1, name, val, flag, pindex)
+                        } else if ("[object Object]" === Object.prototype.toString.apply(t)) {
+                            setJsonObject(t, len + 1, name, val, flag, pindex)
+                        } else if ("delObj" == val) {
+                            delete a[name[len + 1]]
+                        } else {
+                            a[name[len + 1]] = val
+                        }
+
+                    } else {
+                        prop[e] = val[e]
+                    }
                 })
             }
 

@@ -47,7 +47,7 @@
     <script src="dp_design/core/bulidTags.js"></script>
     <script src="dp_design/core/tagEdit.js"></script>
     <script src="dp_design/core/componentsTypeJson.js"></script>
-<!--    <script src="dp_design/core/groupboxs.js"></script>-->
+    <!--    <script src="dp_design/core/groupboxs.js"></script>-->
     <script src="dp_design/core/editEvent.js"></script>
     <script src="dp_design/core/import.js"></script>
 
@@ -69,7 +69,47 @@
     <script src="frame/assets/axios/axios.min.js"></script>
     <script src="frame/assets/sql-optimized.js"></script>
 
+<style type="text/css">
+    #eventEditor {
+        margin: 0;
+        position: absolute;
+        top: 60px;
+        bottom: 54px;
+        left: 8px;
+        right: 190px;
+        font-size: 12px;
+    }
+    #eventParams{
+        margin: 0;
+        position: absolute;
+        top: 60px;
+        bottom: 54px;
+        right: 10px;
+        width: 180px;
+        border-left: 1px solid #495057;
+        background-color: rgb(0, 34, 64);
+    }
 
+    #commonEvents{
+
+    }
+    #commonEvents li{
+        font-size: 12px;
+        border-radius: 10px;
+        border: 1px solid;
+        margin: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 10px;
+        cursor: pointer;
+    }
+    #commonEvents li:hover{
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+</style>
 </head>
 <body>
 <div class="layout layout-Header">
@@ -101,7 +141,7 @@
 </div>
 
 <div class="layout layout-Content">
-    <div id="content" style="width: 1920px; height: 1080px;" data-step="3" data-zoom="1"
+    <div id="content" style="width: 1920px; height: 1080px;left: 20px;top: 20px;transform-origin: top left" data-step="3" data-zoom="1"
          data-intro="场景图形展示区，配置好的图形会在这里展示">
         <div id="contentHandle"></div>
         <!--拖动辅助线-->
@@ -193,15 +233,9 @@
         <div id="config-panel"></div>
     </div>
     <div id="senior-box" class="layout layout-Rightnav">
-        <div id="senior-panel"></div>
-        <button id="jsoneditorSaveBtn"  class="btn btn-primary btn-sm" type="button">确认</button>
+        <div id="senior-panel" style="line-height: 20px"></div>
+        <button id="jsoneditorSaveBtn" class="btn btn-primary btn-sm" type="button">确认</button>
     </div>
-</div>
-
-<div class="stiemap">
-    <i id="sitemapSwitch" class="fa fa-close"></i>
-    <ul id="sitemap">
-    </ul>
 </div>
 
 <div id="app">
@@ -211,6 +245,21 @@
             IE：你们都看我干吗，我现在也是支持的
         </iframe>
         <div slot="footer"></div>
+    </modal>
+
+    <modal title="事件编辑器" v-model="jsedit.status" width="700px">
+        <div style="height: 500px">
+            <pre id="eventEditor"></pre>
+            <div id="eventParams">
+                <ul id="commonEvents">
+                </ul>
+                <ul id="eventsBoxs">
+                </ul>
+            </div>
+        </div>
+        <div slot="footer">
+            <button type="button" class="btn btn-primary btn-sm" id="saveEventBtn">保存</button>
+        </div>
     </modal>
 
     <modal title="图片文件选择" v-model="selectImage.status">
@@ -298,10 +347,16 @@
             shortcutkey: {
                 status: false
             },
+
+            jsedit: {
+                status: false
+
+            },
             selectImage: {
                 status: false,
                 propInputObj: {},
             },
+
             scene: {
                 status: false,
                 sceneName: "场景名称-" + new Date().getTime(),

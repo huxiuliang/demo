@@ -231,9 +231,18 @@ function createChart(prop, oelem) {
     })) : (html.appendTo("#content"), setRectP(html, prop), html.initBox({tagType: prop.type})), html
 }
 
-function bulidChartOther(e) {
-    var t = e.data("prop"), a = t.other, r = t.options || {};
-    a.axis ? (r.xAxis = a.sYAxis, r.yAxis = a.sXAxis) : (r.xAxis = a.sXAxis, r.yAxis = a.sYAxis), setChartTheme(e, t)
+function bulidChartOther(elem) {
+
+    var prop = elem.data("prop");
+    var other = prop.other;
+    var options = prop.options || {};
+
+    if (other.sYAxis && other.sXAxis) {
+        options.xAxis = other.sYAxis;
+        options.yAxis = other.sXAxis
+
+    }
+    setChartTheme(elem, prop)
 }
 
 function bulidLineChart(e, r) {
@@ -249,17 +258,25 @@ function bulidLineChart(e, r) {
     return setChartTheme(e, s), e
 }
 
-function bulidBarChart(e, r) {
-    var s = e.data("prop"), t = s.data, i = s.options || {}, a = s.other || {};
-    if (r) {
-        i.legend = i.legend || {}, i.legend.data = i.legend.data || [], i.series = i.series || [];
-        var n = getJsonValue(r, t.dimension[0].keyname);
-        $.each(t.series, function (e, t) {
-            var a = {data: getJsonValue(r, t.keyname), type: s.type, name: t.displayname};
-            i.series[e] ? i.series[e] = $.extend({}, i.series[e], a) : i.series.push(a), i.legend.data[e] ? i.legend.data[e] = t.displayname : i.legend.data.push(t.displayname)
-        }), i.series = i.series.slice(0, t.series.length), i.legend.data = i.legend.data.slice(0, t.series.length), a.axis ? i.yAxis.data = n : i.xAxis.data = n, a.sXAxis = i.xAxis, a.sYAxis = i.yAxis
+function bulidBarChart(elem, options) {
+    var _prop = elem.data("prop");
+    var _data = _prop.data;
+    var _options = _prop.options || {};
+    var _other = _prop.other || {};
+
+    if (options) {
+        _options.legend = _options.legend || {};
+        _options.legend.data = _options.legend.data || [];
+        _options.series = _options.series || [];
+
+        var n = getJsonValue(options, _data.dimension[0].keyname);
+        debugger
+        $.each(_data.series, function (e, t) {
+            var a = {data: getJsonValue(options, t.keyname), type: _prop.type, name: t.displayname};
+            _options.series[e] ? _options.series[e] = $.extend({}, _options.series[e], a) : _options.series.push(a), _options.legend.data[e] ? _options.legend.data[e] = t.displayname : _options.legend.data.push(t.displayname)
+        }), _options.series = _options.series.slice(0, _data.series.length), _options.legend.data = _options.legend.data.slice(0, _data.series.length), _other.axis ? _options.yAxis.data = n : _options.xAxis.data = n, _other.sXAxis = _options.xAxis, _other.sYAxis = _options.yAxis
     }
-    return setChartTheme(e, s), e
+    return setChartTheme(elem, _prop), elem
 }
 
 function bulidPieChart(e, t) {
@@ -394,62 +411,98 @@ function bulidMapData(e, t, a, i) {
     }, 4), r.optionsText = r.optionsText.replace(/"&/g, "").replace(/&"/g, ""), e.data("prop", r), e.initdata(), $(".box").removeClass("box-selected"), currBox = e
 }
 
-function setChartTheme(r, s) {
-    var i = s.options, n = s.other;
-    s.data;
-    if (s.myChart &&
-    s.myChart.dispose(),
+/**
+ * @param elem
+ * @param prop
+ */
+function setChartTheme(elem, prop) {
+    var i = prop.options, n = prop.other;
+    prop.data;
+    if (prop.myChart &&
+    prop.myChart.dispose(),
     n &&
     n.theme) {
-
         var e = "dp_design/charts-theme/" + n.theme + ".json";
         getJSONFileData(e, function (e) {
             var t = e;
             // echarts.registerTheme(n.theme, t);
-            var a = echarts.init(r.find(".tag-charts")[0], n.theme);
+            var a = echarts.init(elem.find(".tag-charts")[0], n.theme);
             a.setOption(i),
-                s.myChart = a,
-                s.options = i,
-                s.optionsText = JSON.stringify(i, function (e, t) {
+                prop.myChart = a,
+                prop.options = i,
+                prop.optionsText = JSON.stringify(i, function (e, t) {
                     return "function" == typeof t ? "&" + t.toString().replace(/\s+/g, " ").replace(/\n/g, "") + "&" : t
                 }, 4),
-                s.optionsText = s.optionsText.replace(/"&/g, "").replace(/&"/g, ""),
-                r.data("prop", s)
+                prop.optionsText = prop.optionsText.replace(/"&/g, "").replace(/&"/g, ""),
+                elem.data("prop", prop)
         })
     } else {
-        var t = echarts.init(r.find(".tag-charts")[0]);
+        var t = echarts.init(elem.find(".tag-charts")[0]);
         t.setOption(i),
-            s.myChart = t,
-            s.options = i,
-            s.optionsText = JSON.stringify(i, function (e, t) {
+            prop.myChart = t,
+            prop.options = i,
+            prop.optionsText = JSON.stringify(i, function (e, t) {
                 return "function" == typeof t ? "&" + t.toString().replace(/\s+/g, " ").replace(/\n/g, "") + "&" : t
             }, 4),
-            s.optionsText = s.optionsText.replace(/"&/g, "").replace(/&"/g, ""),
-            r.data("prop", s)
+            prop.optionsText = prop.optionsText.replace(/"&/g, "").replace(/&"/g, ""),
+            elem.data("prop", prop)
     }
-    currBox = r
+    currBox = elem
 }
 
-function getJsonValue(e, t) {
-    var a = t.split("."), r = e[a[0]];
-    return "[object Array]" === Object.prototype.toString.apply(r) && 1 < a.length ? getJsonArray(r, 0, a) : "[object Object]" === Object.prototype.toString.apply(r) && 1 < a.length ? getJsonObject(r, 0, a) : r
-}
+function getJsonValue(jsonData, keyName) {
+    debugger
 
-function getJsonObject(e, t, a) {
-    if (t < a.length) {
-        var r = e[a[t + 1]];
-        return "[object Array]" === Object.prototype.toString.apply(r) && t + 1 < a.length - 1 ? getJsonArray(r, t + 1, a) : "[object Object]" === Object.prototype.toString.apply(r) && t + 1 < a.length - 1 ? getJsonObject(r, t + 1, a) : r
+    var keys = keyName.split(".");
+    var val = jsonData[keys[0]];
+
+    if ("[object Array]" === Object.prototype.toString.apply(val) && 1 < keys.length) {
+        return getJsonArray(val, 0, keys)
+    } else {
+        if ("[object Object]" === Object.prototype.toString.apply(val) && 1 < keys.length) {
+            return getJsonObject(val, 0, keys)
+        } else {
+            return val
+        }
     }
 }
 
-function getJsonArray(e, r, s) {
-    var i = [];
-    return $.each(e, function (e, t) {
-        if (r < s.length - 1) {
-            var a = t[s[r + 1]];
-            "[object Array]" === Object.prototype.toString.apply(a) ? i.push(getJsonArray(a, r + 1, s)) : "[object Object]" === Object.prototype.toString.apply(a) ? i.push(getJsonObject(a, r + 1, s)) : i.push(a)
-        } else i.push(t)
-    }), i
+function getJsonObject(data, len, keys) {
+    if (len < keys.length) {
+        var val = data[keys[len + 1]];
+
+        if ("[object Array]" === Object.prototype.toString.apply(val) && len + 1 < keys.length - 1) {
+            return getJsonArray(val, len + 1, keys)
+        } else {
+
+            if ("[object Object]" === Object.prototype.toString.apply(val) && len + 1 < keys.length - 1) {
+                return getJsonObject(val, len + 1, keys)
+            } else {
+                return val
+            }
+        }
+    } else {
+        return {};
+    }
+}
+
+function getJsonArray(data, len, keys) {
+    var _array = [];
+    $.each(data, function (index, val) {
+        if (len < keys.length - 1) {
+            var valElement = val[keys[len + 1]];
+            if ("[object Array]" === Object.prototype.toString.apply(valElement)) {
+                _array.push(getJsonArray(valElement, len + 1, keys))
+            } else if ("[object Object]" === Object.prototype.toString.apply(valElement)) {
+                _array.push(getJsonObject(valElement, len + 1, keys))
+            } else {
+                _array.push(valElement)
+            }
+        } else {
+            _array.push(val)
+        }
+    });
+    return _array;
 }
 
 function S4() {

@@ -1,4 +1,4 @@
-var globalChartTheme = "default", globalDataBase, jsonExtentEditor;
+var globalChartTheme = "default", globalDataBase, jsonExtentEditor, eventEditor;
 
 /**
  * 左侧的属性面板
@@ -79,7 +79,14 @@ function initAceEditer() {
             currBox.data("prop", prop);
             undoRecord();
         }
-    })
+    });
+
+    eventEditor = ace.edit("eventEditor");
+    eventEditor.setTheme("ace/theme/cobalt");
+    eventEditor.session.setMode("ace/mode/javascript");
+    // if (eventValue) {
+    //     eventEditor.setValue(eventValue);
+    // }
 }
 
 /**
@@ -133,11 +140,11 @@ function initSceneConfig() {
 
         if (0 < a.deltaY) {
             t = (t = 5 < (t = Number(n) + e) ? 5 : t).toFixed(1);
-            content.css("transform", "scale(" + t + ")");
+            content.css({"transform": "scale(" + t + ")"});
             content.data("zoom", t);
         } else {
             t = (t = (t = Number(n) - e) < .2 ? .2 : t).toFixed(1);
-            content.css("transform", "scale(" + t + ")");
+            content.css({"transform": "scale(" + t + ")"});
             content.data("zoom", t);
         }
     });
@@ -203,47 +210,111 @@ function initSceneConfig() {
             $('.box').removeClass('temp-selected selected');
             selectableItmes = [];
         }
+
+        // if (!$(e.target).hasClass("box") && $(e.target).parents(".box").length == 0 && $(e.target).parents(".dropdown-menu").length == 0 && $(e.target).parents(".stiemap").length == 0 && $(e.target).parents(".tools-item").length == 0 && $(e.target).parents("#layx-diyTagsForm").length == 0) {
+        //     if ($(e.target).parents("#layx-eventEdit").length == 0 && $(e.target).parents("#rightnav").length == 0 && $(e.target).parents(".sp-container").length == 0 && $(e.target).attr("id") != "contentHandle") {
+        //         $(".box").removeClass("box-selected");
+        //         currBox = null;
+        //         $("#config-panel").empty();
+        //         //$("#rightnav").removeClass("on").hide();
+        //         //$(".sitemap-item").removeClass("on");
+        //     }
+        //     $('.box').removeClass('temp-selected selected');
+        //     selectableItmes = [];
+        // }
     });
 }
 
 function initDataConfig() {
     //链接地址
-    var t = $("#datalink");
+    var $datalink = $("#datalink");
     //获取数据格式
     var a = $("#datalinkBtn");
 
-    function l(a, t, e) {
-        layx.load("initTagData-layx", "数据正在加载中，请稍后"), 2 == a ? $.ajax({
-            url: "../../bddpshow/getJSONDataByUrl",
-            type: "post",
-            data: {url: t},
-            dataType: "json",
-            success: function (a, t) {
-                e.call(this, a), layx.destroy("initTagData-layx")
-            },
-            complete: function (a, t) {
-                layx.destroy("initTagData-layx"), console.log(a)
-            },
-            error: function (a, t, e) {
-                layx.msg("数据加载失败", {dialogIcon: "error"})
+    function l(dataFrom, url, callback) {
+        if (2 == dataFrom) {
+            $.ajax({
+                url: "../../bddpshow/getJSONDataByUrl",
+                type: "post",
+                data: {url: url},
+                dataType: "json",
+                success: function (data, textStatus) {
+                    callback.call(this, data);
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    app.msg("数据加载失败")
+                }
+            })
+        } else if (3 == dataFrom) {
+            $.ajax({
+                url: url,
+                type: "get",
+                timeout: 3e3,
+                dataType: "json",
+                success: function (data, textStatus) {
+                    callback.call(this, data);
+                    //layx.destroy("initTagData-layx")
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    app.msg("数据加载失败")
+                }
+            })
+        } else if (4 == dataFrom) {
+
+            if (1 == 1) {
+
+                var option = {
+                    data: [{
+                        "user_id": "1",
+                        "user_name": "申志强",
+                        "user_org": "100101",
+                        "user_org_name": "综合部",
+                        "wages": "15000",
+                        "position": "人力资源",
+                        "reg_date": "20141024",
+                        "user_tel": "13403555190",
+                        "user_addr": "辽宁",
+                        "user_post": "047300",
+                        "user_sts": "1"
+                    },
+                        {
+                            "user_id": "1",
+                            "user_name": "刘志强",
+                            "user_org": "100000",
+                            "user_org_name": "开发部",
+                            "wages": "15000",
+                            "position": "开发部",
+                            "reg_date": "20141024",
+                            "user_tel": "13403555190",
+                            "user_addr": "辽宁",
+                            "user_post": "047300",
+                            "user_sts": "1"
+                        }]
+                };
+
+                callback.call(this, option);
+                return
             }
-        }) : 3 == a ? $.ajax({
-            url: t, type: "get", timeout: 3e3, dataType: "json", success: function (a, t) {
-                e.call(this, a), layx.destroy("initTagData-layx")
-            }, complete: function (a, t) {
-                layx.destroy("initTagData-layx")
-            }, error: function (a, t, e) {
-                layx.msg("数据加载失败", {dialogIcon: "error"})
-            }
-        }) : 4 == a && $.ajax({
-            url: t, type: "post", timeout: 3e3, dataType: "json", success: function (a, t) {
-                e.call(this, a), layx.destroy("initTagData-layx")
-            }, complete: function (a, t) {
-                layx.destroy("initTagData-layx"), console.log(a)
-            }, error: function (a, t, e) {
-                layx.msg("数据加载失败", {dialogIcon: "error"})
-            }
-        })
+
+            $.ajax({
+                url: url,
+                type: "post",
+                timeout: 3e3,
+                dataType: "json",
+                success: function (data, textStatus) {
+                    callback.call(this, data);
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    app.msg("数据加载失败")
+                }
+            })
+        }
     }
 
     //数据来源切换
@@ -292,11 +363,10 @@ function initDataConfig() {
                 }
             }
         }
-
     });
 
     a.bind("click", function () {
-        var a = t.val();
+        var a = $datalink.val();
         l($(".box-selected").data("prop").other.dataFrom, a, function (a) {
             $("#data-show").JSONView(a, {collapsed: !0}), $("#data-show").find(".prop").draggable({
                 scroll: !1,
@@ -306,56 +376,102 @@ function initDataConfig() {
     });
 
     $("#datalinkSaveBtn").bind("click", function () {
-        var a = $("#data-box [name='dataFromRadio']:checked").val();
+        var val = $("#data-box [name='dataFromRadio']:checked").val();
         if (0 < $(".box-selected").length) {
-            var t = {dimension: [], series: [], classify: []};
+            var dsc = {dimension: [], series: [], classify: []};
             $(".data-dimension > .data-item").each(function () {
-                t.dimension.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
-            }), $(".data-series > .data-item").each(function () {
-                t.series.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
-            }), $(".data-classify > .data-item").each(function () {
-                t.classify.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
+                dsc.dimension.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
             });
-            var e = $(".box-selected").data("prop");
-            if (4 == a) {
-                t.link = getConfigProp("rdpserver") + "ex/ser/dataset/sqlgroupresult?";
-                var n = t.series.map(function (a) {
+            $(".data-series > .data-item").each(function () {
+                dsc.series.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
+            });
+            $(".data-classify > .data-item").each(function () {
+                dsc.classify.push({keyname: $(this).data("keyname"), displayname: $(this).data("displayname")})
+            });
+            var prop = $(".box-selected").data("prop");
+
+            if (4 == val) {
+                dsc.link = "";//getConfigProp("rdpserver") + "ex/ser/dataset/sqlgroupresult?";
+                var n = dsc.series.map(function (a) {
                     return a.keyname.split("data.")[1]
-                }).join(","), i = t.dimension.map(function (a) {
+                }).join(",");
+                var i = dsc.dimension.map(function (a) {
                     return a.keyname.split("data.")[1]
-                }).join(","), o = t.classify.map(function (a) {
+                }).join(",");
+                var o = dsc.classify.map(function (a) {
                     return a.keyname.split("data.")[1]
-                }).join(","), s = $("#dataSetsSelect").select2("data")[0].id;
-                t.dtId = s, t.link += "columns=" + n, t.link += "&groups=" + i, t.link += "&series=" + o, t.link += "&dtId=" + s, t.link += "&type=" + e.type
-            } else t.link = $("#datalink").val();
-            e.data = t, function (t) {
-                var e = t.data("prop"), a = e.data, n = e.other;
-                a && (1 == n.dataFrom ? (createTagsBox(e, globalDataBase, t.parent()), t.remove(), getProp(currBox, !0), currBox.addClass("box-selected"), layx.destroy("initTagData-layx")) : l(n.dataFrom, a.link, function (a) {
-                    createTagsBox(e, a, t.parent()), t.remove(), getProp(currBox, !0), currBox.addClass("box-selected")
-                }))
-            }($(".box-selected"))
+                }).join(",");
+                var s = $("#dataSetsSelect").select2("data")[0].id;
+                dsc.dtId = s;
+                dsc.link += "columns=" + n, dsc.link += "&groups=" + i, dsc.link += "&series=" + o, dsc.link += "&dtId=" + s, dsc.link += "&type=" + prop.type
+                prop.other.dataFrom = 4;
+                dsc.other = prop.other;
+
+            } else {
+                dsc.link = $("#datalink").val();
+            }
+            prop.data = dsc;
+
+            (function (elem) {
+
+                var $prop = elem.data("prop");
+                var a = $prop.data;
+                var $other = $prop.other;
+                //a &&
+                if (1 == $other.dataFrom) {
+
+                    createTagsBox($prop, globalDataBase, elem.parent());
+                    elem.remove();
+                    getProp(currBox, !0);
+                    currBox.addClass("box-selected");
+                    //layx.destroy("initTagData-layx")
+                } else {
+                    l($other.dataFrom, a.link, function (a) {
+                        createTagsBox($prop, a, elem.parent());
+                        elem.remove();
+                        getProp(currBox, !0);
+                        currBox.addClass("box-selected")
+                    });
+                }
+            }($(".box-selected")));
         }
     });
 
     $(".data-dimension,.data-series,.data-classify").droppable({
         accept: function (a) {
-            return !0
-        }, activeClass: "ui-state-hover", hoverClass: "ui-state-active", drop: function (a, t) {
-            var e = function a(t, e, n) {
-                    {
-                        var i;
-                        return 0 < t ? (0 < (i = 0 < n.closest(".array.level" + --t).length ? n.closest(".array.level" + t).siblings(".prop") : n.closest(".obj").siblings(".prop")).length && (e = i.data("key") + "." + e), a(t, e, i)) : e
+            return true
+        },
+        activeClass: "ui-state-hover",
+        hoverClass: "ui-state-active",
+
+        drop: function (event, ui) {
+            var keyname = function makeUpName(level, key, $drag) {//根据json等级用key连接在一起
+                if (level > 0) {
+                    if ($drag.closest(".array.level" + --level).length > 0) {
+                        var i = $drag.closest(".array.level" + level).siblings(".prop");
+                        key = i.data("key") + "." + key;
+                        return makeUpName(level, key, i);
+                    } else {
+                        return key;
                     }
-                }(t.draggable.data("level"), t.draggable.data("key"), t.draggable),
-                n = $('<div class="data-item" title="' + e + '" data-keyname="' + e + '" data-displayname="' + e + '"><span class="desc">' + e + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
-            n.find("i.fa-edit").bind("click", function () {
+                } else {
+                    return key;
+                }
+            }(ui.draggable.data("level"), ui.draggable.data("key"), ui.draggable);
+
+            var $obj = $('<div class="data-item" title="' + keyname + '" data-keyname="' + keyname + '" data-displayname="' + keyname + '"><span class="desc">' + keyname + '</span><i class="fa fa-edit "></i><i class="fa fa-close"></i></div>');
+            $obj.find("i.fa-edit").bind("click", function () {
                 var a = $('<input type="text" class="data-item-input" />');
                 $(this).parent().append(a), a.bind("blur", function () {
-                    $(this).parent().attr("data-displayname", $(this).val()), $(this).parent().find(".desc").html($(this).val()), $(this).unbind().remove()
+                    $(this).parent().attr("data-displayname", $(this).val());
+                    $(this).parent().find(".desc").html($(this).val());
+                    $(this).unbind().remove()
                 })
-            }), n.find("i.fa-close").bind("click", function () {
+            });
+            $obj.find("i.fa-close").bind("click", function () {
                 $(this).unbind().parent().remove()
-            }), $(this).append(n)
+            });
+            $(this).append($obj)
         }
     });
 
@@ -382,21 +498,84 @@ function initDataConfig() {
                 containerCssClass: "bd-select2-container",
                 dropdownCssClass: "bd-select2-dropdown",
                 allowClear: !0,
-                data: t.map(function (a) {
-                    return a.text = a.dtName, a.id = a.dtId, a
+                data: t.map(function (data) {
+                    return data.text = data.dtName, data.id = data.dtId, data
                 })
-            }).val(null).trigger("change").on("select2:select", function (a) {
-                getDataSetsData(a.params.data)
+            }).val(null).trigger("change").on("select2:select", function (e) {
+                getDataSetsData(e.params.data)
             })
         })
     })
 }
 
-function getDataSetsData(a) {
-    reqServerControllerParms("dp_design/data-source/dataset_result.json", {dtId: a.dtId}, function (a) {
-        console.log(a), 0 == a.code && dataHandler(a)
+function getDataSetsData(data) {
+    reqServerControllerParms("dp_design/test_data/dataset_result.json", {dtId: data.dtId}, function (data) {
+        console.log(data);
+        if (0 == data.code) {
+            dataHandler(data)
+        }
     })
 }
+
+function dataHandler(data) {
+    var t = {};
+
+    if ("table" == currBox.data("prop").type) {
+        t = tableColsValsToNodeData(data.data)
+    } else {
+        t = tableValsToNodeData(data.data);
+        console.log(JSON.stringify(t))
+        $("#data-show").JSONView({data: t}, {collapsed: !0});
+        $("#data-show").find(".prop").draggable({
+            scroll: !1,
+            helper: "clone"
+        });
+    }
+}
+
+function tableColsValsToNodeData(tableData) {
+    var zNodes = {"columnData": [], "valueData": {"data": [], "totals": 0}};
+    var columns = tableData.columns;
+    var values = tableData.rows;
+    var len = columns.length;
+    var totals = 0;
+    $.each(values, function (i, node) {
+        var temp = {};
+        for (var j = 0; j < len; j++) {
+            temp[columns[j].columnName] = node[j];
+        }
+        zNodes.valueData.data.push(temp);
+        totals++;
+    });
+    var newColumns = [];
+    $.each(columns, function (i, node) {
+        for (var j = 0; j < len; j++) {
+            var newColumn = {};
+            newColumn['key'] = node.columnName;
+            newColumn['text'] = node.columnComments;
+            newColumns.push(newColumn);
+        }
+    });
+    zNodes.columnData = newColumns;
+    zNodes.valueData.totals = totals;
+    return zNodes;
+}
+
+function tableValsToNodeData(tableData) {
+    var zNodes = [];
+    var columns = tableData.columns;
+    var values = tableData.rows;
+    var len = columns.length;
+    $.each(values, function (i, node) {
+        var temp = {};
+        for (var j = 0; j < len; j++) {
+            temp[columns[j].columnName] = node[j];
+        }
+        zNodes.push(temp);
+    });
+    return zNodes;
+}
+
 
 function getProp(box, t) {
 

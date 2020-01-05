@@ -884,7 +884,6 @@ $(function () {
         stack["redo"]();
     });
     Mousetrap.bind('esc', function (e) {
-        resizeContent();
         $(".layout-Header").removeClass("view");
         $(".layout-Sider").removeClass("view");
         $(".layout-Content").removeClass("view");
@@ -1008,6 +1007,7 @@ function propSelectedBoxs() {
  */
 function delSelectedBoxs() {
     $(".selected,.box-selected").remove();
+    $("#rightnav").hide().addClass("off");
 }
 
 /**
