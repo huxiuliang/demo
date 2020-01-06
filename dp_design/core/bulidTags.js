@@ -1,90 +1,90 @@
-function createTagsBox(e, t, a) {
+function createTagsBox(prop, data, elem) {
     var r;
-    switch (e.type) {
+    switch (prop.type) {
         case"line":
-            r = bulidLineChart(createChart(e, a), t);
+            r = bulidLineChart(createChart(prop, elem), data);
             break;
         case"bar":
-            r = bulidBarChart(createChart(e, a), t);
+            r = bulidBarChart(createChart(prop, elem), data);
             break;
         case"pie":
-            r = bulidPieChart(createChart(e, a), t);
+            r = bulidPieChart(createChart(prop, elem), data);
             break;
         case"radar":
-            r = bulidRadarChart(createChart(e, a), t);
+            r = bulidRadarChart(createChart(prop, elem), data);
             break;
         case"tree":
-            r = bulidTreeChart(createChart(e, a), t);
+            r = bulidTreeChart(createChart(prop, elem), data);
             break;
         case"treemap":
-            r = bulidTreemapChart(createChart(e, a), t);
+            r = bulidTreemapChart(createChart(prop, elem), data);
             break;
         case"sunburst":
-            r = bulidSunburstChart(createChart(e, a), t);
+            r = bulidSunburstChart(createChart(prop, elem), data);
             break;
         case"funnel":
-            r = bulidFunnelChart(createChart(e, a), t);
+            r = bulidFunnelChart(createChart(prop, elem), data);
             break;
         case"gauge":
-            r = bulidGaugeChart(createChart(e, a), t);
+            r = bulidGaugeChart(createChart(prop, elem), data);
             break;
         case"boxplot":
-            r = bulidBoxplotChart(createChart(e, a), t);
+            r = bulidBoxplotChart(createChart(prop, elem), data);
             break;
         case"heatmap":
-            r = bulidHeatmapChart(createChart(e, a), t);
+            r = bulidHeatmapChart(createChart(prop, elem), data);
             break;
         case"graph":
-            r = bulidGraphChart(createChart(e, a), t);
+            r = bulidGraphChart(createChart(prop, elem), data);
             break;
         case"parallel":
-            r = bulidParallelChart(createChart(e, a), t);
+            r = bulidParallelChart(createChart(prop, elem), data);
             break;
         case"sankey":
-            r = bulidsankeyChart(createChart(e, a), t);
+            r = bulidsankeyChart(createChart(prop, elem), data);
             break;
         case"scatter":
-            r = bulidScatterChart(createChart(e, a), t);
+            r = bulidScatterChart(createChart(prop, elem), data);
             break;
         case"map":
-            r = bulidMapChart(createChart(e, a), t);
+            r = bulidMapChart(createChart(prop, elem), data);
             break;
         case"candlestick":
-            r = bulidCandkestickChart(createChart(e, a), t);
+            r = bulidCandkestickChart(createChart(prop, elem), data);
             break;
         case"text":
-            r = bulidText(e, t);
+            r = bulidText(prop, data);
             break;
         case"rect":
-            r = bulidRect(e, t);
+            r = bulidRect(prop, data);
             break;
         case"circle":
-            r = bulidCircle(e, t);
+            r = bulidCircle(prop, data);
             break;
         case"image":
-            r = bulidImage(e, t);
+            r = bulidImage(prop, data);
             break;
         case"table":
-            r = bulidTable(e, t);
+            r = bulidTable(prop, data);
             break;
         case"time":
-            r = bulidTime(e, t);
+            r = bulidTime(prop, data);
             break;
         case"triangle":
-            r = bulidTriangle(e, t);
+            r = bulidTriangle(prop, data);
             break;
         case"iframe":
-            r = bulidIframe(e, t);
+            r = bulidIframe(prop, data);
             break;
         case"swiper":
-            r = bulidSwiper(e, t)
+            r = bulidSwiper(prop, data)
     }
     return r
 }
 
-function setRectP(e, t) {
-    var a = t.rectP;
-    e.css({
+function setRectP(elem, $obj) {
+    var a = $obj.rectP;
+    elem.css({
         left: a.x,
         top: a.y,
         width: a.width + "px",
@@ -94,116 +94,120 @@ function setRectP(e, t) {
     })
 }
 
-function setTagsParts(r, e, s) {
-    currBox = r, e && $.each(e, function (e, t) {
-        switch (e) {
-            case"fontSize":
-                r.find(".tag-" + s.type).css("font-size", t + "px");
-                break;
-            case"fontWeight":
-                r.find(".tag-" + s.type).css("font-weight", t);
-                break;
-            case"textShadow":
-                r.find(".tag-" + s.type).css("text-shadow", t);
-                break;
-            case"color":
-                r.find(".tag-" + s.type).css("color", t);
-                break;
-            case"backgroundImage":
-                var a = t;
-                a = a.replace(/\\/g, "/"), r.find(".tag-" + s.type).css({
-                    "background-image": "url('" + a + "')",
-                    "background-repeat": "no-repeat",
-                    "background-size": "100% 100%"
-                });
-                break;
-            case"backgroundColor":
-                r.find(".tag-" + s.type).css({"background-color": t});
-                break;
-            case"text":
-                r.find(".tag-" + s.type).html(t);
-                break;
-            case"borderRadius":
-                r.find(".tag-" + s.type).css({"border-radius": t + "px"});
-                break;
-            case"iframeUrl":
-            case"imgUrl":
-                r.find(".tag-" + s.type).attr("src", t);
-                break;
-            case"fontFamily":
-                r.find(".tag-" + s.type).css("font-family", t);
-                break;
-            case"borderWidth":
-                r.find(".tag-" + s.type).css("border-width", t);
-                break;
-            case"borderStyle":
-                r.find(".tag-" + s.type).css("border-style", t);
-                break;
-            case"borderColor":
-                r.find(".tag-" + s.type).css("border-color", t);
-                break;
-            case"textAlign":
-                r.find(".tag-" + s.type).css("text-align", t);
-                break;
-            case"lineHeight":
-                r.find(".tag-" + s.type).css("line-height", t + "px")
-        }
-    })
-}
-
-function bulidText(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-text" style="width: 100%;height: 100%;"></div></div>'),
-        r = e.parts;
-    if (setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), t) {
-        var s = getJsonValue(t, e.data.dimension[0].keyname);
-        e.parts && e.parts.format ? e.parts.text = e.parts.format.replace(/{val}/g, s) : e.parts.text = s
+function setTagsParts(elem, data, prop) {
+    currBox = elem;
+    if (data) {
+        $.each(data, function (index, val) {
+            switch (index) {
+                case"fontSize":
+                    elem.find(".tag-" + prop.type).css("font-size", val + "px");
+                    break;
+                case"fontWeight":
+                    elem.find(".tag-" + prop.type).css("font-weight", val);
+                    break;
+                case"textShadow":
+                    elem.find(".tag-" + prop.type).css("text-shadow", val);
+                    break;
+                case"color":
+                    elem.find(".tag-" + prop.type).css("color", val);
+                    break;
+                case"backgroundImage":
+                    var a = val;
+                    a = a.replace(/\\/g, "/");
+                    elem.find(".tag-" + prop.type).css({
+                        "background-image": "url('" + a + "')",
+                        "background-repeat": "no-repeat",
+                        "background-size": "100% 100%"
+                    });
+                    break;
+                case"backgroundColor":
+                    elem.find(".tag-" + prop.type).css({"background-color": val});
+                    break;
+                case"text":
+                    elem.find(".tag-" + prop.type).html(val);
+                    break;
+                case"borderRadius":
+                    elem.find(".tag-" + prop.type).css({"border-radius": val + "px"});
+                    break;
+                case"iframeUrl":
+                case"imgUrl":
+                    elem.find(".tag-" + prop.type).attr("src", val);
+                    break;
+                case"fontFamily":
+                    elem.find(".tag-" + prop.type).css("font-family", val);
+                    break;
+                case"borderWidth":
+                    elem.find(".tag-" + prop.type).css("border-width", val);
+                    break;
+                case"borderStyle":
+                    elem.find(".tag-" + prop.type).css("border-style", val);
+                    break;
+                case"borderColor":
+                    elem.find(".tag-" + prop.type).css("border-color", val);
+                    break;
+                case"textAlign":
+                    elem.find(".tag-" + prop.type).css("text-align", val);
+                    break;
+                case"lineHeight":
+                    elem.find(".tag-" + prop.type).css("line-height", val + "px")
+            }
+        })
     }
-    return setTagsParts(a, r, e), a
 }
 
-function bulidRect(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-rect" style="width:100%;height:100%;background-color:#ffffff;"></div></div>'),
-        r = e.parts;
-    return setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), setTagsParts(a, r, e), a
+function bulidText(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-text" style="width: 100%;height: 100%;"></div></div>');
+    var r = prop.parts;
+    if (setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), data) {
+        var text = getJsonValue(data, prop.data.dimension[0].keyname);
+        prop.parts && prop.parts.format ? prop.parts.text = prop.parts.format.replace(/{val}/g, text) : prop.parts.text = text
+    }
+    return setTagsParts($box, r, prop), $box
 }
 
-function bulidImage(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><img class="tag-image" width="100%" height="100%" src="static/img/default.jpg" /></div>'),
-        r = e.parts;
-    return setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), setTagsParts(a, r, e), a
+function bulidRect(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-rect" style="width:100%;height:100%;background-color:#ffffff;"></div></div>');
+    var parts = prop.parts;
+    return setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), setTagsParts($box, parts, prop), $box
 }
 
-function bulidIframe(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><iframe class="tag-iframe" style="width:100%;height:100%;"></iframe></div>'),
-        r = e.parts;
-    return setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), setTagsParts(a, r, e), a
+function bulidImage(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><img class="tag-image" width="100%" height="100%" src="static/img/default.jpg" /></div>');
+    var parts = prop.parts;
+    return setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), setTagsParts($box, parts, prop), $box
 }
 
-function bulidSwiper(e, t) {
-    var r = $('<div class="box" style="width: 480px;height: 320px;"><div class="tag-swiper swiper-container"><div class="swiper-wrapper"></div><div class="swiper-pagination"></div></div></div>'),
-        a = e.parts;
-    setRectP(r, e), r.appendTo("#content"), r.data("prop", e), r.initBox({tagType: e.type}), setTagsParts(r, a, e), 0 < e.slides.length && $.each(e.slides, function (e, t) {
-        var a = $('<div class="swiper-slide"></div>');
-        t.id || (t.id = guid()), a.attr("id", "slide-" + t.id), a.appendTo(r.find(".swiper-wrapper")), createTagsBox(t, !1, a)
+function bulidIframe(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><iframe class="tag-iframe" style="width:100%;height:100%;"></iframe></div>');
+    var parts = prop.parts;
+    return setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), setTagsParts($box, parts, prop), $box
+}
+
+function bulidSwiper(prop, data) {
+    var $box = $('<div class="box" style="width: 480px;height: 320px;"><div class="tag-swiper swiper-container"><div class="swiper-wrapper"></div><div class="swiper-pagination"></div></div></div>');
+    var parts = prop.parts;
+    setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), setTagsParts($box, parts, prop), 0 < prop.slides.length && $.each(prop.slides, function (index, val) {
+        var swiperSlide = $('<div class="swiper-slide"></div>');
+        val.id || (val.id = guid()), swiperSlide.attr("id", "slide-" + val.id), swiperSlide.appendTo($box.find(".swiper-wrapper")), createTagsBox(val, !1, swiperSlide)
     });
-    var s = new Swiper(r.find(".tag-swiper"), e.swiper);
-    return r.data("prop").mySwiper = s, r
+    var _swiper = new Swiper($box.find(".tag-swiper"), prop.swiper);
+    return $box.data("prop").mySwiper = _swiper, $box
 }
 
-function bulidCircle(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-circle" style="width:100%;height:100%;border-radius: 100%;background-color:#ffffff"></div></div>'),
-        r = e.parts;
-    return setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), setTagsParts(a, r, e), a
+function bulidCircle(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><div class="tag-circle" style="width:100%;height:100%;border-radius: 100%;background-color:#ffffff"></div></div>');
+    var parts = prop.parts;
+    return setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), setTagsParts($box, parts, prop), $box
 }
 
-function bulidTable(e, t) {
-    var a = $('<div class="box" style="width: 480px;height: 320px;"><div class="tag-table kgo-scroll-sty " style="width:100%;height:100%;overflow:hidden;"><div style="width:100%;height:auto;"><div class="kgo-scroll-head"></div><div class="kgo-scroll-body"><ul class="kgo-scroll-body-ul"></ul></div></div></div></div>'),
-        r = e.parts;
-    setRectP(a, e), delete e.id, a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type});
-    var s = a.find(".tag-" + e.type), i = void 0 === e.parts ? null : e.parts.tableHeight || null;
-    if (t) {
-        var n = e.data, d = getJsonValue(t, n.dimension[0].keyname), o = {
-            ajax_data: getJsonValue(t, n.series[0].keyname),
+function bulidTable(prop, data) {
+    var $box = $('<div class="box" style="width: 480px;height: 320px;"><div class="tag-table kgo-scroll-sty " style="width:100%;height:100%;overflow:hidden;"><div style="width:100%;height:auto;"><div class="kgo-scroll-head"></div><div class="kgo-scroll-body"><ul class="kgo-scroll-body-ul"></ul></div></div></div></div>');
+    var parts = prop.parts;
+    setRectP($box, prop), delete prop.id, $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type});
+    var s = $box.find(".tag-" + prop.type), i = void 0 === prop.parts ? null : prop.parts.tableHeight || null;
+    if (data) {
+        var n = prop.data, d = getJsonValue(data, n.dimension[0].keyname), o = {
+            ajax_data: getJsonValue(data, n.series[0].keyname),
             ajax_type: "POST",
             supportCheckbox: !1,
             supportAutoOrder: !1,
@@ -212,21 +216,21 @@ function bulidTable(e, t) {
             tableHeight: i,
             columnData: d
         };
-        s.initScroll(o), a.data("prop").gmOptions = o
-    } else e.gmOptions.tableHeight = i, s.initScroll(e.gmOptions);
-    return e.effect && e.effect.autoscroll && s.autoScroll(), setTagsParts(a, r, e), a
+        s.initScroll(o), $box.data("prop").gmOptions = o
+    } else prop.gmOptions.tableHeight = i, s.initScroll(prop.gmOptions);
+    return prop.effect && prop.effect.autoscroll && s.autoScroll(), setTagsParts($box, parts, prop), $box
 }
 
-function bulidTime(e, t) {
-    var a = $('<div class="box" style="width: 100px;height: 40px;"><div class="clock tag-time"></div></div>'),
-        r = e.parts;
-    return setRectP(a, e), a.appendTo("#content"), a.data("prop", e), a.initBox({tagType: e.type}), a.find(".tag-" + e.type).ledTime(), setTagsParts(a, r, e), a
+function bulidTime(prop, data) {
+    var $box = $('<div class="box" style="width: 100px;height: 40px;"><div class="clock tag-time"></div></div>');
+    var parts = prop.parts;
+    return setRectP($box, prop), $box.appendTo("#content"), $box.data("prop", prop), $box.initBox({tagType: prop.type}), $box.find(".tag-" + prop.type).ledTime(), setTagsParts($box, parts, prop), $box
 }
 
-function createChart(prop, oelem) {
+function createChart(prop, elem) {
     prop.myChart && prop.myChart.dispose(), "string" == typeof prop.options && (prop.options = eval("(" + prop.options + ")")), prop.optionsText && "string" == typeof prop.optionsText && (prop.options = eval("(" + prop.optionsText + ")"));
     var html = $('<div class="box" style="height:100%;width:100%;"><div class="tag-charts" style="height:100%;width:100%"></div></div>');
-    return html.data("prop", prop), prop.slide ? (html.appendTo(oelem), html.find(".tag-charts").bind("click", function () {
+    return html.data("prop", prop), prop.slide ? (html.appendTo(elem), html.find(".tag-charts").bind("click", function () {
         $(".box").removeClass("box-selected"), html.addClass("box-selected"), $("#rightnav").addClass("on"), getProp($(this).parent(), !0)
     })) : (html.appendTo("#content"), setRectP(html, prop), html.initBox({tagType: prop.type})), html
 }
@@ -245,170 +249,170 @@ function bulidChartOther(elem) {
     setChartTheme(elem, prop)
 }
 
-function bulidLineChart(e, r) {
-    var s = e.data("prop"), i = s.subtype, t = s.data, a = s.other, n = s.options || {};
-    if (r) {
-        n.legend = n.legend || {}, n.legend.data = n.legend.data || [], n.series = n.series || [];
-        var d = getJsonValue(r, t.dimension[0].keyname);
-        $.each(t.series, function (e, t) {
-            var a = {data: getJsonValue(r, t.keyname), type: s.type, name: t.displayname};
-            2 == i ? a.areaStyle = {} : 3 == i && (a.areaStyle = {}, a.stack = "堆叠标识"), n.series[e] ? n.series[e] = $.extend({}, n.series[e], a) : n.series.push(a), n.legend.data[e] ? n.legend.data[e] = t.displayname : n.legend.data.push(t.displayname)
-        }), n.series = n.series.slice(0, t.series.length), n.legend.data = n.legend.data.slice(0, t.series.length), n.xAxis.data = d, a.sXAxis = n.xAxis, a.sYAxis = n.yAxis
+function bulidLineChart(prop, data) {
+    var _prop = prop.data("prop"), _subtype = _prop.subtype, _data = _prop.data, _other = _prop.other, _options = _prop.options || {};
+    if (data) {
+        _options.legend = _options.legend || {}, _options.legend.data = _options.legend.data || [], _options.series = _options.series || [];
+        var jsonValue = getJsonValue(data, _data.dimension[0].keyname);
+        $.each(_data.series, function (index, val) {
+            var a = {data: getJsonValue(data, val.keyname), type: _prop.type, name: val.displayname};
+            2 == _subtype ? a.areaStyle = {} : 3 == _subtype && (a.areaStyle = {}, a.stack = "堆叠标识"), _options.series[index] ? _options.series[index] = $.extend({}, _options.series[index], a) : _options.series.push(a), _options.legend.data[index] ? _options.legend.data[index] = val.displayname : _options.legend.data.push(val.displayname)
+        }), _options.series = _options.series.slice(0, _data.series.length), _options.legend.data = _options.legend.data.slice(0, _data.series.length), _options.xAxis.data = jsonValue, _other.sXAxis = _options.xAxis, _other.sYAxis = _options.yAxis
     }
-    return setChartTheme(e, s), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidBarChart(elem, options) {
-    var _prop = elem.data("prop");
+function bulidBarChart(prop, data) {
+    var _prop = prop.data("prop");
     var _data = _prop.data;
     var _options = _prop.options || {};
     var _other = _prop.other || {};
 
-    if (options) {
+    if (data) {
         _options.legend = _options.legend || {};
         _options.legend.data = _options.legend.data || [];
         _options.series = _options.series || [];
 
-        var n = getJsonValue(options, _data.dimension[0].keyname);
+        var n = getJsonValue(data, _data.dimension[0].keyname);
         debugger
         $.each(_data.series, function (e, t) {
-            var a = {data: getJsonValue(options, t.keyname), type: _prop.type, name: t.displayname};
+            var a = {data: getJsonValue(data, t.keyname), type: _prop.type, name: t.displayname};
             _options.series[e] ? _options.series[e] = $.extend({}, _options.series[e], a) : _options.series.push(a), _options.legend.data[e] ? _options.legend.data[e] = t.displayname : _options.legend.data.push(t.displayname)
         }), _options.series = _options.series.slice(0, _data.series.length), _options.legend.data = _options.legend.data.slice(0, _data.series.length), _other.axis ? _options.yAxis.data = n : _options.xAxis.data = n, _other.sXAxis = _options.xAxis, _other.sYAxis = _options.yAxis
     }
-    return setChartTheme(elem, _prop), elem
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidPieChart(e, t) {
-    var a = e.data("prop"), r = a.data, s = a.options || {};
-    if (t) {
-        s.legend = s.legend || {}, s.legend.data = s.legend.data || [], s.series = s.series || [];
-        for (var i = getJsonValue(t, r.dimension[0].keyname), n = getJsonValue(t, r.series[0].keyname), d = [], o = 0; o < i.length; o++) {
+function bulidPieChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        _options.legend = _options.legend || {}, _options.legend.data = _options.legend.data || [], _options.series = _options.series || [];
+        for (var i = getJsonValue(data, _data.dimension[0].keyname), n = getJsonValue(data, _data.series[0].keyname), d = [], o = 0; o < i.length; o++) {
             var p = {name: i[o], value: n[o]};
-            s.legend.data[o] ? s.legend.data[o] = i[o] : s.legend.data.push(i[o]), d.push(p)
+            _options.legend.data[o] ? _options.legend.data[o] = i[o] : _options.legend.data.push(i[o]), d.push(p)
         }
-        s.legend.data = s.legend.data.slice(0, i.length);
-        var l = {data: d, type: a.type};
-        s.series[0] ? s.series[0] = $.extend({}, s.series[0], l) : s.series.push(l)
+        _options.legend.data = _options.legend.data.slice(0, i.length);
+        var l = {data: d, type: _prop.type};
+        _options.series[0] ? _options.series[0] = $.extend({}, _options.series[0], l) : _options.series.push(l)
     }
-    return setChartTheme(e, a), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidRadarChart(e, t) {
-    var s = e.data("prop"), a = s.data, i = s.options || {};
-    if (t) {
-        i.legend = i.legend || {}, i.legend.data = i.legend.data || [];
-        var n = getJsonValue(t, a.dimension[0].keyname), r = getJsonValue(t, a.series[0].keyname);
-        i.series = i.series || [], i.radar = i.radar || {}, i.radar.indicator = i.radar.indicator || [];
+function bulidRadarChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        _options.legend = _options.legend || {}, _options.legend.data = _options.legend.data || [];
+        var n = getJsonValue(data, _data.dimension[0].keyname), r = getJsonValue(data, _data.series[0].keyname);
+        _options.series = _options.series || [], _options.radar = _options.radar || {}, _options.radar.indicator = _options.radar.indicator || [];
         var d = {}, o = 0;
         $.each(r, function (e, t) {
-            var a = {data: [], type: s.type}, r = {name: n[e], value: []};
-            i.legend.data[e] ? i.legend.data[e] = n[e] : i.legend.data.push(n[e]), $.each(t, function (e, t) {
+            var a = {data: [], type: _prop.type}, r = {name: n[e], value: []};
+            _options.legend.data[e] ? _options.legend.data[e] = n[e] : _options.legend.data.push(n[e]), $.each(t, function (e, t) {
                 d[t.indicator] = t.value, o = o > t.value ? o : t.value, r.value.push(t.value)
-            }), a.data.push(r), i.series[e] ? i.series[e] = $.extend({}, i.series[e], a) : i.series.push(a)
-        }), i.series = i.series.slice(0, r.length), i.legend.data = i.legend.data.slice(0, n.length);
+            }), a.data.push(r), _options.series[e] ? _options.series[e] = $.extend({}, _options.series[e], a) : _options.series.push(a)
+        }), _options.series = _options.series.slice(0, r.length), _options.legend.data = _options.legend.data.slice(0, n.length);
         var p = 0;
         $.each(d, function (e, t) {
-            i.radar.indicator[p] ? i.radar.indicator[p] = $.extend({}, i.radar.indicator[p], {
+            _options.radar.indicator[p] ? _options.radar.indicator[p] = $.extend({}, _options.radar.indicator[p], {
                 name: e,
                 max: o
-            }) : i.radar.indicator.push({name: e, max: o}), p++
-        }), i.radar.indicator = i.radar.indicator.slice(0, p)
+            }) : _options.radar.indicator.push({name: e, max: o}), p++
+        }), _options.radar.indicator = _options.radar.indicator.slice(0, p)
     }
-    return setChartTheme(e, s), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidTreeChart(e, t) {
-    var a = e.data("prop"), r = a.data, s = a.options || {};
-    if (t) {
-        var i = getJsonValue(t, r.series[0].keyname);
-        s.series = [];
-        var n = {data: [i], type: a.type};
-        s.series.push(n)
+function bulidTreeChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        var jsonValue = getJsonValue(data, _data.series[0].keyname);
+        _options.series = [];
+        var n = {data: [jsonValue], type: _prop.type};
+        _options.series.push(n)
     }
-    return setChartTheme(e, a), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidTreemapChart(e, t) {
-    var a = e.data("prop"), r = a.data, s = a.options || {};
-    if (t) {
-        var i = getJsonValue(t, r.series[0].keyname);
-        s.series = [];
-        var n = {data: i, type: a.type};
-        s.series.push(n)
+function bulidTreemapChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        var jsonValue = getJsonValue(data, _data.series[0].keyname);
+        _options.series = [];
+        var n = {data: jsonValue, type: _prop.type};
+        _options.series.push(n)
     }
-    return setChartTheme(e, a), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidSunburstChart(e, t) {
-    var a = e.data("prop"), r = a.data, s = a.options || {};
-    if (t) {
-        var i = getJsonValue(t, r.series[0].keyname);
-        s.series = [];
-        var n = {data: i, type: a.type};
-        s.series.push(n)
+function bulidSunburstChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        var jsonValue = getJsonValue(data, _data.series[0].keyname);
+        _options.series = [];
+        var n = {data: jsonValue, type: _prop.type};
+        _options.series.push(n)
     }
-    return setChartTheme(e, a), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidFunnelChart(e, t) {
-    var r = e.data("prop"), a = r.data, s = r.options || {};
-    if (t) {
-        var i = getJsonValue(t, a.series[0].keyname);
-        s.series = [], $.each(i, function (e, t) {
+function bulidFunnelChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {};
+    if (data) {
+        var i = getJsonValue(data, _data.series[0].keyname);
+        _options.series = [], $.each(i, function (e, t) {
             var a = t;
-            a.type = r.type, s.series.push(a)
+            a.type = _prop.type, _options.series.push(a)
         })
     }
-    return setChartTheme(e, r), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidGaugeChart(e, t) {
-    var r = e.data("prop"), a = r.data, s = r.options || {}, i = r.other;
-    if (t) {
-        var n = getJsonValue(t, a.series[0].keyname);
-        s.series = s.series || [], $.each(n, function (e, t) {
+function bulidGaugeChart(prop, data) {
+    var _prop = prop.data("prop"), _data = _prop.data, _options = _prop.options || {}, i = _prop.other;
+    if (data) {
+        var n = getJsonValue(data, _data.series[0].keyname);
+        _options.series = _options.series || [], $.each(n, function (e, t) {
             var a = {};
-            (a = 4 == i.dataFrom ? {data: [{value: t}]} : $.extend({}, a, t)).type = r.type, s.series[e] ? s.series[e] = $.extend({}, s.series[e], a) : s.series.push(a), s.series[e].data[e] ? s.series[e].data[e] = $.extend({}, s.series[e].data[e], t) : s.series[e].data.push(t)
-        }), s.series = s.series.slice(0, n.length)
+            (a = 4 == i.dataFrom ? {data: [{value: t}]} : $.extend({}, a, t)).type = _prop.type, _options.series[e] ? _options.series[e] = $.extend({}, _options.series[e], a) : _options.series.push(a), _options.series[e].data[e] ? _options.series[e].data[e] = $.extend({}, _options.series[e].data[e], t) : _options.series[e].data.push(t)
+        }), _options.series = _options.series.slice(0, n.length)
     }
-    return console.log(r), setChartTheme(e, r), e
+    return setChartTheme(prop, _prop), prop
 }
 
-function bulidMapChart(r, s) {
-    var i = r.data("prop").other.mappath;
-    return -1 < i.indexOf("geographic") && (i = i.substring(i.indexOf("geographic") + "geographic".length, i.length)), getAjaxMapDataSync({mappath: i}, function (e) {
+function bulidMapChart(prop, data) {
+    var _mappath = prop.data("prop").other.mappath;
+    return -1 < _mappath.indexOf("geographic") && (_mappath = _mappath.substring(_mappath.indexOf("geographic") + "geographic".length, _mappath.length)), getAjaxMapDataSync({mappath: _mappath}, function (e) {
         if (0 == e.code) {
             data = e.res;
             var t = hex_md5(data), a = data;
-            echarts.registerMap(t, a), bulidMapData(r, t, i, s)
+            echarts.registerMap(t, a), bulidMapData(prop, t, _mappath, data)
         }
-    }), r
+    }), prop
 }
 
-function bulidMapData(e, t, a, i) {
-    var r = e.data("prop"), n = $.extend({}, r.options);
+function bulidMapData(prop, t, mappath, data) {
+    var _prop = prop.data("prop"), n = $.extend({}, _prop.options);
     n.geo.map = t;
-    var s = r.data;
-    if (i) {
+    var s = _prop.data;
+    if (data) {
         n.series = n.series || [], n.legend = n.legend || {}, n.legend.data = [];
         var d = 0;
-        $.each(s.dimension, function (e, t) {
-            var a = getJsonValue(i, t.keyname), r = t.displayname;
-            -1 < $.inArray(t.displayname, n.legend.data) ? (n.legend.data.push(t.displayname + d), r += d) : n.legend.data.push(t.displayname);
+        $.each(s.dimension, function (index, val) {
+            var a = getJsonValue(data, val.keyname), r = val.displayname;
+            -1 < $.inArray(val.displayname, n.legend.data) ? (n.legend.data.push(val.displayname + d), r += d) : n.legend.data.push(val.displayname);
             var s = {name: r, data: a, type: "scatter", coordinateSystem: "geo"};
             n.series[d] ? n.series[d] = $.extend({}, n.series[d], s) : n.series.push(s), d++
-        }), $.each(s.series, function (e, t) {
-            var a = getJsonValue(i, t.keyname), r = t.displayname;
-            -1 < $.inArray(t.displayname, n.legend.data) ? (n.legend.data.push(t.displayname + d), r += d) : n.legend.data.push(t.displayname);
+        }), $.each(s.series, function (index, val) {
+            var a = getJsonValue(data, val.keyname), r = val.displayname;
+            -1 < $.inArray(val.displayname, n.legend.data) ? (n.legend.data.push(val.displayname + d), r += d) : n.legend.data.push(val.displayname);
             var s = {name: r, data: a, type: "effectScatter", coordinateSystem: "geo"};
             n.series[d] ? n.series[d] = $.extend({}, n.series[d], s) : n.series.push(s), d++
         }), n.series = n.series.slice(0, d), n.legend.data = n.legend.data.slice(0, d)
     }
-    var o = e.find(".tag-charts")[0], p = echarts.init(o);
-    p.setOption(n, !0), r.options = n, r.myChart = p, r.other.mappath = a, r.optionsText = JSON.stringify(n, function (e, t) {
+    var _chartsDom = prop.find(".tag-charts")[0], p = echarts.init(_chartsDom);
+    p.setOption(n, !0), _prop.options = n, _prop.myChart = p, _prop.other.mappath = mappath, _prop.optionsText = JSON.stringify(n, function (e, t) {
         return "function" == typeof t ? "&" + t.toString().replace(/\s+/g, " ").replace(/\n/g, "") + "&" : t
-    }, 4), r.optionsText = r.optionsText.replace(/"&/g, "").replace(/&"/g, ""), e.data("prop", r), e.initdata(), $(".box").removeClass("box-selected"), currBox = e
+    }, 4), _prop.optionsText = _prop.optionsText.replace(/"&/g, "").replace(/&"/g, ""), prop.data("prop", _prop), prop.initdata(), $(".box").removeClass("box-selected"), currBox = prop
 }
 
 /**
@@ -425,7 +429,7 @@ function setChartTheme(elem, prop) {
         var e = "dp_design/charts-theme/" + n.theme + ".json";
         getJSONFileData(e, function (e) {
             var t = e;
-            // echarts.registerTheme(n.theme, t);
+            echarts.registerTheme(n.theme, t);
             var a = echarts.init(elem.find(".tag-charts")[0], n.theme);
             a.setOption(i),
                 prop.myChart = a,
